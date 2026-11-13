@@ -1985,3 +1985,413 @@ body, html {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
   pointer-events: none;
 }
+
+/* ===================================================
+   DRIVER PORTAL & REAL-TIME GPS TRACKING STYLES
+   =================================================== */
+
+/* Modal Overlay & Login Card */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.driver-login-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* Fullscreen Clean Mobile Driver App */
+.driver-portal-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #090e17;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+}
+
+.driver-app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(15, 23, 42, 0.92);
+}
+
+.driver-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.driver-avatar {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+  border: 2px solid #ffffff;
+}
+
+.driver-app-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.driver-app-meta {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.driver-switch-view-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
+  color: #e2e8f0;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.driver-switch-view-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #cbd5e1;
+}
+
+.driver-app-content {
+  flex: 1;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Driver Card Panels */
+.driver-card-panel {
+  background: rgba(30, 41, 59, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* Location Control Panel */
+.location-control-panel {
+  border-color: rgba(34, 197, 94, 0.35);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(30, 41, 59, 0.75) 100%);
+}
+
+.location-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.radar-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #64748b;
+  position: relative;
+}
+
+.radar-dot.active {
+  background: #22c55e;
+  box-shadow: 0 0 12px #22c55e;
+}
+
+.radar-dot.active::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid #22c55e;
+  animation: radarPing 1.8s infinite cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes radarPing {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.location-toggle-action {
+  margin-top: 6px;
+}
+
+.toggle-gps-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.toggle-gps-btn.off {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border-color: #22c55e;
+}
+
+.toggle-gps-btn.off:hover {
+  background: #22c55e;
+  color: #052e16;
+}
+
+.toggle-gps-btn.on {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
+}
+
+.toggle-gps-btn.on:hover {
+  background: #dc2626;
+}
+
+.location-telemetry {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.telemetry-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.telemetry-item b {
+  color: #86efac;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+/* Driver Status Grid */
+.driver-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.driver-status-choice-btn {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-color);
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  color: #e2e8f0;
+  transition: all 0.15s ease;
+}
+
+.driver-status-choice-btn .status-emoji {
+  font-size: 18px;
+}
+
+.driver-status-choice-btn b {
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.driver-status-choice-btn .status-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.driver-status-choice-btn:hover {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: #64748b;
+}
+
+.driver-status-choice-btn.active {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: #22c55e;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+}
+
+.driver-status-choice-btn.active b {
+  color: #4ade80;
+}
+
+/* Order Panel */
+.order-panel {
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(30, 41, 59, 0.8) 100%);
+}
+
+.order-panel.empty {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(30, 41, 59, 0.5);
+}
+
+.order-badge-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #facc15;
+  letter-spacing: 0.5px;
+}
+
+.order-destination-box {
+  margin: 10px 0;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.order-destination-cp {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.order-destination-address {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-top: 4px;
+}
+
+.order-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-open-navigation {
+  background: #0284c7;
+  color: #ffffff;
+  border: none;
+  padding: 11px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btn-open-navigation:hover {
+  background: #0369a1;
+}
+
+.btn-mark-delivered {
+  background: #22c55e;
+  color: #052e16;
+  border: none;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-mark-delivered:hover {
+  background: #16a34a;
+  transform: translateY(-1px);
+}
+
+/* Driver App Footer */
+.driver-app-footer {
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-color);
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.pulse-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulseDot 2s infinite;
+}
+
+.driver-sync-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: #94a3b8;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.driver-sync-btn:hover {
+  color: #fff;
+  border-color: #22c55e;
+}

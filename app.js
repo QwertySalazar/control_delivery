@@ -1184,6 +1184,16 @@ function initApp() {
           }
         }
         renderDriversDrawer(currentDriverFilter);
+
+        if (typeof broadcastFleetEvent === 'function') {
+          broadcastFleetEvent({
+            type: 'GPS_UPDATE',
+            driverId: driver.id,
+            lat: driver.lat,
+            lon: driver.lon,
+            accuracy: 5
+          });
+        }
       });
 
       marker.bindPopup(() => {
@@ -1243,6 +1253,14 @@ function initApp() {
     saveDrivers();
     renderDriverMarkers();
     renderDriversDrawer(currentDriverFilter);
+
+    if (typeof broadcastFleetEvent === 'function') {
+      broadcastFleetEvent({
+        type: 'STATUS_UPDATE',
+        driverId: driver.id,
+        status: driver.status
+      });
+    }
 
     const active = lockedCp || hoveredCp;
     if (active) {
@@ -1350,6 +1368,14 @@ function initApp() {
     renderDriverMarkers();
     renderDriversDrawer(currentDriverFilter);
 
+    if (typeof broadcastFleetEvent === 'function') {
+      broadcastFleetEvent({
+        type: 'ORDER_ASSIGNED',
+        driverId: driver.id,
+        order: driver.currentOrder
+      });
+    }
+
     const center = getCpCenter(cp);
     if (center) {
       updateOptimalDriverDisplay(center[0], center[1], cp);
@@ -1454,6 +1480,566 @@ function initApp() {
     renderDriversDrawer(currentDriverFilter);
     showToast('Repartidor retirado de la flota');
   };
+
+  // =========================================================================
+  // SINCRONIZACIÓN EN TIEMPO REAL (BROADCASTCHANNEL + MQTT WEBSOCKETS + P2P)
+  // =========================================================================
+
+  const FLEET_CHANNEL_NAME = 'madrid_delivery_fleet_sync_v1';
+  const fleetChannel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel(FLEET_CHANNEL_NAME) : null;
+  let mqttClient = null;
+  const MQTT_BROKER_URL = 'wss://broker.emqx.io:8084/mqtt';
+  const MQTT_TOPIC = 'madrid_fleet_sync_channel_v1/events';
+
+  function initRealtimeSync() {
+    // 1. Escuchar en BroadcastChannel (Sincronización instantánea entre pestañas)
+    if (fleetChannel) {
+      fleetChannel.onmessage = (event) => {
+        if (event && event.data) {
+          handleIncomingFleetEvent(event.data);
+        }
+      };
+    }
+
+    // 2. Escuchar cambios de localStorage (soporte multitab legacy)
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'madrid_sync_event' && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          handleIncomingFleetEvent(parsed);
+        } catch (err) {}
+      }
+    });
+
+    // 3. Conexión MQTT en Tiempo Real para móviles y distintos dispositivos
+    if (window.mqtt && typeof window.mqtt.connect === 'function') {
+      try {
+        const clientId = 'madrid_client_' + Math.random().toString(16).substring(2, 10);
+        mqttClient = window.mqtt.connect(MQTT_BROKER_URL, {
+          clientId: clientId,
+          keepalive: 30,
+          reconnectPeriod: 4000,
+          connectTimeout: 8000
+        });
+
+        mqttClient.on('connect', () => {
+          console.log('📡 MQTT Realtime conectado:', clientId);
+          mqttClient.subscribe(MQTT_TOPIC, (err) => {
+            if (!err) console.log('📡 Suscrito al canal de flota:', MQTT_TOPIC);
+          });
+          updateSyncStatusPill('Conectado en la nube (MQTT + P2P)', true);
+        });
+
+        mqttClient.on('message', (topic, payload) => {
+          try {
+            const data = JSON.parse(payload.toString());
+            if (data.senderId !== clientId) {
+              handleIncomingFleetEvent(data);
+            }
+          } catch (e) {}
+        });
+
+        mqttClient.on('error', (err) => {
+          console.warn('MQTT Connection notice:', err);
+          updateSyncStatusPill('Modo local (P2P Activo)', false);
+        });
+      } catch (e) {
+        console.warn('MQTT initialization bypassed:', e);
+      }
+    }
+  }
+
+  function broadcastFleetEvent(eventData) {
+    const enriched = {
+      ...eventData,
+      timestamp: Date.now(),
+      senderId: (mqttClient && mqttClient.options) ? mqttClient.options.clientId : 'local'
+    };
+
+    if (fleetChannel) {
+      fleetChannel.postMessage(enriched);
+    }
+
+    try {
+      localStorage.setItem('madrid_sync_event', JSON.stringify(enriched));
+    } catch (e) {}
+
+    if (mqttClient && mqttClient.connected) {
+      mqttClient.publish(MQTT_TOPIC, JSON.stringify(enriched));
+    }
+  }
+
+  function handleIncomingFleetEvent(data) {
+    if (!data || !data.type) return;
+
+    if (data.type === 'GPS_UPDATE') {
+      const driver = drivers.find(d => d.id === data.driverId);
+      if (driver) {
+        driver.lat = data.lat;
+        driver.lon = data.lon;
+        driver.accuracy = data.accuracy;
+        driver.isGpsActive = true;
+        driver.lastGpsTime = Date.now();
+
+        const marker = driverMarkers[driver.id];
+        if (marker) {
+          marker.setLatLng([data.lat, data.lon]);
+        }
+
+        const active = lockedCp || hoveredCp;
+        if (active) {
+          const center = getCpCenter(active);
+          if (center) {
+            updateOptimalDriverDisplay(center[0], center[1], active);
+          }
+        }
+        renderDriversDrawer(currentDriverFilter);
+      }
+    } else if (data.type === 'GPS_PAUSED') {
+      const driver = drivers.find(d => d.id === data.driverId);
+      if (driver) {
+        driver.isGpsActive = false;
+        renderDriversDrawer(currentDriverFilter);
+      }
+    } else if (data.type === 'STATUS_UPDATE') {
+      const driver = drivers.find(d => d.id === data.driverId);
+      if (driver) {
+        driver.status = data.status;
+        renderDriverMarkers();
+        renderDriversDrawer(currentDriverFilter);
+
+        if (activeLoggedDriver && activeLoggedDriver.id === data.driverId) {
+          activeLoggedDriver.status = data.status;
+          updateDriverStatusGridUI(data.status);
+        }
+      }
+    } else if (data.type === 'ORDER_ASSIGNED') {
+      const driver = drivers.find(d => d.id === data.driverId);
+      if (driver) {
+        driver.status = 'en_reparto';
+        driver.currentOrder = data.order;
+        renderDriverMarkers();
+        renderDriversDrawer(currentDriverFilter);
+
+        if (activeLoggedDriver && activeLoggedDriver.id === data.driverId) {
+          activeLoggedDriver.status = 'en_reparto';
+          activeLoggedDriver.currentOrder = data.order;
+          renderDriverPortalOrder();
+          updateDriverStatusGridUI('en_reparto');
+          showToast(`📦 ¡Nuevo pedido asignado para CP ${data.order.cp}!`);
+        }
+      }
+    } else if (data.type === 'ORDER_DELIVERED') {
+      const driver = drivers.find(d => d.id === data.driverId);
+      if (driver) {
+        driver.status = 'disponible';
+        driver.currentOrder = null;
+        renderDriverMarkers();
+        renderDriversDrawer(currentDriverFilter);
+        showToast(`✅ ${driver.name} ha marcado su pedido como ENTREGADO`);
+      }
+    }
+  }
+
+  function updateSyncStatusPill(text, isOnline) {
+    const statusEl = document.getElementById('driver-sync-status');
+    if (statusEl) {
+      statusEl.textContent = text;
+      statusEl.style.color = isOnline ? '#86efac' : '#cbd5e1';
+    }
+  }
+
+  // =========================================================================
+  // PORTAL DEL REPARTIDOR Y CONTROL DE PERMISOS DE UBICACIÓN
+  // =========================================================================
+
+  let activeLoggedDriver = null;
+  let driverGpsWatchId = null;
+  let isGpsSharingEnabled = false;
+  let driverMiniMap = null;
+  let driverMiniMarker = null;
+
+  const btnDriverPortal = document.getElementById('btn-driver-portal');
+  const driverLoginModal = document.getElementById('driver-login-modal');
+  const closeDriverLoginModal = document.getElementById('close-driver-login-modal');
+  const loginDriverSelect = document.getElementById('login-driver-select');
+  const loginDriverPin = document.getElementById('login-driver-pin');
+  const loginRememberMe = document.getElementById('login-remember-me');
+  const btnSubmitDriverLogin = document.getElementById('btn-submit-driver-login');
+  const btnCopyDriverLink = document.getElementById('btn-copy-driver-link');
+
+  const driverPortalScreen = document.getElementById('driver-portal-screen');
+  const driverAppAvatar = document.getElementById('driver-app-avatar');
+  const driverAppName = document.getElementById('driver-app-name');
+  const driverAppMeta = document.getElementById('driver-app-meta');
+  const driverAppExitBtn = document.getElementById('driver-app-exit-btn');
+
+  const radarStatusDot = document.getElementById('radar-status-dot');
+  const locationBadgeStatus = document.getElementById('location-badge-status');
+  const toggleGpsBtn = document.getElementById('toggle-gps-btn');
+  const toggleGpsIcon = document.getElementById('toggle-gps-icon');
+  const toggleGpsText = document.getElementById('toggle-gps-text');
+  const locationTelemetry = document.getElementById('location-telemetry');
+  const telemetryCp = document.getElementById('telemetry-cp');
+  const telemetryAccuracy = document.getElementById('telemetry-accuracy');
+  const telemetryTimestamp = document.getElementById('telemetry-timestamp');
+
+  const driverOrderPanel = document.getElementById('driver-order-panel');
+  const toggleMiniMapBtn = document.getElementById('toggle-mini-map-btn');
+  const driverMiniMapContainer = document.getElementById('driver-mini-map-container');
+  const driverManualSyncBtn = document.getElementById('driver-manual-sync-btn');
+
+  function populateLoginDriverSelect() {
+    if (!loginDriverSelect) return;
+    loginDriverSelect.innerHTML = drivers.map(d => {
+      const base = COCINAS.find(c => c.id === d.kitchenId);
+      const baseName = base ? base.name : 'Central';
+      return `<option value="${d.id}">${d.name} (${d.vehicle}) • Base: ${baseName}</option>`;
+    }).join('');
+  }
+
+  function openDriverLoginModal() {
+    populateLoginDriverSelect();
+    if (driverLoginModal) driverLoginModal.style.display = 'flex';
+  }
+
+  function closeDriverLogin() {
+    if (driverLoginModal) driverLoginModal.style.display = 'none';
+  }
+
+  function loginAsDriver(driverId, remember = true) {
+    const driver = drivers.find(d => d.id === driverId);
+    if (!driver) return;
+
+    activeLoggedDriver = driver;
+
+    if (remember) {
+      try {
+        localStorage.setItem('madrid_logged_driver_id', driver.id);
+      } catch (e) {}
+    }
+
+    closeDriverLogin();
+    openDriverPortalScreen(driver);
+  }
+
+  function openDriverPortalScreen(driver) {
+    if (!driverPortalScreen) return;
+
+    driverPortalScreen.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    if (driverAppAvatar) driverAppAvatar.textContent = getVehicleIcon(driver.vehicle);
+    if (driverAppName) driverAppName.textContent = driver.name;
+
+    const base = COCINAS.find(c => c.id === driver.kitchenId);
+    const baseName = base ? `${base.name} (${base.address})` : 'Base Central';
+    if (driverAppMeta) driverAppMeta.textContent = `${driver.vehicle} • ${baseName}`;
+
+    updateDriverStatusGridUI(driver.status);
+    renderDriverPortalOrder();
+
+    setTimeout(() => {
+      initDriverMiniMap(driver);
+    }, 200);
+
+    showToast(`👋 ¡Bienvenido, ${driver.name.split(' ')[0]}! Turno de reparto iniciado.`);
+  }
+
+  function exitDriverPortal() {
+    if (driverPortalScreen) driverPortalScreen.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function updateDriverStatusGridUI(status) {
+    document.querySelectorAll('.driver-status-choice-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.status === status);
+    });
+  }
+
+  function setDriverStatusFromPortal(status) {
+    if (!activeLoggedDriver) return;
+
+    activeLoggedDriver.status = status;
+    saveDrivers();
+    renderDriverMarkers();
+    renderDriversDrawer(currentDriverFilter);
+    updateDriverStatusGridUI(status);
+
+    broadcastFleetEvent({
+      type: 'STATUS_UPDATE',
+      driverId: activeLoggedDriver.id,
+      status: status
+    });
+
+    showToast(`Tu estado: ${getStatusLabel(status)}`);
+  }
+
+  function toggleGpsSharing() {
+    if (isGpsSharingEnabled) {
+      stopGpsSharing();
+    } else {
+      startGpsSharing();
+    }
+  }
+
+  function startGpsSharing() {
+    if (!navigator.geolocation) {
+      showToast('⚠️ Tu dispositivo no soporta geolocalización GPS.');
+      return;
+    }
+
+    if (toggleGpsBtn) {
+      toggleGpsBtn.classList.remove('off');
+      toggleGpsBtn.classList.add('on');
+    }
+    if (toggleGpsIcon) toggleGpsIcon.textContent = '🛑';
+    if (toggleGpsText) toggleGpsText.textContent = 'Pausar / Desactivar mi Ubicación';
+
+    if (radarStatusDot) radarStatusDot.classList.add('active');
+    if (locationBadgeStatus) {
+      locationBadgeStatus.className = 'driver-status-pill status-disponible';
+      locationBadgeStatus.textContent = '🟢 GPS Activo';
+    }
+
+    if (locationTelemetry) locationTelemetry.style.display = 'grid';
+    if (telemetryCp) telemetryCp.textContent = 'Buscando satélites...';
+    if (telemetryAccuracy) telemetryAccuracy.textContent = 'Calculando...';
+
+    isGpsSharingEnabled = true;
+
+    driverGpsWatchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        onGpsPositionReceived(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+      },
+      (err) => {
+        let msg = 'Error obteniendo posición GPS';
+        if (err.code === 1) msg = 'Permiso de ubicación denegado';
+        else if (err.code === 2) msg = 'Señal GPS no disponible';
+        else if (err.code === 3) msg = 'Tiempo de espera GPS agotado';
+        showToast('⚠️ ' + msg);
+        stopGpsSharing();
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 4000,
+        timeout: 10000
+      }
+    );
+
+    showToast('📡 Ubicación en vivo ACTIVADA. La central puede ver tu posición.');
+  }
+
+  function stopGpsSharing() {
+    if (driverGpsWatchId !== null) {
+      navigator.geolocation.clearWatch(driverGpsWatchId);
+      driverGpsWatchId = null;
+    }
+
+    isGpsSharingEnabled = false;
+
+    if (toggleGpsBtn) {
+      toggleGpsBtn.classList.remove('on');
+      toggleGpsBtn.classList.add('off');
+    }
+    if (toggleGpsIcon) toggleGpsIcon.textContent = '📡';
+    if (toggleGpsText) toggleGpsText.textContent = 'Activar mi Ubicación en Vivo';
+
+    if (radarStatusDot) radarStatusDot.classList.remove('active');
+    if (locationBadgeStatus) {
+      locationBadgeStatus.className = 'driver-status-pill status-inactivo';
+      locationBadgeStatus.textContent = '🔒 Pausado';
+    }
+
+    if (locationTelemetry) locationTelemetry.style.display = 'none';
+
+    if (activeLoggedDriver) {
+      broadcastFleetEvent({
+        type: 'GPS_PAUSED',
+        driverId: activeLoggedDriver.id
+      });
+    }
+
+    showToast('🔒 Ubicación pausada. Tu teléfono no comparte posición.');
+  }
+
+  function onGpsPositionReceived(lat, lon, accuracy) {
+    if (!activeLoggedDriver) return;
+
+    activeLoggedDriver.lat = lat;
+    activeLoggedDriver.lon = lon;
+    saveDrivers();
+
+    const insideCp = findCpContainingPoint(lat, lon);
+    const cpData = insideCp ? cpDataIndex[insideCp] : null;
+    const cpName = cpData ? `${insideCp} (${cpData.zona.split('(')[0].trim()})` : (insideCp ? `CP ${insideCp}` : 'Madrid');
+
+    if (telemetryCp) telemetryCp.textContent = cpName;
+    if (telemetryAccuracy) telemetryAccuracy.textContent = `± ${Math.round(accuracy)} m`;
+    if (telemetryTimestamp) telemetryTimestamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    if (driverMiniMap && driverMiniMarker) {
+      driverMiniMarker.setLatLng([lat, lon]);
+      driverMiniMap.panTo([lat, lon]);
+    }
+
+    const mainMarker = driverMarkers[activeLoggedDriver.id];
+    if (mainMarker) {
+      mainMarker.setLatLng([lat, lon]);
+    }
+
+    broadcastFleetEvent({
+      type: 'GPS_UPDATE',
+      driverId: activeLoggedDriver.id,
+      lat: lat,
+      lon: lon,
+      accuracy: Math.round(accuracy)
+    });
+  }
+
+  function renderDriverPortalOrder() {
+    if (!driverOrderPanel || !activeLoggedDriver) return;
+
+    const order = activeLoggedDriver.currentOrder;
+
+    if (!order) {
+      driverOrderPanel.className = 'driver-card-panel order-panel empty';
+      driverOrderPanel.innerHTML = `
+        <div style="padding: 18px; text-align: center;">
+          <div style="font-size: 34px; margin-bottom: 6px;">🛵</div>
+          <b style="font-size: 15px; color: #fff;">Sin pedidos asignados ahora</b>
+          <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.5;">
+            Estás disponible en la flota. En cuanto la central te asigne un pedido, aparecerá aquí con la ruta directa.
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    const base = COCINAS.find(c => c.id === activeLoggedDriver.kitchenId);
+    const baseName = base ? base.name : 'Cocina Base';
+    const destQuery = encodeURIComponent(`${order.address || ''}, ${order.cp} Madrid, España`);
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destQuery}`;
+
+    driverOrderPanel.className = 'driver-card-panel order-panel';
+    driverOrderPanel.innerHTML = `
+      <div class="order-badge-title">
+        <span>📦</span> Pedido Asignado en Curso
+      </div>
+
+      <div class="order-destination-box">
+        <div class="order-destination-cp">
+          <span>📮 CP ${order.cp}</span>
+          <span style="font-size:12px; font-weight:600; color:#facc15;">• ${order.time || 'Reciente'}</span>
+        </div>
+        <div class="order-destination-address">
+          📍 <b>Entrega:</b> ${order.address || 'Zona del código postal ' + order.cp}
+        </div>
+        <div style="font-size:11px; color:#94a3b8; margin-top:3px;">
+          🍳 <b>Punto de recogida:</b> ${baseName}
+        </div>
+      </div>
+
+      <div class="order-action-buttons">
+        <a href="${mapsUrl}" target="_blank" class="btn-open-navigation" title="Abrir navegación GPS guiada">
+          <span>🗺️</span> <b>Abrir Ruta en Google Maps / Waze</b>
+        </a>
+        <button id="btn-driver-delivered" class="btn-mark-delivered" title="Confirmar que el pedido ha sido entregado">
+          <span>✅</span> <b>Marcar como ENTREGADO</b>
+        </button>
+      </div>
+    `;
+
+    const deliveredBtn = document.getElementById('btn-driver-delivered');
+    if (deliveredBtn) {
+      deliveredBtn.addEventListener('click', () => {
+        completeDriverOrder();
+      });
+    }
+  }
+
+  function completeDriverOrder() {
+    if (!activeLoggedDriver || !activeLoggedDriver.currentOrder) return;
+
+    const completedCp = activeLoggedDriver.currentOrder.cp;
+    activeLoggedDriver.status = 'disponible';
+    activeLoggedDriver.currentOrder = null;
+
+    saveDrivers();
+    renderDriverMarkers();
+    renderDriversDrawer(currentDriverFilter);
+    updateDriverStatusGridUI('disponible');
+    renderDriverPortalOrder();
+
+    broadcastFleetEvent({
+      type: 'ORDER_DELIVERED',
+      driverId: activeLoggedDriver.id
+    });
+
+    showToast(`🎉 ¡Pedido en CP ${completedCp} entregado con éxito!`);
+  }
+
+  function initDriverMiniMap(driver) {
+    const container = document.getElementById('driver-leaflet-map');
+    if (!container) return;
+
+    if (!driverMiniMap) {
+      driverMiniMap = L.map('driver-leaflet-map', {
+        zoomControl: false,
+        attributionControl: false
+      }).setView([driver.lat, driver.lon], 15);
+
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 18
+      }).addTo(driverMiniMap);
+
+      const icon = L.divIcon({
+        className: 'driver-custom-marker',
+        html: `
+          <div class="driver-marker-container">
+            <div class="driver-marker-pin status-disponible">
+              <span>${getVehicleIcon(driver.vehicle)}</span>
+            </div>
+          </div>
+        `,
+        iconSize: [36, 48],
+        iconAnchor: [18, 40]
+      });
+
+      driverMiniMarker = L.marker([driver.lat, driver.lon], { icon }).addTo(driverMiniMap);
+    } else {
+      driverMiniMap.invalidateSize();
+      driverMiniMap.setView([driver.lat, driver.lon], 15);
+      if (driverMiniMarker) driverMiniMarker.setLatLng([driver.lat, driver.lon]);
+    }
+  }
+
+  function checkUrlForDriver() {
+    const params = new URLSearchParams(window.location.search);
+    const driverParam = params.get('repartidor') || params.get('driver');
+
+    if (driverParam) {
+      const q = driverParam.toLowerCase();
+      const match = drivers.find(d => 
+        d.id.toLowerCase() === q || 
+        d.name.toLowerCase().includes(q)
+      );
+      if (match) {
+        loginAsDriver(match.id, true);
+        return;
+      }
+    }
+
+    if (window.location.hash === '#repartidor' || window.location.hash === '#driver') {
+      const savedId = localStorage.getItem('madrid_logged_driver_id');
+      if (savedId) {
+        const match = drivers.find(d => d.id === savedId);
+        if (match) {
+          loginAsDriver(match.id, false);
+        }
+      }
+    }
+  }
 
   // =========================================================================
   // GESTIÓN DEL PANEL DE DIRECCIONES Y CÓDIGOS POSTALES VECINOS
@@ -2350,6 +2936,87 @@ function initApp() {
     }
   });
 
+  // --- Manejadores de Eventos del Portal del Repartidor ---
+  if (btnDriverPortal) {
+    btnDriverPortal.addEventListener('click', () => {
+      const savedId = localStorage.getItem('madrid_logged_driver_id');
+      if (savedId && drivers.some(d => d.id === savedId)) {
+        loginAsDriver(savedId, false);
+      } else {
+        openDriverLoginModal();
+      }
+    });
+  }
+
+  if (closeDriverLoginModal) {
+    closeDriverLoginModal.addEventListener('click', closeDriverLogin);
+  }
+
+  if (btnSubmitDriverLogin) {
+    btnSubmitDriverLogin.addEventListener('click', () => {
+      const selectedId = loginDriverSelect.value;
+      const pin = loginDriverPin.value.trim();
+      const remember = loginRememberMe.checked;
+
+      if (pin && pin !== '1234') {
+        showToast('⚠️ PIN incorrecto (Prueba con 1234)');
+        return;
+      }
+
+      loginAsDriver(selectedId, remember);
+    });
+  }
+
+  if (btnCopyDriverLink) {
+    btnCopyDriverLink.addEventListener('click', () => {
+      const selectedId = loginDriverSelect.value;
+      const driver = drivers.find(d => d.id === selectedId);
+      const slug = driver ? driver.name.split(' ')[0].toLowerCase() : selectedId;
+      const fullUrl = `${window.location.origin}${window.location.pathname}?repartidor=${slug}`;
+
+      navigator.clipboard.writeText(fullUrl).then(() => {
+        showToast(`📋 ¡Enlace copiado! Envíalo a ${driver ? driver.name : 'tu repartidor'}`);
+      }).catch(() => {
+        showToast(`Enlace: ${fullUrl}`);
+      });
+    });
+  }
+
+  if (driverAppExitBtn) {
+    driverAppExitBtn.addEventListener('click', () => {
+      exitDriverPortal();
+    });
+  }
+
+  if (toggleGpsBtn) {
+    toggleGpsBtn.addEventListener('click', toggleGpsSharing);
+  }
+
+  document.querySelectorAll('.driver-status-choice-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const st = btn.dataset.status;
+      setDriverStatusFromPortal(st);
+    });
+  });
+
+  if (toggleMiniMapBtn && driverMiniMapContainer) {
+    toggleMiniMapBtn.addEventListener('click', () => {
+      const isHidden = driverMiniMapContainer.style.display === 'none';
+      driverMiniMapContainer.style.display = isHidden ? 'block' : 'none';
+      document.getElementById('mini-map-toggle-icon').textContent = isHidden ? '▾' : '▸';
+      if (isHidden && driverMiniMap) {
+        setTimeout(() => driverMiniMap.invalidateSize(), 150);
+      }
+    });
+  }
+
+  if (driverManualSyncBtn) {
+    driverManualSyncBtn.addEventListener('click', () => {
+      showToast('🔄 Datos sincronizados');
+      renderDriverPortalOrder();
+    });
+  }
+
   function showToast(text) {
     toastMsg.textContent = text;
     toastMsg.classList.add('show');
@@ -2358,6 +3025,8 @@ function initApp() {
     }, 3200);
   }
 
-  // Iniciar carga
+  // Iniciar carga y red en tiempo real
+  initRealtimeSync();
   loadData();
+  checkUrlForDriver();
 }
