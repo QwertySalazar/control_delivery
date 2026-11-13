@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa Interactivo de Códigos Postales de Madrid</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS (Local para funcionamiento 100% offline y sin problemas de CORS) -->
+  <link rel="stylesheet" href="leaflet.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Contenedor del Mapa Leaflet -->
+  <div id="map"></div>
+
+  <!-- Barra Superior de Navegación y Filtros -->
+  <header class="top-nav glass">
+    <div class="brand-section">
+      <div class="brand-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+          <line x1="8" y1="2" x2="8" y2="18"></line>
+          <line x1="16" y1="6" x2="16" y2="22"></line>
+        </svg>
+      </div>
+      <div class="brand-title">
+        <h1>Madrid Códigos Postales</h1>
+        <span>VISUALIZADOR CARTOGRÁFICO INTERACTIVO</span>
+      </div>
+    </div>
+
+    <!-- Filtro de Alcance (Capital vs Comunidad) -->
+    <div class="segmented-control">
+      <button id="scope-capital-btn" class="segmented-btn active" title="Ver los 55 códigos postales de Madrid Capital">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M3 21h18M5 21V7l8-4v18M13 10h4v11"></path>
+        </svg>
+        Madrid Capital (55 CPs)
+      </button>
+      <button id="scope-comunidad-btn" class="segmented-btn" title="Ver los 298 códigos postales de la Comunidad">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+          <path d="M2 12h20"></path>
+        </svg>
+        Toda la Comunidad (298 CPs)
+      </button>
+    </div>
+
+    <!-- Buscador de Código Postal o Municipio/Barrio/Calle -->
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="search-cp-input" placeholder="Buscar dirección (ej. Gran Vía 32) o CP..." autocomplete="off">
+        <button id="clear-search-btn" class="clear-search-btn" title="Borrar búsqueda">×</button>
+      </div>
+      <div id="search-dropdown" class="search-results-dropdown glass"></div>
+    </div>
+
+    <!-- Botones de Acción Rápida -->
+    <div class="controls-group">
+      <button id="toggle-sidebar-btn" class="btn-icon active" title="Abrir/Cerrar lista de todos los códigos postales">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        Directorio CPs
+      </button>
+
+      <button id="toggle-hud-btn" class="btn-icon active" title="Abrir/Cerrar ventana de Código Postal grande">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="9" y1="3" x2="9" y2="21"></line>
+        </svg>
+        Tarjeta CP
+      </button>
+
+      <button id="toggle-streets-nav-btn" class="btn-icon" title="Abrir/Cerrar ventana de calles y CPs vecinos">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        Calles / Vecinos
+      </button>
+
+      <!-- Selector Rápido de Nuestras Cocinas -->
+      <div style="position:relative;">
+        <button id="toggle-cocinas-btn" class="btn-icon" style="border-color: rgba(245, 158, 11, 0.5); color: #facc15;" title="Navegar a las 3 cocinas">
+          <span>🍳</span> Cocinas (3) ▾
+        </button>
+        <div id="cocinas-dropdown" class="cocinas-dropdown glass">
+          <div class="cocina-option-btn" data-id="norte">
+            <div class="cocina-btn-title">🍳 Cocina Norte</div>
+            <div class="cocina-btn-sub">Av. 25 de Septiembre 8 • CP 28027</div>
+          </div>
+          <div class="cocina-option-btn" data-id="fuencarral">
+            <div class="cocina-btn-title">🍳 Cocina Fuencarral</div>
+            <div class="cocina-btn-sub">C/ Sangenjo 29 • CP 28034</div>
+          </div>
+          <div class="cocina-option-btn" data-id="alcorcon">
+            <div class="cocina-btn-title">🍳 Cocina Alcorcón</div>
+            <div class="cocina-btn-sub">Plaza Príncipes de España 2 • CP 28924</div>
+          </div>
+        </div>
+      </div>
+
+      <button id="center-madrid-btn" class="btn-icon" title="Centrar mapa en Madrid">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M12 2v3m0 14v3M2 12h3m14 0h3"></path>
+        </svg>
+        Centrar
+      </button>
+
+      <button id="layer-picker-btn" class="btn-icon" title="Cambiar capa base del mapa">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+        Capa
+      </button>
+    </div>
+  </header>
+
+  <!-- Menú Flotante de Selección de Capas Base (Sin API Key) -->
+  <div id="layer-picker-modal" class="layer-picker-modal glass">
+    <button class="layer-option-btn active" data-layer="dark">
+      <span>🌌</span> Cartografía Oscura
+    </button>
+    <button class="layer-option-btn" data-layer="light">
+      <span>🏙️</span> Cartografía Clara
+    </button>
+    <button class="layer-option-btn" data-layer="streets">
+      <span>🗺️</span> Callejero Urbano
+    </button>
+    <button class="layer-option-btn" data-layer="satellite">
+      <span>🛰️</span> Satélite / Ortofoto
+    </button>
+    <button class="layer-option-btn" data-layer="ign">
+      <span>🇪🇸</span> Mapa Oficial IGN España
+    </button>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- HUD PRINCIPAL: CÓDIGO POSTAL EN GRANDE Y DETALLES DE ZONA -->
+  <!-- ========================================================= -->
+  <section id="giant-cp-hud" class="giant-cp-hud glass idle">
+    <div class="hud-header">
+      <div class="hud-badge-tag">
+        <span id="hud-status-dot"></span>
+        <span>Código Postal</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span id="hud-zone-type" class="hud-zone-type">Madrid</span>
+        <button id="close-hud-btn" class="panel-close-btn" title="Cerrar / Ocultar esta ventana">×</button>
+      </div>
+    </div>
+
+    <div class="hud-cp-number-container">
+      <!-- NÚMERO DE CÓDIGO POSTAL EN TAMAÑO GIGANTE -->
+      <div id="giant-cp-number" class="giant-cp-number">-----</div>
+
+      <div class="hud-quick-actions">
+        <button id="open-streets-btn" class="hud-action-btn" title="Ver calles y códigos postales vecinos">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+        </button>
+        <button id="copy-cp-btn" class="hud-action-btn" title="Copiar código postal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+        <button id="zoom-to-cp-btn" class="hud-action-btn" title="Enfocar esta zona">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <polyline points="9 21 3 21 3 15"></polyline>
+            <line x1="21" y1="3" x2="14" y2="10"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="hud-details">
+      <!-- Nombre de Distrito, Barrio o Zona -->
+      <div id="hud-zone-name" class="hud-zone-name">
+        Pasa el cursor sobre cualquier zona para ver su código postal y distrito
+      </div>
+
+      <div class="hud-sub-info">
+        <div class="hud-sub-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span id="hud-municipality">Comunidad de Madrid</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta de Cocina Óptima / Más Cercana -->
+      <div id="hud-kitchen-card" class="hud-kitchen-card">
+        <div class="hud-kitchen-card-header">
+          <div class="hud-kitchen-badge">
+            <span class="kitchen-badge-icon">🍳</span>
+            <span>Cocina Más Cercana</span>
+          </div>
+          <span id="hud-kitchen-dist-badge" class="hud-kitchen-dist-badge">0.0 km</span>
+        </div>
+        <div class="hud-kitchen-card-body">
+          <div id="hud-kitchen-name" class="hud-kitchen-name">Cocina Norte</div>
+          <div id="hud-kitchen-address" class="hud-kitchen-address">Av. 25 de Septiembre 8 • CP 28027</div>
+        </div>
+        <button id="hud-kitchen-goto-btn" class="hud-kitchen-goto-btn" title="Navegar y enfocar esta cocina">
+          <span>Ver Cocina en el Mapa</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Botón Opcional para Ver Direcciones (El usuario decide cuándo abrirlo) -->
+      <button id="hud-show-streets-btn" class="hud-show-streets-btn" title="Desplegar todas las calles y direcciones de este código postal">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+          <span id="hud-show-streets-text">Ver direcciones de este CP</span>
+        </div>
+        <span id="hud-show-streets-badge" class="streets-count-pill">0 calles ▾</span>
+      </button>
+
+      <!-- Alerta dinámica de zona de frontera / limítrofe -->
+      <div id="hud-frontier-banner" class="hud-frontier-banner">
+        <span class="hud-frontier-icon">⚠️</span>
+        <span id="hud-frontier-text" class="hud-frontier-text">Zona Limítrofe</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Píldora flotante para reabrir la ventana del Código Postal cuando esté cerrada -->
+  <button id="reopen-hud-btn" class="reopen-hud-pill glass" title="Abrir ventana de Código Postal">
+    <span>🏷️</span>
+    <span id="reopen-hud-text">Código Postal: <b class="pill-cp">-----</b></span>
+    <span style="font-size:11px; opacity:0.8;">▾ Abrir</span>
+  </button>
+
+  <!-- Tooltip flotante inmediato que sigue al ratón -->
+  <div id="cursor-cp-tooltip" class="cursor-cp-tooltip glass">
+    <div id="cursor-cp-label" class="cursor-cp-label">28000</div>
+    <div id="cursor-zone-label" class="cursor-zone-label">Zona</div>
+  </div>
+
+  <!-- Panel Flotante: Calles y Códigos Postales Vecinos -->
+  <aside id="streets-drawer" class="streets-drawer glass collapsed">
+    <div class="streets-drawer-header">
+      <h3>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        <span id="streets-drawer-title">Calles y Fronteras</span>
+      </h3>
+      <button id="close-streets-btn" class="panel-close-btn" title="Cerrar ventana">×</button>
+    </div>
+
+    <div class="streets-drawer-tabs">
+      <button id="tab-streets-btn" class="tab-btn active">
+        Direcciones <span id="tab-streets-count" class="tab-badge">0</span>
+      </button>
+      <button id="tab-neighbors-btn" class="tab-btn">
+        Vecinos <span id="tab-neighbors-count" class="tab-badge">0</span>
+      </button>
+      <button id="tab-cocinas-btn" class="tab-btn">
+        🍳 Cocinas <span id="tab-cocinas-optimal-badge" class="tab-badge" style="background:#f59e0b; color:#0f172a; font-weight:800;">3</span>
+      </button>
+    </div>
+
+    <!-- Pestaña 1: Calles del CP -->
+    <div id="tab-streets-content" class="tab-content active">
+      <input type="text" id="streets-filter-input" class="sidebar-filter-input" placeholder="Buscar calle en este CP...">
+      <div id="streets-list" style="display:flex; flex-direction:column; gap:6px; margin-top:6px;"></div>
+    </div>
+
+    <!-- Pestaña 2: CPs Vecinos / Limítrofes -->
+    <div id="tab-neighbors-content" class="tab-content">
+      <div id="neighbors-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+    </div>
+
+    <!-- Pestaña 3: Ranking de Cocinas Más Cercanas al CP -->
+    <div id="tab-cocinas-content" class="tab-content">
+      <div style="font-size:11px; color:#cbd5e1; margin-bottom:8px; line-height:1.4;">
+        Distancia en línea recta desde este código postal a cada una de nuestras cocinas operativas:
+      </div>
+      <div id="kitchens-ranking-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+    </div>
+  </aside>
+
+  <!-- Panel Lateral Desplegable: Directorio de Códigos Postales -->
+  <aside id="sidebar-drawer" class="sidebar-drawer glass">
+    <div class="sidebar-header">
+      <h2>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        Códigos Postales
+      </h2>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span id="sidebar-count-badge" class="sidebar-count-badge">55</span>
+        <button id="close-sidebar-btn" class="panel-close-btn" title="Cerrar ventana de códigos postales">×</button>
+      </div>
+    </div>
+
+    <div class="sidebar-filter-box">
+      <input type="text" id="sidebar-filter-input" class="sidebar-filter-input" placeholder="Filtrar códigos o zonas...">
+    </div>
+
+    <div id="sidebar-list" class="sidebar-list">
+      <!-- Elementos generados dinámicamente por app.js -->
+    </div>
+  </aside>
+
+  <!-- Barra de Estado Inferior -->
+  <div class="bottom-bar glass">
+    <span id="stats-cp-count">Cargando códigos postales...</span>
+    <span>|</span>
+    <span id="stats-hovered">Pasa el ratón sobre el mapa</span>
+    <span>|</span>
+    <span>💡 <i>Haz clic en una zona para fijar la selección y hacer zoom</i></span>
+  </div>
+
+  <!-- Notificación Toast -->
+  <div id="toast-msg" class="toast-msg">Mensaje</div>
+
+  <!-- Leaflet JS (Local para funcionamiento garantizado en file:///) -->
+  <script src="leaflet.js"></script>
+
+  <!-- Datos GeoJSON embebidos como variables JS (permite abrir localmente con doble clic sin problemas CORS) -->
+  <script src="madrid_capital_data.js"></script>
+  <script src="madrid_cp_data.js"></script>
+  <script src="madrid_streets_data.js"></script>
+
+  <!-- Lógica de la Aplicación -->
+  <script src="app.js"></script>
+</body>
+</html>
+
