@@ -115,6 +115,11 @@
         </div>
       </div>
 
+      <!-- Botón Flota de Repartidores -->
+      <button id="toggle-drivers-btn" class="btn-icon" style="border-color: rgba(34, 197, 94, 0.5); color: #4ade80;" title="Panel de Flota y Repartidores">
+        <span>🛵</span> Repartidores (<span id="nav-drivers-count">4</span>)
+      </button>
+
       <button id="center-madrid-btn" class="btn-icon" title="Centrar mapa en Madrid">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
           <circle cx="12" cy="12" r="3"></circle>
@@ -237,6 +242,32 @@
         </button>
       </div>
 
+      <!-- Tarjeta de Repartidor Sugerido / Más Cercano -->
+      <div id="hud-driver-card" class="hud-driver-card">
+        <div class="hud-driver-header">
+          <div class="hud-driver-badge">
+            <span class="hud-driver-icon">🛵</span>
+            <span>Repartidor Sugerido</span>
+          </div>
+          <span id="hud-driver-status-badge" class="driver-status-pill status-disponible">🟢 Libre</span>
+        </div>
+        <div class="hud-driver-body">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;">
+            <div id="hud-driver-name" class="hud-driver-name">Carlos Mendoza</div>
+            <span id="hud-driver-dist" class="hud-driver-dist">1.4 km</span>
+          </div>
+          <div id="hud-driver-info" class="hud-driver-sub">Moto 🛵 • Cerca de Cocina Norte</div>
+        </div>
+        <div class="hud-driver-actions">
+          <button id="hud-assign-driver-btn" class="hud-driver-btn primary" title="Asignar entrega a este repartidor">
+            <span>✅ Asignar Pedido</span>
+          </button>
+          <button id="hud-locate-driver-btn" class="hud-driver-btn secondary" title="Localizar repartidor en el mapa">
+            <span>📍 Localizar</span>
+          </button>
+        </div>
+      </div>
+
       <!-- Botón Opcional para Ver Direcciones (El usuario decide cuándo abrirlo) -->
       <button id="hud-show-streets-btn" class="hud-show-streets-btn" title="Desplegar todas las calles y direcciones de este código postal">
         <div style="display:flex; align-items:center; gap:8px;">
@@ -342,6 +373,60 @@
 
     <div id="sidebar-list" class="sidebar-list">
       <!-- Elementos generados dinámicamente por app.js -->
+    </div>
+  </aside>
+
+  <!-- Panel Lateral Desplegable: Flota y Asignación de Repartidores -->
+  <aside id="drivers-drawer" class="drivers-drawer glass collapsed">
+    <div class="drivers-drawer-header">
+      <h2>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="12 8 8 12 12 16 12 8"></polygon>
+          <line x1="16" y1="12" x2="12" y2="12"></line>
+        </svg>
+        <span>Flota de Repartidores</span>
+        <span id="drivers-count-badge" class="drivers-count-badge">4</span>
+      </h2>
+      <button id="close-drivers-btn" class="panel-close-btn" title="Cerrar panel de repartidores">×</button>
+    </div>
+
+    <!-- Filtros de Estado -->
+    <div class="drivers-filter-bar">
+      <button class="driver-filter-btn active" data-filter="all">Todos (<span id="count-filter-all">4</span>)</button>
+      <button class="driver-filter-btn" data-filter="disponible">🟢 Libres (<span id="count-filter-disponible">2</span>)</button>
+      <button class="driver-filter-btn" data-filter="en_reparto">🟡 En ruta (<span id="count-filter-reparto">1</span>)</button>
+      <button class="driver-filter-btn" data-filter="en_cocina">🔵 Cocina (<span id="count-filter-cocina">1</span>)</button>
+    </div>
+
+    <!-- Lista de Repartidores -->
+    <div id="drivers-list" class="drivers-list">
+      <!-- Generado dinámicamente -->
+    </div>
+
+    <!-- Formulario para Añadir Nuevo Repartidor -->
+    <div class="add-driver-section">
+      <div class="add-driver-toggle" id="toggle-add-driver-form">
+        <span>➕</span> <b>Añadir Nuevo Repartidor</b> ▾
+      </div>
+      <form id="add-driver-form" class="add-driver-form" style="display:none;">
+        <input type="text" id="driver-input-name" class="driver-form-input" placeholder="Nombre completo (ej. Andrés Vega)" required>
+        <div style="display:flex; gap:6px;">
+          <select id="driver-input-vehicle" class="driver-form-select">
+            <option value="Moto 🛵">Moto 🛵</option>
+            <option value="Bici 🚴">Bici 🚴</option>
+            <option value="Coche 🚗">Coche 🚗</option>
+            <option value="Patinete 🛴">Patinete 🛴</option>
+          </select>
+          <select id="driver-input-kitchen" class="driver-form-select">
+            <option value="norte">Base: Cocina Norte</option>
+            <option value="fuencarral">Base: Cocina Fuencarral</option>
+            <option value="alcorcon">Base: Cocina Alcorcón</option>
+          </select>
+        </div>
+        <input type="tel" id="driver-input-phone" class="driver-form-input" placeholder="Teléfono (ej. +34 600 000 000)">
+        <button type="submit" class="driver-submit-btn">Guardar en la Flota</button>
+      </form>
     </div>
   </aside>
 

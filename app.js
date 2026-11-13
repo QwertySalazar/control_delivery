@@ -133,6 +133,11 @@ function initApp() {
   const cocinasLayerGroup = L.layerGroup().addTo(map);
   const kitchenMarkers = {};
 
+  // Flota de Repartidores
+  const driversLayerGroup = L.layerGroup().addTo(map);
+  const driverMarkers = {};
+  let currentOptimalDriver = null;
+
   // Elementos DOM
   const giantHud = document.getElementById('giant-cp-hud');
   const giantCpNumber = document.getElementById('giant-cp-number');
@@ -201,6 +206,34 @@ function initApp() {
   // Cocinas Nav DOM
   const toggleCocinasBtn = document.getElementById('toggle-cocinas-btn');
   const cocinasDropdown = document.getElementById('cocinas-dropdown');
+
+  // Repartidores DOM
+  const toggleDriversBtn = document.getElementById('toggle-drivers-btn');
+  const navDriversCount = document.getElementById('nav-drivers-count');
+  const driversDrawer = document.getElementById('drivers-drawer');
+  const closeDriversBtn = document.getElementById('close-drivers-btn');
+  const driversCountBadge = document.getElementById('drivers-count-badge');
+  const driversList = document.getElementById('drivers-list');
+  const toggleAddDriverForm = document.getElementById('toggle-add-driver-form');
+  const addDriverForm = document.getElementById('add-driver-form');
+  const driverInputName = document.getElementById('driver-input-name');
+  const driverInputVehicle = document.getElementById('driver-input-vehicle');
+  const driverInputKitchen = document.getElementById('driver-input-kitchen');
+  const driverInputPhone = document.getElementById('driver-input-phone');
+  const countFilterAll = document.getElementById('count-filter-all');
+  const countFilterDisponible = document.getElementById('count-filter-disponible');
+  const countFilterReparto = document.getElementById('count-filter-reparto');
+  const countFilterCocina = document.getElementById('count-filter-cocina');
+  let currentDriverFilter = 'all';
+
+  // HUD Driver DOM
+  const hudDriverCard = document.getElementById('hud-driver-card');
+  const hudDriverStatusBadge = document.getElementById('hud-driver-status-badge');
+  const hudDriverName = document.getElementById('hud-driver-name');
+  const hudDriverDist = document.getElementById('hud-driver-dist');
+  const hudDriverInfo = document.getElementById('hud-driver-info');
+  const hudAssignDriverBtn = document.getElementById('hud-assign-driver-btn');
+  const hudLocateDriverBtn = document.getElementById('hud-locate-driver-btn');
 
   // Layer Picker Modal
   const layerPickerBtn = document.getElementById('layer-picker-btn');
@@ -416,6 +449,8 @@ function initApp() {
     populateSidebar();
     resetHud();
     renderKitchenMarkers();
+    renderDriverMarkers();
+    renderDriversDrawer(currentDriverFilter);
   }
 
   // --- Manejadores de Eventos del Ratón ---
@@ -653,11 +688,12 @@ function initApp() {
     hudStatusDot.style.background = isLocked ? '#facc15' : '#38bdf8';
     hudStatusDot.style.boxShadow = isLocked ? '0 0 10px #facc15' : '0 0 10px #38bdf8';
 
-    // Calcular cocina más cercana y óptima
+    // Calcular cocina más cercana y óptima y repartidor más cercano
     let optimal = null;
     const center = getCpCenter(data.cp);
     if (center) {
       optimal = updateOptimalKitchenDisplay(center[0], center[1], data.cp, isLocked);
+      updateOptimalDriverDisplay(center[0], center[1], data.cp);
     }
 
     // Actualizar píldora minimizada si la tarjeta está cerrada
@@ -683,6 +719,7 @@ function initApp() {
     hudStatusDot.style.background = '#64748b';
     hudStatusDot.style.boxShadow = 'none';
     if (hudKitchenCard) hudKitchenCard.style.display = 'none';
+    if (hudDriverCard) hudDriverCard.style.display = 'none';
     clearOptimalRouteLine();
     clearTenueHighlights();
   }
@@ -987,6 +1024,438 @@ function initApp() {
   }
 
   // =========================================================================
+  // GESTIÓN DE FLOTA Y REPARTIDORES (CONTROL Y ASIGNACIÓN)
+  // =========================================================================
+
+  const STORAGE_KEY_DRIVERS = 'madrid_delivery_drivers_v1';
+
+  const DEFAULT_DRIVERS = [
+    {
+      id: 'd1',
+      name: 'Carlos Mendoza',
+      vehicle: 'Moto 🛵',
+      status: 'disponible',
+      kitchenId: 'norte',
+      lat: 40.44310,
+      lon: -3.62850,
+      phone: '+34 612 345 678',
+      currentOrder: null
+    },
+    {
+      id: 'd2',
+      name: 'Laura Sánchez',
+      vehicle: 'Bici 🚴',
+      status: 'disponible',
+      kitchenId: 'fuencarral',
+      lat: 40.48350,
+      lon: -3.70200,
+      phone: '+34 623 456 789',
+      currentOrder: null
+    },
+    {
+      id: 'd3',
+      name: 'Miguel Ángel Ruiz',
+      vehicle: 'Moto 🛵',
+      status: 'en_reparto',
+      kitchenId: 'alcorcon',
+      lat: 40.35400,
+      lon: -3.81200,
+      phone: '+34 634 567 890',
+      currentOrder: { cp: '28924', address: 'Plaza Príncipes de España', time: '14:15' }
+    },
+    {
+      id: 'd4',
+      name: 'Daniel Ortega',
+      vehicle: 'Coche 🚗',
+      status: 'en_cocina',
+      kitchenId: 'norte',
+      lat: 40.44490,
+      lon: -3.62480,
+      phone: '+34 645 678 901',
+      currentOrder: null
+    }
+  ];
+
+  let drivers = loadDrivers();
+
+  function loadDrivers() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY_DRIVERS);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn('Error loading drivers:', e);
+    }
+    return JSON.parse(JSON.stringify(DEFAULT_DRIVERS));
+  }
+
+  function saveDrivers() {
+    try {
+      localStorage.setItem(STORAGE_KEY_DRIVERS, JSON.stringify(drivers));
+    } catch (e) {
+      console.warn('Error saving drivers:', e);
+    }
+    updateDriverBadges();
+  }
+
+  function getStatusLabel(status) {
+    switch (status) {
+      case 'disponible': return '🟢 Libre';
+      case 'en_reparto': return '🟡 En ruta';
+      case 'en_cocina': return '🔵 En cocina';
+      case 'inactivo': return '⚪ Inactivo';
+      default: return status;
+    }
+  }
+
+  function getVehicleIcon(vehicle) {
+    if (!vehicle) return '🛵';
+    if (vehicle.includes('Bici')) return '🚴';
+    if (vehicle.includes('Coche')) return '🚗';
+    if (vehicle.includes('Patinete')) return '🛴';
+    return '🛵';
+  }
+
+  function updateDriverBadges() {
+    const total = drivers.length;
+    const disponibles = drivers.filter(d => d.status === 'disponible').length;
+    const enReparto = drivers.filter(d => d.status === 'en_reparto').length;
+    const enCocina = drivers.filter(d => d.status === 'en_cocina').length;
+
+    if (navDriversCount) navDriversCount.textContent = total;
+    if (driversCountBadge) driversCountBadge.textContent = total;
+    if (countFilterAll) countFilterAll.textContent = total;
+    if (countFilterDisponible) countFilterDisponible.textContent = disponibles;
+    if (countFilterReparto) countFilterReparto.textContent = enReparto;
+    if (countFilterCocina) countFilterCocina.textContent = enCocina;
+  }
+
+  function renderDriverMarkers() {
+    driversLayerGroup.clearLayers();
+    Object.keys(driverMarkers).forEach(k => delete driverMarkers[k]);
+
+    drivers.forEach(driver => {
+      const vehicleEmoji = getVehicleIcon(driver.vehicle);
+      const firstName = driver.name.split(' ')[0];
+
+      const markerHtml = `
+        <div class="driver-marker-container">
+          <div class="driver-marker-pin status-${driver.status}" title="${driver.name} (${driver.vehicle}) • ${getStatusLabel(driver.status)}">
+            <span>${vehicleEmoji}</span>
+          </div>
+          <div class="driver-marker-label">${firstName}</div>
+        </div>
+      `;
+
+      const customIcon = L.divIcon({
+        className: 'driver-custom-marker',
+        html: markerHtml,
+        iconSize: [36, 48],
+        iconAnchor: [18, 40],
+        popupAnchor: [0, -38]
+      });
+
+      const marker = L.marker([driver.lat, driver.lon], {
+        icon: customIcon,
+        draggable: true,
+        title: `${driver.name} (${driver.vehicle}) - Arrastra para mover`
+      });
+
+      marker.on('dragend', (e) => {
+        const newLatLng = e.target.getLatLng();
+        driver.lat = newLatLng.lat;
+        driver.lon = newLatLng.lng;
+        saveDrivers();
+
+        const insideCp = findCpContainingPoint(driver.lat, driver.lon);
+        const cpInfo = insideCp ? ` (en CP ${insideCp})` : '';
+
+        showToast(`📍 Posición de ${driver.name} actualizada${cpInfo}`);
+
+        const active = lockedCp || hoveredCp;
+        if (active) {
+          const center = getCpCenter(active);
+          if (center) {
+            updateOptimalDriverDisplay(center[0], center[1], active);
+          }
+        }
+        renderDriversDrawer(currentDriverFilter);
+      });
+
+      marker.bindPopup(() => {
+        const baseKitchen = COCINAS.find(c => c.id === driver.kitchenId);
+        const baseName = baseKitchen ? baseKitchen.name : 'Central';
+        const orderInfo = driver.currentOrder
+          ? `<div style="margin-top:6px; padding:5px 8px; background:rgba(245,158,11,0.2); border:1px solid rgba(245,158,11,0.4); border-radius:6px; font-size:11px; color:#facc15;">
+               📦 <b>Pedido en curso:</b> CP ${driver.currentOrder.cp} (${driver.currentOrder.address || 'Entrega'})
+             </div>`
+          : '';
+
+        return `
+          <div style="min-width: 210px; color:#fff; font-family: 'Inter', sans-serif;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px;">
+              <b style="font-size:14px;">${driver.name}</b>
+              <span class="driver-status-pill status-${driver.status}">${getStatusLabel(driver.status)}</span>
+            </div>
+            <div style="font-size:12px; color:#cbd5e1; line-height:1.6;">
+              <div>🛵 <b>Vehículo:</b> ${driver.vehicle}</div>
+              <div>🍳 <b>Base:</b> ${baseName}</div>
+              ${driver.phone ? `<div>📞 <b>Teléfono:</b> <a href="tel:${driver.phone}" style="color:#38bdf8; text-decoration:none;">${driver.phone}</a></div>` : ''}
+              ${orderInfo}
+            </div>
+            <div style="margin-top:10px; display:flex; gap:6px;">
+              <button onclick="window.cycleDriverStatus('${driver.id}')" style="flex:1; background:#22c55e; color:#052e16; border:none; padding:6px 10px; border-radius:5px; font-size:11px; font-weight:700; cursor:pointer;">
+                🔄 Cambiar Estado
+              </button>
+            </div>
+          </div>
+        `;
+      }, {
+        className: 'glass-popup',
+        closeButton: true
+      });
+
+      marker.addTo(driversLayerGroup);
+      driverMarkers[driver.id] = marker;
+    });
+  }
+
+  window.cycleDriverStatus = function(driverId) {
+    const driver = drivers.find(d => d.id === driverId);
+    if (!driver) return;
+
+    if (driver.status === 'disponible') {
+      driver.status = 'en_reparto';
+    } else if (driver.status === 'en_reparto') {
+      driver.status = 'en_cocina';
+      driver.currentOrder = null;
+    } else if (driver.status === 'en_cocina') {
+      driver.status = 'disponible';
+      driver.currentOrder = null;
+    } else {
+      driver.status = 'disponible';
+    }
+
+    saveDrivers();
+    renderDriverMarkers();
+    renderDriversDrawer(currentDriverFilter);
+
+    const active = lockedCp || hoveredCp;
+    if (active) {
+      const center = getCpCenter(active);
+      if (center) {
+        updateOptimalDriverDisplay(center[0], center[1], active);
+      }
+    }
+
+    showToast(`Estado de ${driver.name}: ${getStatusLabel(driver.status)}`);
+  };
+
+  function calculateDriverDistances(targetLat, targetLon) {
+    const targetPoint = L.latLng(targetLat, targetLon);
+
+    return drivers.map(driver => {
+      const driverPoint = L.latLng(driver.lat, driver.lon);
+      const meters = targetPoint.distanceTo(driverPoint);
+      const km = meters / 1000;
+
+      let penalty = 1.0;
+      if (driver.status === 'en_cocina') penalty = 1.2;
+      else if (driver.status === 'en_reparto') penalty = 2.5;
+      else if (driver.status === 'inactivo') penalty = 10.0;
+
+      const score = meters * penalty;
+
+      return {
+        ...driver,
+        meters: Math.round(meters),
+        kmText: km < 1 ? `${Math.round(meters)} m` : `${km.toFixed(1)} km`,
+        score
+      };
+    }).sort((a, b) => a.score - b.score);
+  }
+
+  function getOptimalDriver(targetLat, targetLon) {
+    const ranked = calculateDriverDistances(targetLat, targetLon);
+    return ranked.length > 0 ? ranked[0] : null;
+  }
+
+  function updateOptimalDriverDisplay(lat, lon, cp) {
+    if (!hudDriverCard) return null;
+
+    const optimal = getOptimalDriver(lat, lon);
+    currentOptimalDriver = optimal;
+
+    if (!optimal) {
+      hudDriverCard.style.display = 'none';
+      return null;
+    }
+
+    hudDriverCard.style.display = 'flex';
+    if (hudDriverName) hudDriverName.textContent = optimal.name;
+    if (hudDriverDist) hudDriverDist.textContent = optimal.kmText;
+
+    if (hudDriverStatusBadge) {
+      hudDriverStatusBadge.className = `driver-status-pill status-${optimal.status}`;
+      hudDriverStatusBadge.textContent = getStatusLabel(optimal.status);
+    }
+
+    if (hudDriverInfo) {
+      const baseKitchen = COCINAS.find(c => c.id === optimal.kitchenId);
+      const baseName = baseKitchen ? baseKitchen.name : 'Central';
+      hudDriverInfo.textContent = `${optimal.vehicle} • Base: ${baseName}`;
+    }
+
+    if (hudAssignDriverBtn) {
+      if (optimal.status === 'en_reparto') {
+        hudAssignDriverBtn.innerHTML = '<span>⚠️ En Reparto (Reasignar)</span>';
+      } else {
+        hudAssignDriverBtn.innerHTML = '<span>✅ Asignar Pedido</span>';
+      }
+      hudAssignDriverBtn.onclick = (e) => {
+        e.stopPropagation();
+        assignDriverToOrder(optimal.id, cp);
+      };
+    }
+
+    if (hudLocateDriverBtn) {
+      hudLocateDriverBtn.onclick = (e) => {
+        e.stopPropagation();
+        locateDriver(optimal.id);
+      };
+    }
+
+    return optimal;
+  }
+
+  function assignDriverToOrder(driverId, cp) {
+    const driver = drivers.find(d => d.id === driverId);
+    if (!driver) return;
+
+    const data = cpDataIndex[cp];
+    const zoneName = data ? data.zona.split('(')[0].trim() : `CP ${cp}`;
+
+    driver.status = 'en_reparto';
+    driver.currentOrder = {
+      cp: cp,
+      address: zoneName,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    saveDrivers();
+    renderDriverMarkers();
+    renderDriversDrawer(currentDriverFilter);
+
+    const center = getCpCenter(cp);
+    if (center) {
+      updateOptimalDriverDisplay(center[0], center[1], cp);
+    }
+
+    showToast(`🛵 ¡Pedido en CP ${cp} asignado a ${driver.name}!`);
+  }
+
+  function locateDriver(driverId) {
+    const driver = drivers.find(d => d.id === driverId);
+    if (!driver) return;
+
+    map.flyTo([driver.lat, driver.lon], 16, { duration: 0.8 });
+
+    setTimeout(() => {
+      if (driverMarkers[driver.id]) {
+        driverMarkers[driver.id].openPopup();
+      }
+    }, 850);
+  }
+
+  function renderDriversDrawer(filter = 'all') {
+    currentDriverFilter = filter;
+    if (!driversList) return;
+
+    updateDriverBadges();
+
+    document.querySelectorAll('.driver-filter-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.filter === filter);
+    });
+
+    const filtered = drivers.filter(d => {
+      if (filter === 'all') return true;
+      return d.status === filter;
+    });
+
+    if (filtered.length === 0) {
+      driversList.innerHTML = `
+        <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px;">
+          No hay repartidores con estado "${getStatusLabel(filter)}"
+        </div>
+      `;
+      return;
+    }
+
+    driversList.innerHTML = filtered.map(driver => {
+      const baseKitchen = COCINAS.find(c => c.id === driver.kitchenId);
+      const baseName = baseKitchen ? baseKitchen.name : 'Central';
+      const orderHtml = driver.currentOrder
+        ? `<div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); padding: 5px 8px; border-radius: 6px; font-size: 11px; color: #facc15; margin-top: 4px;">
+             📦 <b>En ruta:</b> CP ${driver.currentOrder.cp} (${driver.currentOrder.address}) • ${driver.currentOrder.time}
+           </div>`
+        : '';
+
+      return `
+        <div class="driver-card" data-driver-id="${driver.id}">
+          <div class="driver-card-top">
+            <div class="driver-name-title">
+              <span>${getVehicleIcon(driver.vehicle)}</span>
+              <span>${driver.name}</span>
+            </div>
+            <span class="driver-status-pill status-${driver.status}">
+              ${getStatusLabel(driver.status)}
+            </span>
+          </div>
+
+          <div class="driver-card-meta">
+            <div>🛵 <b>Vehículo:</b> ${driver.vehicle}</div>
+            <div>🍳 <b>Base:</b> ${baseName}</div>
+            ${driver.phone ? `<div>📞 <b>Teléfono:</b> <a href="tel:${driver.phone}" style="color: #38bdf8; text-decoration:none;">${driver.phone}</a></div>` : ''}
+            ${orderHtml}
+          </div>
+
+          <div class="driver-card-actions">
+            <button class="driver-cycle-status-btn" onclick="window.cycleDriverStatus('${driver.id}')" title="Cambiar disponibilidad">
+              🔄 Cambiar Estado
+            </button>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="driver-locate-btn" onclick="window.locateDriverFromList('${driver.id}')" title="Ver en el mapa">
+                📍 Localizar
+              </button>
+              ${driver.isCustom ? `
+                <button onclick="window.deleteDriver('${driver.id}')" style="background:transparent; border:none; color:#ef4444; font-size:13px; cursor:pointer;" title="Eliminar de la flota">
+                  🗑️
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.locateDriverFromList = function(driverId) {
+    locateDriver(driverId);
+  };
+
+  window.deleteDriver = function(driverId) {
+    drivers = drivers.filter(d => d.id !== driverId);
+    saveDrivers();
+    renderDriverMarkers();
+    renderDriversDrawer(currentDriverFilter);
+    showToast('Repartidor retirado de la flota');
+  };
+
+  // =========================================================================
   // GESTIÓN DEL PANEL DE DIRECCIONES Y CÓDIGOS POSTALES VECINOS
   // =========================================================================
 
@@ -1210,15 +1679,49 @@ function initApp() {
     `;
   }
 
+  function getDriverMatches(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) return [];
+    return drivers.filter(d => {
+      return d.name.toLowerCase().includes(q) ||
+             d.vehicle.toLowerCase().includes(q) ||
+             d.status.toLowerCase().includes(q) ||
+             'repartidores'.includes(q) ||
+             q.includes('repartidor') ||
+             q.includes('moto') ||
+             q.includes('bici') ||
+             q.includes('flota') ||
+             (d.phone && d.phone.includes(q));
+    });
+  }
+
+  function formatDriverSearchResults(driverMatches) {
+    if (!driverMatches || driverMatches.length === 0) return '';
+    return `
+      <div class="search-section-title" style="color:#4ade80; display:flex; align-items:center; gap:6px;">
+        <span>🛵</span> Repartidores (${driverMatches.length})
+      </div>
+      ${driverMatches.map(d => `
+        <div class="search-item" data-type="driver" data-driver-id="${d.id}" style="border-left: 3px solid #22c55e; background: rgba(34, 197, 94, 0.08);">
+          <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+            <span class="search-item-cp">🛵 ${d.name} (${d.vehicle})</span>
+            <span class="driver-status-pill status-${d.status}">${getStatusLabel(d.status)}</span>
+          </div>
+        </div>
+      `).join('')}
+    `;
+  }
+
   function renderCpSearchResults(query) {
     const kitchenMatches = getKitchenMatches(query);
+    const driverMatches = getDriverMatches(query);
 
     const matches = Object.values(cpDataIndex).filter(item => {
       return item.cp.toLowerCase().includes(query.toLowerCase()) ||
              item.zona.toLowerCase().includes(query.toLowerCase());
     }).slice(0, 6);
 
-    if (matches.length === 0 && kitchenMatches.length === 0) {
+    if (matches.length === 0 && kitchenMatches.length === 0 && driverMatches.length === 0) {
       searchDropdown.innerHTML = `<div style="padding: 10px; font-size: 12px; color: #94a3b8; text-align: center;">Sin resultados para "${query}"</div>`;
       searchDropdown.classList.add('open');
       return;
@@ -1227,6 +1730,10 @@ function initApp() {
     let html = '';
     if (kitchenMatches.length > 0) {
       html += formatKitchenSearchResults(kitchenMatches);
+    }
+
+    if (driverMatches.length > 0) {
+      html += formatDriverSearchResults(driverMatches);
     }
 
     if (matches.length > 0) {
@@ -1265,6 +1772,7 @@ function initApp() {
 
   function renderAddressSearchResults(query) {
     const kitchenMatches = getKitchenMatches(query);
+    const driverMatches = getDriverMatches(query);
 
     // 1. Coincidencias rápidas en la base de datos de calles de Madrid
     const localStreetMatches = [];
@@ -1286,6 +1794,10 @@ function initApp() {
     let html = '';
     if (kitchenMatches.length > 0) {
       html += formatKitchenSearchResults(kitchenMatches);
+    }
+
+    if (driverMatches.length > 0) {
+      html += formatDriverSearchResults(driverMatches);
     }
 
     if (localStreetMatches.length > 0) {
@@ -1368,6 +1880,13 @@ function initApp() {
     if (type === 'cocina') {
       const kid = item.dataset.kitchenId;
       selectCocina(kid);
+    } else if (type === 'driver') {
+      const did = item.dataset.driverId;
+      locateDriver(did);
+      if (driversDrawer) {
+        driversDrawer.classList.remove('collapsed');
+        renderDriversDrawer('all');
+      }
     } else if (type === 'cp') {
       const cp = item.dataset.cp;
       selectAndFocusCp(cp, true);
@@ -1432,6 +1951,7 @@ function initApp() {
 
     // Calcular cocina optima desde el punto exacto de la dirección
     const optimal = updateOptimalKitchenDisplay(lat, lon, matchedCp, true);
+    updateOptimalDriverDisplay(lat, lon, matchedCp);
 
     // 3. Comprobar proximidad a la frontera de otro código postal
     const frontierInfo = checkBoundaryProximity(lat, lon, matchedCp);
@@ -1689,6 +2209,82 @@ function initApp() {
       if (!e.target.closest('#toggle-cocinas-btn') && !e.target.closest('#cocinas-dropdown')) {
         cocinasDropdown.classList.remove('open');
       }
+    });
+  }
+
+  // 5. Panel de Flota de Repartidores
+  if (toggleDriversBtn && driversDrawer) {
+    toggleDriversBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      driversDrawer.classList.toggle('collapsed');
+      if (!driversDrawer.classList.contains('collapsed')) {
+        renderDriversDrawer(currentDriverFilter);
+      }
+    });
+  }
+
+  if (closeDriversBtn && driversDrawer) {
+    closeDriversBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      driversDrawer.classList.add('collapsed');
+    });
+  }
+
+  // Filtros de estado de repartidores
+  document.querySelectorAll('.driver-filter-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const filter = btn.dataset.filter;
+      renderDriversDrawer(filter);
+    });
+  });
+
+  // Formulario para añadir repartidores
+  if (toggleAddDriverForm && addDriverForm) {
+    toggleAddDriverForm.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isHidden = addDriverForm.style.display === 'none';
+      addDriverForm.style.display = isHidden ? 'flex' : 'none';
+      toggleAddDriverForm.querySelector('b').textContent = isHidden ? 'Cerrar Formulario' : 'Añadir Nuevo Repartidor';
+    });
+
+    addDriverForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = driverInputName.value.trim();
+      if (!name) return;
+
+      const vehicle = driverInputVehicle.value;
+      const kitchenId = driverInputKitchen.value;
+      const phone = driverInputPhone ? driverInputPhone.value.trim() : '';
+
+      const base = COCINAS.find(c => c.id === kitchenId) || COCINAS[0];
+      const jitterLat = (Math.random() - 0.5) * 0.008;
+      const jitterLon = (Math.random() - 0.5) * 0.008;
+
+      const newDriver = {
+        id: 'd_' + Date.now(),
+        name: name,
+        vehicle: vehicle,
+        status: 'disponible',
+        kitchenId: kitchenId,
+        lat: base.lat + jitterLat,
+        lon: base.lon + jitterLon,
+        phone: phone,
+        currentOrder: null,
+        isCustom: true
+      };
+
+      drivers.push(newDriver);
+      saveDrivers();
+      renderDriverMarkers();
+      renderDriversDrawer(currentDriverFilter);
+
+      addDriverForm.reset();
+      addDriverForm.style.display = 'none';
+      toggleAddDriverForm.querySelector('b').textContent = 'Añadir Nuevo Repartidor';
+
+      showToast(`✅ ${name} añadido a la flota con éxito`);
+      locateDriver(newDriver.id);
     });
   }
 

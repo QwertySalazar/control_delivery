@@ -48,3 +48,4 @@ Para ejecutarlo localmente en cualquier ordenador:
 1. Clonar el repositorio o descargar el ZIP.
 2. Hacer doble clic en `abrir_mapa.bat` o abrir directamente `index.html` en el navegador.
 3. 100% libre de dependencias externas bloqueantes: utiliza librerías locales y capas base gratuitas de alta disponibilidad (Esri Canvas, IGN España).
+
