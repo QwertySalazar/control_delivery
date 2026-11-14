@@ -122,7 +122,7 @@
 
       <!-- Botón Flota de Repartidores -->
       <button id="toggle-drivers-btn" class="btn-icon" style="border-color: rgba(34, 197, 94, 0.5); color: #4ade80;" title="Panel de Flota y Repartidores">
-        <span>🛵</span> Repartidores (<span id="nav-drivers-count">4</span>)
+        <span>🛵</span> Repartidores (<span id="nav-drivers-count">0</span>)
       </button>
 
       <!-- Botón Acceso Repartidor Móvil -->
@@ -263,8 +263,8 @@
         </div>
         <div class="hud-driver-body">
           <div style="display:flex; justify-content:space-between; align-items:baseline;">
-            <div id="hud-driver-name" class="hud-driver-name">Carlos Mendoza</div>
-            <span id="hud-driver-dist" class="hud-driver-dist">1.4 km</span>
+            <div id="hud-driver-name" class="hud-driver-name">Sin repartidor activo</div>
+            <span id="hud-driver-dist" class="hud-driver-dist">-- km</span>
           </div>
           <div id="hud-driver-info" class="hud-driver-sub">Moto 🛵 • Cerca de Cocina Norte</div>
         </div>
@@ -396,17 +396,17 @@
           <line x1="16" y1="12" x2="12" y2="12"></line>
         </svg>
         <span>Flota de Repartidores</span>
-        <span id="drivers-count-badge" class="drivers-count-badge">4</span>
+        <span id="drivers-count-badge" class="drivers-count-badge">0</span>
       </h2>
       <button id="close-drivers-btn" class="panel-close-btn" title="Cerrar panel de repartidores">×</button>
     </div>
 
     <!-- Filtros de Estado -->
     <div class="drivers-filter-bar">
-      <button class="driver-filter-btn active" data-filter="all">Todos (<span id="count-filter-all">4</span>)</button>
-      <button class="driver-filter-btn" data-filter="disponible">🟢 Libres (<span id="count-filter-disponible">2</span>)</button>
-      <button class="driver-filter-btn" data-filter="en_reparto">🟡 En ruta (<span id="count-filter-reparto">1</span>)</button>
-      <button class="driver-filter-btn" data-filter="en_cocina">🔵 Cocina (<span id="count-filter-cocina">1</span>)</button>
+      <button class="driver-filter-btn active" data-filter="all">Todos (<span id="count-filter-all">0</span>)</button>
+      <button class="driver-filter-btn" data-filter="disponible">🟢 Libres (<span id="count-filter-disponible">0</span>)</button>
+      <button class="driver-filter-btn" data-filter="en_reparto">🟡 En ruta (<span id="count-filter-reparto">0</span>)</button>
+      <button class="driver-filter-btn" data-filter="en_cocina">🔵 Cocina (<span id="count-filter-cocina">0</span>)</button>
     </div>
 
     <!-- Lista de Repartidores -->
@@ -460,41 +460,101 @@
           <span style="font-size:26px;">🛵</span>
           <div>
             <h3 style="margin:0; font-size:16px; color:#fff;">Portal del Repartidor</h3>
-            <p style="margin:0; font-size:12px; color:#94a3b8;">Identifícate para iniciar tu turno y ver tus pedidos</p>
+            <p style="margin:0; font-size:12px; color:#94a3b8;">Identifícate o regístrate para iniciar turno</p>
           </div>
         </div>
         <button id="close-driver-login-modal" class="panel-close-btn" title="Cerrar ventana">×</button>
       </div>
 
       <div class="modal-body" style="padding:16px; display:flex; flex-direction:column; gap:14px;">
-        <div>
-          <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:6px;">¿Quién eres?</label>
-          <select id="login-driver-select" class="driver-form-select" style="font-size:14px; padding:10px;">
-            <!-- Opciones cargadas dinámicamente -->
-          </select>
+        <!-- Pestañas del Modal: Iniciar Turno vs Nuevo Repartidor -->
+        <div class="driver-modal-tab-bar" style="display:flex; background:rgba(15,23,42,0.6); padding:3px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); gap:4px;">
+          <button id="tab-login-mode-btn" type="button" class="driver-modal-tab-btn active" style="flex:1;">🔑 Iniciar Turno</button>
+          <button id="tab-register-mode-btn" type="button" class="driver-modal-tab-btn" style="flex:1;">⚡ Nuevo Repartidor</button>
         </div>
 
-        <div>
-          <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:6px;">Código PIN de acceso (4 dígitos):</label>
-          <input type="password" id="login-driver-pin" class="driver-form-input" placeholder="PIN (por defecto: 1234)" maxlength="6" value="1234" style="font-size:18px; letter-spacing:4px; text-align:center;">
-          <div style="font-size:11px; color:#94a3b8; margin-top:4px;">💡 PIN predeterminado: <b>1234</b></div>
-        </div>
+        <!-- Vista 1: Login de Repartidor Existente -->
+        <div id="driver-login-view" style="display:flex; flex-direction:column; gap:12px;">
+          <div id="login-existing-container">
+            <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:6px;">Selecciona tu nombre:</label>
+            <select id="login-driver-select" class="driver-form-select" style="font-size:14px; padding:10px;">
+              <!-- Opciones cargadas dinámicamente -->
+            </select>
+          </div>
 
-        <div style="display:flex; align-items:center; gap:8px;">
-          <input type="checkbox" id="login-remember-me" checked style="accent-color:#22c55e; cursor:pointer; width:16px; height:16px;">
-          <label for="login-remember-me" style="font-size:12px; color:#cbd5e1; cursor:pointer;">Recordar mi cuenta en este teléfono</label>
-        </div>
+          <div id="login-pin-container">
+            <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:6px;">Código PIN de acceso (4 dígitos):</label>
+            <input type="password" id="login-driver-pin" class="driver-form-input" placeholder="PIN (por defecto: 1234)" maxlength="6" value="1234" style="font-size:18px; letter-spacing:4px; text-align:center;">
+            <div style="font-size:11px; color:#94a3b8; margin-top:4px;">💡 PIN predeterminado: <b>1234</b></div>
+          </div>
 
-        <button id="btn-submit-driver-login" class="driver-submit-btn" style="padding:12px; font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px;">
-          <span>Iniciar Turno de Reparto</span> ➔
-        </button>
+          <!-- Mensaje cuando todavía no hay nadie registrado -->
+          <div id="login-no-drivers-msg" style="display:none; padding:16px; text-align:center; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.3); border-radius:8px;">
+            <div style="font-size:30px; margin-bottom:6px;">🛵</div>
+            <div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:4px;">No hay repartidores registrados</div>
+            <div style="font-size:12px; color:#94a3b8; margin-bottom:12px; line-height:1.4;">Regístrate con tu nombre y vehículo para activar tu turno y aparecer en el mapa en vivo.</div>
+            <button id="btn-goto-register-view" type="button" class="driver-submit-btn" style="padding:10px; font-size:13px; width:100%;">
+              ⚡ Registrarme como Repartidor
+            </button>
+          </div>
 
-        <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:12px; margin-top:4px;">
-          <div style="font-size:11px; color:#94a3b8; margin-bottom:6px;">📲 <b>Enlace directo para enviar por WhatsApp:</b></div>
-          <button id="btn-copy-driver-link" type="button" class="hud-driver-btn secondary" style="width:100%; padding:8px; font-size:11px;">
-            <span>📋 Copiar Enlace Directo de este Repartidor</span>
+          <div id="login-remember-container" style="display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="login-remember-me" checked style="accent-color:#22c55e; cursor:pointer; width:16px; height:16px;">
+            <label for="login-remember-me" style="font-size:12px; color:#cbd5e1; cursor:pointer;">Recordar mi cuenta en este teléfono</label>
+          </div>
+
+          <button id="btn-submit-driver-login" class="driver-submit-btn" style="padding:12px; font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span>Iniciar Turno de Reparto</span> ➔
           </button>
+
+          <div id="login-share-link-container" style="border-top:1px solid rgba(255,255,255,0.1); padding-top:12px; margin-top:4px;">
+            <div style="font-size:11px; color:#94a3b8; margin-bottom:6px;">📲 <b>Enlace directo para enviar por WhatsApp:</b></div>
+            <button id="btn-copy-driver-link" type="button" class="hud-driver-btn secondary" style="width:100%; padding:8px; font-size:11px;">
+              <span>📋 Copiar Enlace Directo de este Repartidor</span>
+            </button>
+          </div>
         </div>
+
+        <!-- Vista 2: Registro de Nuevo Repartidor -->
+        <form id="driver-register-view" style="display:none; flex-direction:column; gap:12px;">
+          <div>
+            <label style="font-size:12px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Tu Nombre Completo:</label>
+            <input type="text" id="reg-driver-name" class="driver-form-input" placeholder="Ej. Roberto Morales" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+            <div>
+              <label style="font-size:11px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Vehículo:</label>
+              <select id="reg-driver-vehicle" class="driver-form-select">
+                <option value="Moto 🛵">Moto 🛵</option>
+                <option value="Bici 🚴">Bici 🚴</option>
+                <option value="Coche 🚗">Coche 🚗</option>
+                <option value="Patinete 🛴">Patinete 🛴</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Base de Cocina:</label>
+              <select id="reg-driver-kitchen" class="driver-form-select">
+                <option value="norte">Cocina Norte (CP 28027)</option>
+                <option value="fuencarral">Cocina Fuencarral (CP 28034)</option>
+                <option value="alcorcon">Cocina Alcorcón (CP 28924)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size:11px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">Teléfono móvil (WhatsApp):</label>
+            <input type="tel" id="reg-driver-phone" class="driver-form-input" placeholder="Ej. +34 612 345 678">
+          </div>
+
+          <div style="background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); border-radius:8px; padding:10px; font-size:11px; color:#86efac; line-height:1.4;">
+            ✅ Al pulsar el botón, te activarás como repartidor disponible y podrás compartir tu ubicación en vivo con la central.
+          </div>
+
+          <button id="btn-submit-driver-register" type="submit" class="driver-submit-btn" style="padding:12px; font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px; background:linear-gradient(135deg, #22c55e, #16a34a);">
+            <span>🚀 Registrar y Activar Repartidor</span> ➔
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -506,8 +566,8 @@
       <div class="driver-profile-info">
         <div class="driver-avatar" id="driver-app-avatar">🛵</div>
         <div>
-          <div class="driver-app-name" id="driver-app-name">Carlos Mendoza</div>
-          <div class="driver-app-meta" id="driver-app-meta">Moto 🛵 • Base: Cocina Norte</div>
+          <div class="driver-app-name" id="driver-app-name">Repartidor</div>
+          <div class="driver-app-meta" id="driver-app-meta">Turno activo</div>
         </div>
       </div>
       <div style="display:flex; gap:6px;">

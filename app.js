@@ -1151,70 +1151,34 @@ function initApp() {
   // GESTIÓN DE FLOTA Y REPARTIDORES (CONTROL Y ASIGNACIÓN)
   // =========================================================================
 
-  const STORAGE_KEY_DRIVERS = 'madrid_delivery_drivers_v1';
+  const STORAGE_KEY_DRIVERS = 'madrid_delivery_drivers_v2';
 
-  const DEFAULT_DRIVERS = [
-    {
-      id: 'd1',
-      name: 'Carlos Mendoza',
-      vehicle: 'Moto 🛵',
-      status: 'disponible',
-      kitchenId: 'norte',
-      lat: 40.44310,
-      lon: -3.62850,
-      phone: '+34 612 345 678',
-      currentOrder: null
-    },
-    {
-      id: 'd2',
-      name: 'Laura Sánchez',
-      vehicle: 'Bici 🚴',
-      status: 'disponible',
-      kitchenId: 'fuencarral',
-      lat: 40.48350,
-      lon: -3.70200,
-      phone: '+34 623 456 789',
-      currentOrder: null
-    },
-    {
-      id: 'd3',
-      name: 'Miguel Ángel Ruiz',
-      vehicle: 'Moto 🛵',
-      status: 'en_reparto',
-      kitchenId: 'alcorcon',
-      lat: 40.35400,
-      lon: -3.81200,
-      phone: '+34 634 567 890',
-      currentOrder: { cp: '28924', address: 'Plaza Príncipes de España', time: '14:15' }
-    },
-    {
-      id: 'd4',
-      name: 'Daniel Ortega',
-      vehicle: 'Coche 🚗',
-      status: 'en_cocina',
-      kitchenId: 'norte',
-      lat: 40.44490,
-      lon: -3.62480,
-      phone: '+34 645 678 901',
-      currentOrder: null
-    }
-  ];
+  // Flota inicial vacía: solo aparecerán repartidores cuando alguien se registre o active
+  const DEFAULT_DRIVERS = [];
 
   let drivers = loadDrivers();
 
   function loadDrivers() {
     try {
+      // Limpiar versiones anteriores de pruebas con repartidores simulados
+      localStorage.removeItem('madrid_delivery_drivers_v1');
+      const savedLogged = localStorage.getItem('madrid_logged_driver_id');
+      if (['d1', 'd2', 'd3', 'd4'].includes(savedLogged)) {
+        localStorage.removeItem('madrid_logged_driver_id');
+      }
+
       const stored = localStorage.getItem(STORAGE_KEY_DRIVERS);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
+        if (Array.isArray(parsed)) {
+          // Filtrar repartidores ficticios para no cargar datos obsoletos
+          return parsed.filter(d => !['d1', 'd2', 'd3', 'd4'].includes(d.id));
         }
       }
     } catch (e) {
       console.warn('Error loading drivers:', e);
     }
-    return JSON.parse(JSON.stringify(DEFAULT_DRIVERS));
+    return [];
   }
 
   function saveDrivers() {
@@ -1537,11 +1501,23 @@ function initApp() {
     });
 
     if (filtered.length === 0) {
-      driversList.innerHTML = `
-        <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px;">
-          No hay repartidores con estado "${getStatusLabel(filter)}"
-        </div>
-      `;
+      if (drivers.length === 0) {
+        driversList.innerHTML = `
+          <div style="padding: 30px 16px; text-align: center; color: var(--text-muted);">
+            <div style="font-size: 38px; margin-bottom: 8px;">🛵</div>
+            <b style="color: #fff; font-size: 14px; display: block; margin-bottom: 6px;">No hay repartidores activos</b>
+            <p style="margin: 0; line-height: 1.5; color: #94a3b8; font-size: 12px;">
+              Los repartidores se mostrarán aquí y en el mapa automáticamente cuando se registren o inicien sesión desde el portal móvil.
+            </p>
+          </div>
+        `;
+      } else {
+        driversList.innerHTML = `
+          <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px;">
+            No hay repartidores con estado "${getStatusLabel(filter)}"
+          </div>
+        `;
+      }
       return;
     }
 
@@ -1696,8 +1672,29 @@ function initApp() {
   function handleIncomingFleetEvent(data) {
     if (!data || !data.type) return;
 
+    if (data.type === 'DRIVER_REGISTERED' || data.type === 'DRIVER_JOINED') {
+      if (data.driver) {
+        const existingIdx = drivers.findIndex(d => d.id === data.driver.id);
+        if (existingIdx === -1) {
+          drivers.push(data.driver);
+        } else {
+          drivers[existingIdx] = data.driver;
+        }
+        saveDrivers();
+        renderDriverMarkers();
+        renderDriversDrawer(currentDriverFilter);
+        showToast(`🛵 ¡Nuevo repartidor conectado: ${data.driver.name}!`);
+      }
+      return;
+    }
+
     if (data.type === 'GPS_UPDATE') {
-      const driver = drivers.find(d => d.id === data.driverId);
+      let driver = drivers.find(d => d.id === data.driverId);
+      if (!driver && data.driver) {
+        driver = data.driver;
+        drivers.push(driver);
+        saveDrivers();
+      }
       if (driver) {
         driver.lat = data.lat;
         driver.lon = data.lon;
@@ -1705,9 +1702,11 @@ function initApp() {
         driver.isGpsActive = true;
         driver.lastGpsTime = Date.now();
 
-        const marker = driverMarkers[driver.id];
+        let marker = driverMarkers[driver.id];
         if (marker) {
           marker.setLatLng([data.lat, data.lon]);
+        } else {
+          renderDriverMarkers();
         }
 
         const active = lockedCp || hoveredCp;
@@ -1813,17 +1812,64 @@ function initApp() {
   const driverMiniMapContainer = document.getElementById('driver-mini-map-container');
   const driverManualSyncBtn = document.getElementById('driver-manual-sync-btn');
 
+  const tabLoginModeBtn = document.getElementById('tab-login-mode-btn');
+  const tabRegisterModeBtn = document.getElementById('tab-register-mode-btn');
+  const driverLoginView = document.getElementById('driver-login-view');
+  const driverRegisterView = document.getElementById('driver-register-view');
+  const loginExistingContainer = document.getElementById('login-existing-container');
+  const loginPinContainer = document.getElementById('login-pin-container');
+  const loginNoDriversMsg = document.getElementById('login-no-drivers-msg');
+  const loginRememberContainer = document.getElementById('login-remember-container');
+  const loginShareLinkContainer = document.getElementById('login-share-link-container');
+  const btnGotoRegisterView = document.getElementById('btn-goto-register-view');
+
+  function switchDriverModalMode(mode) {
+    if (mode === 'register') {
+      if (tabLoginModeBtn) tabLoginModeBtn.classList.remove('active');
+      if (tabRegisterModeBtn) tabRegisterModeBtn.classList.add('active');
+      if (driverLoginView) driverLoginView.style.display = 'none';
+      if (driverRegisterView) driverRegisterView.style.display = 'flex';
+    } else {
+      if (tabLoginModeBtn) tabLoginModeBtn.classList.add('active');
+      if (tabRegisterModeBtn) tabRegisterModeBtn.classList.remove('active');
+      if (driverLoginView) driverLoginView.style.display = 'flex';
+      if (driverRegisterView) driverRegisterView.style.display = 'none';
+      populateLoginDriverSelect();
+    }
+  }
+
   function populateLoginDriverSelect() {
     if (!loginDriverSelect) return;
-    loginDriverSelect.innerHTML = drivers.map(d => {
-      const base = COCINAS.find(c => c.id === d.kitchenId);
-      const baseName = base ? base.name : 'Central';
-      return `<option value="${d.id}">${d.name} (${d.vehicle}) • Base: ${baseName}</option>`;
-    }).join('');
+
+    if (drivers.length === 0) {
+      if (loginExistingContainer) loginExistingContainer.style.display = 'none';
+      if (loginPinContainer) loginPinContainer.style.display = 'none';
+      if (btnSubmitDriverLogin) btnSubmitDriverLogin.style.display = 'none';
+      if (loginRememberContainer) loginRememberContainer.style.display = 'none';
+      if (loginShareLinkContainer) loginShareLinkContainer.style.display = 'none';
+      if (loginNoDriversMsg) loginNoDriversMsg.style.display = 'block';
+    } else {
+      if (loginExistingContainer) loginExistingContainer.style.display = 'block';
+      if (loginPinContainer) loginPinContainer.style.display = 'block';
+      if (btnSubmitDriverLogin) btnSubmitDriverLogin.style.display = 'flex';
+      if (loginRememberContainer) loginRememberContainer.style.display = 'flex';
+      if (loginShareLinkContainer) loginShareLinkContainer.style.display = 'block';
+      if (loginNoDriversMsg) loginNoDriversMsg.style.display = 'none';
+
+      loginDriverSelect.innerHTML = drivers.map(d => {
+        const base = COCINAS.find(c => c.id === d.kitchenId);
+        const baseName = base ? base.name : 'Central';
+        return `<option value="${d.id}">${d.name} (${d.vehicle}) • Base: ${baseName}</option>`;
+      }).join('');
+    }
   }
 
   function openDriverLoginModal() {
-    populateLoginDriverSelect();
+    if (drivers.length === 0) {
+      switchDriverModalMode('register');
+    } else {
+      switchDriverModalMode('login');
+    }
     if (driverLoginModal) driverLoginModal.style.display = 'flex';
   }
 
@@ -2152,6 +2198,15 @@ function initApp() {
         loginAsDriver(match.id, true);
         return;
       }
+
+      const savedId = localStorage.getItem('madrid_logged_driver_id');
+      const savedMatch = savedId ? drivers.find(d => d.id === savedId) : null;
+      if (savedMatch) {
+        loginAsDriver(savedMatch.id, true);
+      } else {
+        openDriverLoginModal();
+      }
+      return;
     }
 
     if (window.location.hash === '#repartidor' || window.location.hash === '#driver') {
@@ -2160,8 +2215,10 @@ function initApp() {
         const match = drivers.find(d => d.id === savedId);
         if (match) {
           loginAsDriver(match.id, false);
+          return;
         }
       }
+      openDriverLoginModal();
     }
   }
 
@@ -3002,6 +3059,11 @@ function initApp() {
       renderDriverMarkers();
       renderDriversDrawer(currentDriverFilter);
 
+      broadcastFleetEvent({
+        type: 'DRIVER_REGISTERED',
+        driver: newDriver
+      });
+
       addDriverForm.reset();
       addDriverForm.style.display = 'none';
       toggleAddDriverForm.querySelector('b').textContent = 'Añadir Nuevo Repartidor';
@@ -3089,11 +3151,76 @@ function initApp() {
     closeDriverLoginModal.addEventListener('click', closeDriverLogin);
   }
 
+  if (tabLoginModeBtn) {
+    tabLoginModeBtn.addEventListener('click', () => switchDriverModalMode('login'));
+  }
+
+  if (tabRegisterModeBtn) {
+    tabRegisterModeBtn.addEventListener('click', () => switchDriverModalMode('register'));
+  }
+
+  if (btnGotoRegisterView) {
+    btnGotoRegisterView.addEventListener('click', () => switchDriverModalMode('register'));
+  }
+
+  if (driverRegisterView) {
+    driverRegisterView.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameInput = document.getElementById('reg-driver-name');
+      const vehicleInput = document.getElementById('reg-driver-vehicle');
+      const kitchenInput = document.getElementById('reg-driver-kitchen');
+      const phoneInput = document.getElementById('reg-driver-phone');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const vehicle = vehicleInput ? vehicleInput.value : 'Moto 🛵';
+      const kitchenId = kitchenInput ? kitchenInput.value : 'norte';
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+
+      if (!name) {
+        showToast('⚠️ Por favor indica tu nombre completo');
+        return;
+      }
+
+      const baseKitchen = COCINAS.find(c => c.id === kitchenId) || COCINAS[0];
+      const newDriver = {
+        id: 'drv_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
+        name: name,
+        vehicle: vehicle,
+        status: 'disponible',
+        kitchenId: kitchenId,
+        lat: baseKitchen.lat + (Math.random() - 0.5) * 0.006,
+        lon: baseKitchen.lon + (Math.random() - 0.5) * 0.006,
+        phone: phone || '',
+        currentOrder: null,
+        createdAt: Date.now()
+      };
+
+      drivers.push(newDriver);
+      saveDrivers();
+      renderDriverMarkers();
+      renderDriversDrawer(currentDriverFilter);
+
+      broadcastFleetEvent({
+        type: 'DRIVER_REGISTERED',
+        driver: newDriver
+      });
+
+      driverRegisterView.reset();
+      loginAsDriver(newDriver.id, true);
+      showToast(`🎉 ¡Registrado con éxito! Bienvenido a la flota, ${name.split(' ')[0]}.`);
+    });
+  }
+
   if (btnSubmitDriverLogin) {
     btnSubmitDriverLogin.addEventListener('click', () => {
       const selectedId = loginDriverSelect.value;
       const pin = loginDriverPin.value.trim();
       const remember = loginRememberMe.checked;
+
+      if (!selectedId) {
+        showToast('⚠️ Selecciona un repartidor o regístrate en "Nuevo Repartidor"');
+        return;
+      }
 
       if (pin && pin !== '1234') {
         showToast('⚠️ PIN incorrecto (Prueba con 1234)');
