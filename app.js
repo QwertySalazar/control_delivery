@@ -152,6 +152,31 @@ function initApp() {
       municipio: 'Alcorcón'
     }
   ];
+
+  // =========================================================================
+  // ASIGNACIÓN OPERATIVA DE CÓDIGOS POSTALES POR COCINA
+  // =========================================================================
+  const KITCHEN_ASSIGNED_ZONES = {
+    fuencarral: [
+      '28020', '28029', '28034', '28035', '28036', '28039', '28040', '28049', '28050',
+      '28100', '28108', '28109', '28701', '28702', '28703'
+    ],
+    alcorcon: [
+      '28670', '28922', '28223', '28011', '28019', '28047', '28024', '28025', '28026',
+      '28041', '28044', '28054', '28925', '28923', '28921', '28924', '28918', '28919',
+      '28021', '28916', '28912', '28913', '28911', '28907', '28903', '28914', '28932',
+      '28933', '28931', '28937', '28936', '28934', '28938', '28935', '28942'
+    ]
+  };
+
+  // Mapa rápido de búsqueda: CP -> 'fuencarral' | 'alcorcon'
+  const CP_TO_KITCHEN_ASSIGNMENT = {};
+  Object.entries(KITCHEN_ASSIGNED_ZONES).forEach(([kid, cps]) => {
+    cps.forEach(cp => {
+      CP_TO_KITCHEN_ASSIGNMENT[cp] = kid;
+    });
+  });
+
   const cocinasLayerGroup = L.layerGroup().addTo(map);
   const kitchenMarkers = {};
 
@@ -186,6 +211,7 @@ function initApp() {
   const cursorTooltip = document.getElementById('cursor-cp-tooltip');
   const cursorCpLabel = document.getElementById('cursor-cp-label');
   const cursorZoneLabel = document.getElementById('cursor-zone-label');
+  const cursorKitchenLabel = document.getElementById('cursor-kitchen-label');
   const copyCpBtn = document.getElementById('copy-cp-btn');
   const zoomToCpBtn = document.getElementById('zoom-to-cp-btn');
   const openStreetsBtn = document.getElementById('open-streets-btn');
@@ -490,8 +516,20 @@ function initApp() {
     highlightCp(cp);
     updateGiantHud(data, false);
 
-    cursorCpLabel.textContent = cp;
+    const shortCp = formatShortCp(cp);
+    cursorCpLabel.innerHTML = `${cp} <span style="color:#38bdf8; font-size:10px; font-weight:700;">#${shortCp}</span>`;
     cursorZoneLabel.textContent = data.zona.split('(')[0].trim() || data.municipio;
+    if (cursorKitchenLabel) {
+      const assignedKid = CP_TO_KITCHEN_ASSIGNMENT[cp];
+      if (assignedKid) {
+        const assignedName = assignedKid === 'fuencarral' ? 'Cocina Fuencarral' : 'Cocina Alcorcón';
+        cursorKitchenLabel.innerHTML = `⭐ Asignado: <b>${assignedName}</b>`;
+        cursorKitchenLabel.style.display = 'block';
+        cursorKitchenLabel.style.color = (assignedKid === 'fuencarral') ? '#fbbf24' : '#34d399';
+      } else {
+        cursorKitchenLabel.style.display = 'none';
+      }
+    }
     cursorTooltip.classList.add('active');
 
     if (statsHovered) statsHovered.innerHTML = `Zona actual: <b>CP ${cp}</b>`;
@@ -617,19 +655,35 @@ function initApp() {
     return null;
   }
 
-  function calculateKitchenRankings(fromLat, fromLon) {
+  function calculateKitchenRankings(fromLat, fromLon, cp = null) {
     const fromPoint = L.latLng(fromLat, fromLon);
-    return COCINAS.map(cocina => {
+    const assignedKitchenId = cp ? CP_TO_KITCHEN_ASSIGNMENT[String(cp).trim()] : null;
+
+    const list = COCINAS.map(cocina => {
       const kPoint = L.latLng(cocina.lat, cocina.lon);
       const meters = fromPoint.distanceTo(kPoint);
       const km = meters / 1000;
+      const isAssigned = assignedKitchenId ? (cocina.id === assignedKitchenId) : false;
       return {
         ...cocina,
         meters: Math.round(meters),
         kmText: km < 1 ? `${Math.round(meters)} m` : `${km.toFixed(1)} km`,
-        rawKm: km
+        rawKm: km,
+        isAssigned: isAssigned
       };
-    }).sort((a, b) => a.meters - b.meters);
+    });
+
+    if (assignedKitchenId) {
+      list.sort((a, b) => {
+        if (a.isAssigned) return -1;
+        if (b.isAssigned) return 1;
+        return a.meters - b.meters;
+      });
+    } else {
+      list.sort((a, b) => a.meters - b.meters);
+    }
+
+    return list;
   }
 
   function clearOptimalRouteLine() {
@@ -640,14 +694,39 @@ function initApp() {
   }
 
   function updateOptimalKitchenDisplay(fromLat, fromLon, cp, drawLine = false) {
-    const rankings = calculateKitchenRankings(fromLat, fromLon);
+    const rankings = calculateKitchenRankings(fromLat, fromLon, cp);
     const optimal = rankings[0];
 
     if (hudKitchenCard) {
       hudKitchenCard.style.display = 'flex';
       if (hudKitchenName) hudKitchenName.textContent = optimal.name;
-      if (hudKitchenDistBadge) hudKitchenDistBadge.textContent = optimal.kmText;
+      if (hudKitchenDistBadge) {
+        hudKitchenDistBadge.textContent = optimal.kmText;
+        if (optimal.isAssigned) {
+          hudKitchenDistBadge.style.background = 'rgba(16, 185, 129, 0.25)';
+          hudKitchenDistBadge.style.color = '#34d399';
+          hudKitchenDistBadge.style.borderColor = '#10b981';
+        } else {
+          hudKitchenDistBadge.style.background = 'rgba(245, 158, 11, 0.25)';
+          hudKitchenDistBadge.style.color = '#fef08a';
+          hudKitchenDistBadge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+        }
+      }
       if (hudKitchenAddress) hudKitchenAddress.textContent = `${optimal.address} • CP ${optimal.cp}`;
+
+      const hudKitchenBadgeTitle = document.getElementById('hud-kitchen-badge-title');
+      if (hudKitchenBadgeTitle) {
+        if (optimal.isAssigned) {
+          hudKitchenBadgeTitle.innerHTML = '⭐ Cocina Asignada';
+          hudKitchenBadgeTitle.parentElement.style.background = 'rgba(16, 185, 129, 0.2)';
+          hudKitchenBadgeTitle.parentElement.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+        } else {
+          hudKitchenBadgeTitle.innerHTML = 'Cocina Más Cercana';
+          hudKitchenBadgeTitle.parentElement.style.background = 'rgba(245, 158, 11, 0.2)';
+          hudKitchenBadgeTitle.parentElement.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+        }
+      }
+
       if (hudKitchenGotoBtn) {
         hudKitchenGotoBtn.onclick = (e) => {
           e.stopPropagation();
@@ -659,8 +738,9 @@ function initApp() {
     // Dibujar o actualizar línea de ruta directa en el mapa
     if (drawLine) {
       clearOptimalRouteLine();
+      const routeColor = optimal.isAssigned ? '#10b981' : '#f59e0b';
       optimalRouteLine = L.polyline([[fromLat, fromLon], [optimal.lat, optimal.lon]], {
-        color: '#f59e0b',
+        color: routeColor,
         weight: 3.5,
         dashArray: '8, 8',
         opacity: 0.9,
@@ -669,7 +749,9 @@ function initApp() {
       }).addTo(map);
 
       optimalRouteLine.bindTooltip(
-        `🍳 Cocina más cercana y óptima: <b>${optimal.name}</b> a <b>${optimal.kmText}</b>`,
+        optimal.isAssigned
+          ? `⭐ <b>${optimal.name}</b>: Cocina Asignada Operativamente a <b>${optimal.kmText}</b>`
+          : `🍳 Cocina más cercana y óptima: <b>${optimal.name}</b> a <b>${optimal.kmText}</b>`,
         { sticky: true }
       );
     }
@@ -680,32 +762,108 @@ function initApp() {
     return optimal;
   }
 
+  function highlightKitchenCoverage(kitchenId) {
+    const cocina = COCINAS.find(c => c.id === kitchenId);
+    if (!cocina) return;
+    const cpList = KITCHEN_ASSIGNED_ZONES[kitchenId];
+    if (!cpList || cpList.length === 0) {
+      showToast(`ℹ️ ${cocina.name} no tiene zonas específicas asignadas.`);
+      return;
+    }
+
+    // Asegurarse de que el alcance esté en comunidad si hay CPs de comunidad
+    const hasComunidad = cpList.some(cp => {
+      const feat = allFeatures.find(f => f.properties && f.properties.cp === cp);
+      return feat && !feat.properties.es_capital;
+    });
+
+    if (hasComunidad && currentScope === 'capital') {
+      setScope('comunidad');
+    }
+
+    clearTenueHighlights();
+    clearOptimalRouteLine();
+
+    // Atenuar todas las capas
+    if (activeGeoJsonLayer) {
+      activeGeoJsonLayer.eachLayer(l => l.setStyle(DIMMED_STYLE));
+    }
+
+    const matchedLayers = [];
+    const isFuencarral = (kitchenId === 'fuencarral');
+    const borderCol = isFuencarral ? '#f59e0b' : '#10b981';
+    const fillCol = isFuencarral ? '#f59e0b' : '#06b6d4';
+
+    cpList.forEach(cp => {
+      const layers = cpLayerIndex[cp];
+      if (layers && layers.length > 0) {
+        layers.forEach(l => {
+          l.setStyle({
+            weight: 3,
+            color: borderCol,
+            dashArray: '',
+            fillOpacity: 0.5,
+            fillColor: fillCol,
+            opacity: 1
+          });
+          matchedLayers.push(l);
+        });
+      }
+    });
+
+    if (matchedLayers.length > 0) {
+      const group = L.featureGroup(matchedLayers);
+      map.flyToBounds(group.getBounds(), { padding: [35, 35], duration: 1.0 });
+      showToast(`🍳 Cobertura de ${cocina.name}: Mostrando ${cpList.length} códigos postales asignados`);
+    }
+
+    // Si el drawer de cocinas está cerrado, abrirlo
+    if (streetsDrawer && streetsDrawer.classList.contains('collapsed')) {
+      streetsDrawer.classList.remove('collapsed');
+      if (toggleStreetsNavBtn) toggleStreetsNavBtn.classList.add('active');
+    }
+    if (tabCocinasBtn) {
+      tabCocinasBtn.click();
+    }
+  }
+
   function renderKitchensRankingDrawer(rankings, currentCp) {
     if (!kitchensRankingList) return;
     kitchensRankingList.innerHTML = '';
 
+    const assignedKid = currentCp ? CP_TO_KITCHEN_ASSIGNMENT[String(currentCp).trim()] : null;
+
     rankings.forEach((k, idx) => {
       const isOptimal = idx === 0;
+      const isAssigned = k.isAssigned || (assignedKid && k.id === assignedKid);
       const card = document.createElement('div');
-      card.className = `kitchen-ranking-card ${isOptimal ? 'optimal' : ''}`;
+      card.className = `kitchen-ranking-card ${isAssigned ? 'assigned' : (isOptimal ? 'optimal' : '')}`;
 
       const medal = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : '🥉');
+      const badgeHtml = isAssigned
+        ? '<span style="font-size:10px; background:#10b981; color:#0f172a; padding:2px 7px; border-radius:10px; font-weight:800; display:inline-flex; align-items:center; gap:3px;">⭐ ASIGNADA OPERATIVAMENTE</span>'
+        : (isOptimal ? '<span style="font-size:10px; background:#f59e0b; color:#0f172a; padding:1px 6px; border-radius:10px; font-weight:800;">MÁS CERCANA</span>' : '');
 
       card.innerHTML = `
         <div class="kitchen-ranking-top">
-          <div class="kitchen-rank-tag ${isOptimal ? 'gold' : ''}">
+          <div class="kitchen-rank-tag ${isAssigned ? 'assigned-tag' : (isOptimal ? 'gold' : '')}">
             <span>${medal}</span>
             <span>${k.name}</span>
-            ${isOptimal ? '<span style="font-size:10px; background:#f59e0b; color:#0f172a; padding:1px 6px; border-radius:10px; font-weight:800;">ÓPTIMA</span>' : ''}
+            ${badgeHtml}
           </div>
-          <span class="kitchen-rank-dist">${k.kmText}</span>
+          <span class="kitchen-rank-dist" style="${isAssigned ? 'color:#34d399; background:rgba(16,185,129,0.2); border-color:#10b981;' : ''}">${k.kmText}</span>
         </div>
         <div class="kitchen-ranking-meta">
           📍 ${k.address} • CP ${k.cp} (${k.zona})
         </div>
-        <button class="kitchen-ranking-btn">
-          Navegar a esta cocina ➔
-        </button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
+          <span style="font-size:10px; color:${isAssigned ? '#34d399' : '#94a3b8'};">
+            ${isAssigned ? '✅ Código postal asignado a su ruta' : (k.id === 'norte' ? 'Hub Central' : `${(KITCHEN_ASSIGNED_ZONES[k.id] || []).length} CPs en zona`)}
+          </span>
+          <button class="kitchen-ranking-btn">
+            Navegar a esta cocina ➔
+          </button>
+        </div>
       `;
 
       card.addEventListener('click', () => {
@@ -714,6 +872,78 @@ function initApp() {
 
       kitchensRankingList.appendChild(card);
     });
+
+    // Añadir Bloque Directorio de Coberturas Operativas
+    const zonesBlock = document.createElement('div');
+    zonesBlock.className = 'kitchen-coverage-zones-block';
+    zonesBlock.innerHTML = `
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255, 255, 255, 0.1);">
+        <div style="font-size:12px; font-weight:800; color:#f8fafc; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+          <span>🗺️</span> Zonas Operativas Asignadas
+        </div>
+        <div style="font-size:11px; color:#94a3b8; margin-bottom:10px;">
+          Haz clic en cualquier código para enfocarlo o en el botón para iluminar toda la cobertura de la cocina:
+        </div>
+
+        <!-- Cocina Fuencarral (15 CPs) -->
+        <div class="kitchen-zone-accordion" style="background:rgba(245, 158, 11, 0.08); border:1px solid rgba(245, 158, 11, 0.3); border-radius:8px; padding:10px; margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="font-size:11px; font-weight:800; color:#fbbf24; display:flex; align-items:center; gap:5px;">
+              <span>🍳</span> Cocina Fuencarral
+              <span style="background:#f59e0b; color:#0f172a; font-size:10px; padding:1px 6px; border-radius:10px; font-weight:800;">15 CPs</span>
+            </div>
+            <button class="btn-highlight-coverage" data-kitchen="fuencarral" style="background:rgba(245,158,11,0.2); border:1px solid #f59e0b; color:#fef08a; font-size:10px; font-weight:700; border-radius:5px; padding:3px 8px; cursor:pointer;">
+              🗺️ Iluminar en mapa
+            </button>
+          </div>
+          <div class="kitchen-chips-list" style="display:flex; flex-wrap:wrap; gap:4px;">
+            ${KITCHEN_ASSIGNED_ZONES.fuencarral.map(cp => {
+              const short = formatShortCp(cp);
+              const isActive = (currentCp === cp);
+              return `<button class="cp-chip-btn ${isActive ? 'active' : ''}" data-cp="${cp}" title="CP ${cp}">#${short}</button>`;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Cocina Alcorcón (35 CPs) -->
+        <div class="kitchen-zone-accordion" style="background:rgba(16, 185, 129, 0.08); border:1px solid rgba(16, 185, 129, 0.3); border-radius:8px; padding:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="font-size:11px; font-weight:800; color:#34d399; display:flex; align-items:center; gap:5px;">
+              <span>🍳</span> Cocina Alcorcón
+              <span style="background:#10b981; color:#0f172a; font-size:10px; padding:1px 6px; border-radius:10px; font-weight:800;">35 CPs</span>
+            </div>
+            <button class="btn-highlight-coverage" data-kitchen="alcorcon" style="background:rgba(16,185,129,0.2); border:1px solid #10b981; color:#a7f3d0; font-size:10px; font-weight:700; border-radius:5px; padding:3px 8px; cursor:pointer;">
+              🗺️ Iluminar en mapa
+            </button>
+          </div>
+          <div class="kitchen-chips-list" style="display:flex; flex-wrap:wrap; gap:4px;">
+            ${KITCHEN_ASSIGNED_ZONES.alcorcon.map(cp => {
+              const short = formatShortCp(cp);
+              const isActive = (currentCp === cp);
+              return `<button class="cp-chip-btn ${isActive ? 'active' : ''}" data-cp="${cp}" title="CP ${cp}">#${short}</button>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+
+    zonesBlock.querySelectorAll('.cp-chip-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cp = btn.dataset.cp;
+        selectAndFocusCp(cp, true);
+      });
+    });
+
+    zonesBlock.querySelectorAll('.btn-highlight-coverage').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const kid = btn.dataset.kitchen;
+        highlightKitchenCoverage(kid);
+      });
+    });
+
+    kitchensRankingList.appendChild(zonesBlock);
   }
 
   // --- Actualizar HUD Gigante ---
@@ -2360,7 +2590,7 @@ function initApp() {
     // 3. Cargar ranking de las 3 cocinas
     const center = getCpCenter(cp);
     if (center) {
-      const rankings = calculateKitchenRankings(center[0], center[1]);
+      const rankings = calculateKitchenRankings(center[0], center[1], cp);
       renderKitchensRankingDrawer(rankings, cp);
     }
   }
@@ -2621,13 +2851,21 @@ function initApp() {
           const center = getCpCenter(item.cp);
           let kitchenText = '';
           if (center) {
-            const rankings = calculateKitchenRankings(center[0], center[1]);
+            const rankings = calculateKitchenRankings(center[0], center[1], item.cp);
             const opt = rankings[0];
-            kitchenText = `
-              <div style="font-size:11px; color:#facc15; font-weight:600; display:flex; align-items:center; gap:5px; margin-top:2px;">
-                <span>🍳</span> Cocina más cercana: <b>${opt.name}</b> (${opt.kmText})
-              </div>
-            `;
+            if (opt.isAssigned) {
+              kitchenText = `
+                <div style="font-size:11px; color:#34d399; font-weight:700; display:flex; align-items:center; gap:5px; margin-top:2px;">
+                  <span>⭐</span> Cocina Asignada: <b>${opt.name}</b> (${opt.kmText})
+                </div>
+              `;
+            } else {
+              kitchenText = `
+                <div style="font-size:11px; color:#facc15; font-weight:600; display:flex; align-items:center; gap:5px; margin-top:2px;">
+                  <span>🍳</span> Cocina más cercana: <b>${opt.name}</b> (${opt.kmText})
+                </div>
+              `;
+            }
           }
           const shortCp = formatShortCp(item.cp);
           return `
@@ -3090,6 +3328,15 @@ function initApp() {
         e.stopPropagation();
         const cid = btn.dataset.id;
         selectCocina(cid);
+        cocinasDropdown.classList.remove('open');
+      });
+    });
+
+    document.querySelectorAll('.btn-view-kitchen-coverage').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const kid = btn.dataset.kitchen;
+        highlightKitchenCoverage(kid);
         cocinasDropdown.classList.remove('open');
       });
     });
