@@ -94,6 +94,28 @@ function initApp() {
   let lockedCp = null;
   let activeSearchDebounce = null;
 
+  // Capa para insignias numéricas de Código Postal en el mapa (xx / xxx)
+  const cpLabelsLayerGroup = L.layerGroup().addTo(map);
+  let cpLabelMarkers = {};
+  let showCpLabels = localStorage.getItem('madrid_show_cp_labels') !== 'false';
+
+  // --- Formateador de Código Postal Corto (xx / xxx) ---
+  // Todos los CPs inician por 28; se extraen los 2 dígitos para Capital (01..55) o 3 para Comunidad (924, 220, etc.)
+  function formatShortCp(cp) {
+    if (!cp) return '';
+    const str = String(cp).trim();
+    if (str.startsWith('28')) {
+      const after28 = str.slice(2);
+      // Capital: si empieza por 0 y tiene 3 dígitos (ej: 28001 -> '001' -> '01', 28027 -> '027' -> '27')
+      if (after28.startsWith('0') && after28.length === 3) {
+        return after28.slice(1);
+      }
+      // Comunidad: 3 dígitos (ej: 28924 -> '924', 28220 -> '220')
+      return after28;
+    }
+    return str;
+  }
+
   // NUESTRAS 3 COCINAS OPERATIVAS (Ubicaciones fijas solicitadas)
   const COCINAS = [
     {
@@ -159,6 +181,8 @@ function initApp() {
   const reopenHudBtn = document.getElementById('reopen-hud-btn');
   const reopenHudText = document.getElementById('reopen-hud-text');
   const toggleHudBtn = document.getElementById('toggle-hud-btn');
+  const toggleCpLabelsBtn = document.getElementById('toggle-cp-labels-btn');
+  const cpLabelsStatus = document.getElementById('cp-labels-status');
   const cursorTooltip = document.getElementById('cursor-cp-tooltip');
   const cursorCpLabel = document.getElementById('cursor-cp-label');
   const cursorZoneLabel = document.getElementById('cursor-zone-label');
@@ -451,6 +475,7 @@ function initApp() {
     renderKitchenMarkers();
     renderDriverMarkers();
     renderDriversDrawer(currentDriverFilter);
+    renderCpLabels();
   }
 
   // --- Manejadores de Eventos del Ratón ---
@@ -542,6 +567,13 @@ function initApp() {
     });
 
     syncSidebarSelection(cp);
+
+    // Actualizar insignia activa en el mapa
+    document.querySelectorAll('.cp-map-badge.active').forEach(b => b.classList.remove('active'));
+    const targetBadge = document.querySelector(`.cp-map-badge[data-cp="${cp}"]`);
+    if (targetBadge) {
+      targetBadge.classList.add('active');
+    }
   }
 
   // Alumbrar tenuemente un código postal vecino / fronterizo
@@ -562,6 +594,13 @@ function initApp() {
       activeGeoJsonLayer.resetStyle(layer);
     });
     syncSidebarSelection(null);
+
+    // Restaurar insignias en el mapa
+    document.querySelectorAll('.cp-map-badge.active').forEach(b => b.classList.remove('active'));
+    if (lockedCp) {
+      const activeBadge = document.querySelector(`.cp-map-badge[data-cp="${lockedCp}"]`);
+      if (activeBadge) activeBadge.classList.add('active');
+    }
   }
 
   // =========================================================================
@@ -680,7 +719,8 @@ function initApp() {
   // --- Actualizar HUD Gigante ---
   function updateGiantHud(data, isLocked) {
     giantHud.classList.remove('idle');
-    giantCpNumber.textContent = data.cp;
+    const shortCp = formatShortCp(data.cp);
+    giantCpNumber.innerHTML = `${data.cp} <span class="hud-short-badge" title="Código postal abreviado (xx / xxx)">#${shortCp}</span>`;
     hudZoneName.textContent = data.zona;
     hudMunicipality.textContent = data.municipio;
     hudZoneType.textContent = data.es_capital ? 'Madrid Capital' : 'Comunidad de Madrid';
@@ -700,7 +740,7 @@ function initApp() {
     if (reopenHudText) {
       const shortName = data.zona.split('(')[0].trim() || data.municipio;
       const optText = optimal ? ` • 🍳 <b>${optimal.name}</b> (${optimal.kmText})` : '';
-      reopenHudText.innerHTML = `Código Postal: <b class="pill-cp">${data.cp}</b> (${shortName})${optText}`;
+      reopenHudText.innerHTML = `CP: <b class="pill-cp">${data.cp}</b> <span class="pill-short-cp">(#${shortCp})</span> (${shortName})${optText}`;
     }
 
     // Actualizar botón para consultar direcciones a demanda
@@ -737,6 +777,7 @@ function initApp() {
 
     lockedCp = cp;
     highlightCp(cp);
+    openHud();
     updateGiantHud(cpDataIndex[cp], true);
 
     const center = getCpCenter(cp);
@@ -907,6 +948,89 @@ function initApp() {
 
     popupHtml += `</div>`;
     activeAddressMarker.bindPopup(popupHtml).openPopup();
+  }
+
+  // =========================================================================
+  // GESTIÓN DE INSIGNIAS NUMÉRICAS DE CÓDIGOS POSTALES (xx / xxx)
+  // =========================================================================
+
+  function updateCpLabelsButtonUI() {
+    if (!toggleCpLabelsBtn) return;
+    if (showCpLabels) {
+      toggleCpLabelsBtn.classList.add('active');
+      if (cpLabelsStatus) cpLabelsStatus.textContent = 'ON';
+    } else {
+      toggleCpLabelsBtn.classList.remove('active');
+      if (cpLabelsStatus) cpLabelsStatus.textContent = 'OFF';
+    }
+  }
+
+  function toggleCpLabels() {
+    showCpLabels = !showCpLabels;
+    localStorage.setItem('madrid_show_cp_labels', showCpLabels);
+    renderCpLabels();
+    showToast(showCpLabels ? '🔢 Números de CP activados en el mapa' : 'Números de CP ocultados');
+  }
+
+  function renderCpLabels() {
+    if (!cpLabelsLayerGroup) return;
+    cpLabelsLayerGroup.clearLayers();
+    cpLabelMarkers = {};
+    updateCpLabelsButtonUI();
+
+    if (!showCpLabels) return;
+
+    const cps = Object.keys(cpDataIndex);
+    cps.forEach(cp => {
+      const center = getCpCenter(cp);
+      if (!center) return;
+
+      const shortCp = formatShortCp(cp);
+      const data = cpDataIndex[cp] || {};
+      const isSelected = (lockedCp === cp);
+      const labelTitle = `CP ${cp} (${data.zona ? data.zona.split('(')[0].trim() : (data.municipio || '')}) — Clic para enfocar y ver cocina más cercana`;
+
+      const badgeHtml = `<div class="cp-map-badge ${isSelected ? 'active' : ''}" data-cp="${cp}" title="${labelTitle}">${shortCp}</div>`;
+
+      const icon = L.divIcon({
+        className: 'cp-map-label-wrapper',
+        html: badgeHtml,
+        iconSize: [0, 0],
+        iconAnchor: [0, 0]
+      });
+
+      const marker = L.marker(center, {
+        icon: icon,
+        interactive: true,
+        keyboard: false,
+        zIndexOffset: isSelected ? 800 : 350
+      });
+
+      marker.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        selectAndFocusCp(cp, true);
+      });
+
+      marker.on('mouseover', () => {
+        if (hoveredCp !== cp) {
+          highlightCp(cp);
+          updateGiantHud(data, false);
+        }
+      });
+
+      marker.on('mouseout', () => {
+        if (!lockedCp) {
+          resetAllStyles();
+          resetHud();
+        } else {
+          highlightCp(lockedCp);
+          updateGiantHud(cpDataIndex[lockedCp], true);
+        }
+      });
+
+      cpLabelMarkers[cp] = marker;
+      cpLabelsLayerGroup.addLayer(marker);
+    });
   }
 
   // =========================================================================
@@ -2303,7 +2427,9 @@ function initApp() {
     const driverMatches = getDriverMatches(query);
 
     const matches = Object.values(cpDataIndex).filter(item => {
+      const shortCp = formatShortCp(item.cp);
       return item.cp.toLowerCase().includes(query.toLowerCase()) ||
+             shortCp.toLowerCase() === query.toLowerCase() ||
              item.zona.toLowerCase().includes(query.toLowerCase());
     }).slice(0, 6);
 
@@ -2337,11 +2463,12 @@ function initApp() {
               </div>
             `;
           }
+          const shortCp = formatShortCp(item.cp);
           return `
             <div class="search-item" data-type="cp" data-cp="${item.cp}">
               <div style="display:flex; flex-direction:column; width:100%; gap:2px;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <span class="search-item-cp">📮 CP ${item.cp}</span>
+                  <span class="search-item-cp">📮 CP ${item.cp} <span style="color:#38bdf8; font-size:11px; font-weight:700;">(#${shortCp})</span></span>
                   <span class="search-item-info">${item.zona.split('(')[0].trim() || item.municipio}</span>
                 </div>
                 ${kitchenText}
@@ -2620,7 +2747,9 @@ function initApp() {
     const filtered = cps.filter(cp => {
       if (!filterText) return true;
       const data = cpDataIndex[cp];
+      const shortCp = formatShortCp(cp);
       return cp.includes(filterText) ||
+             shortCp.includes(filterText) ||
              data.zona.toLowerCase().includes(filterText.toLowerCase()) ||
              data.municipio.toLowerCase().includes(filterText.toLowerCase());
     });
@@ -2629,12 +2758,13 @@ function initApp() {
 
     filtered.forEach(cp => {
       const data = cpDataIndex[cp];
+      const shortCp = formatShortCp(cp);
       const div = document.createElement('div');
       div.className = 'sidebar-item';
       div.id = `sidebar-item-${cp}`;
       div.dataset.cp = cp;
       div.innerHTML = `
-        <span class="sidebar-item-cp" style="color: ${getCpColor(cp)}">${cp}</span>
+        <span class="sidebar-item-cp" style="color: ${getCpColor(cp)}">${cp} <span class="sidebar-short-cp">(${shortCp})</span></span>
         <div class="sidebar-item-text">
           <span class="sidebar-item-zona">${data.zona.split('(')[0].trim() || data.municipio}</span>
           <span class="sidebar-item-mun">${data.municipio}</span>
@@ -2717,6 +2847,13 @@ function initApp() {
     toggleHudBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleHud();
+    });
+  }
+
+  if (toggleCpLabelsBtn) {
+    toggleCpLabelsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleCpLabels();
     });
   }
 
