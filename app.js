@@ -2186,14 +2186,49 @@ function initApp() {
 
   function checkUrlForDriver() {
     const params = new URLSearchParams(window.location.search);
-    const driverParam = params.get('repartidor') || params.get('driver');
+    const driverParam = params.get('repartidor') || params.get('driver') || params.get('nombre');
 
     if (driverParam) {
-      const q = driverParam.toLowerCase();
-      const match = drivers.find(d => 
+      const q = driverParam.toLowerCase().trim();
+      let match = drivers.find(d => 
         d.id.toLowerCase() === q || 
+        d.name.toLowerCase() === q ||
         d.name.toLowerCase().includes(q)
       );
+
+      // Si se pasa un nombre en el enlace (ej: ?repartidor=Jeferson) y aún no está registrado
+      if (!match && q !== '1' && q !== 'true') {
+        const formattedName = driverParam.charAt(0).toUpperCase() + driverParam.slice(1);
+        const kitchenParam = (params.get('cocina') || 'norte').toLowerCase();
+        const baseKitchen = COCINAS.find(c => c.id === kitchenParam) || COCINAS[0];
+        const vehicleParam = params.get('vehiculo') || 'Moto 🛵';
+
+        const newDriver = {
+          id: 'drv_' + q.replace(/[^a-z0-9]/g, '_') + '_' + Date.now().toString(36),
+          name: formattedName,
+          vehicle: vehicleParam,
+          status: 'disponible',
+          kitchenId: baseKitchen.id,
+          lat: baseKitchen.lat + (Math.random() - 0.5) * 0.005,
+          lon: baseKitchen.lon + (Math.random() - 0.5) * 0.005,
+          phone: params.get('tel') || '',
+          currentOrder: null,
+          createdAt: Date.now()
+        };
+
+        drivers.push(newDriver);
+        saveDrivers();
+        renderDriverMarkers();
+        renderDriversDrawer(currentDriverFilter);
+
+        broadcastFleetEvent({
+          type: 'DRIVER_REGISTERED',
+          driver: newDriver
+        });
+
+        match = newDriver;
+      }
+
       if (match) {
         loginAsDriver(match.id, true);
         return;
