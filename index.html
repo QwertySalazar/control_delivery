@@ -37,9 +37,12 @@
       </div>
     </div>
 
-    <!-- Filtro de Alcance (Capital vs Comunidad) -->
+    <!-- Filtro de Alcance (Zonas Cocinas vs Capital vs Comunidad) -->
     <div class="segmented-control">
-      <button id="scope-capital-btn" class="segmented-btn active" title="Ver los 55 códigos postales de Madrid Capital">
+      <button id="scope-operativa-btn" class="segmented-btn active" title="Ver exclusivamente los 50 códigos asignados a Cocina Fuencarral y Cocina Alcorcón">
+        <span>🍳</span> Zonas Cocinas (50 CPs)
+      </button>
+      <button id="scope-capital-btn" class="segmented-btn" title="Ver los 55 códigos postales de Madrid Capital">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
           <path d="M3 21h18M5 21V7l8-4v18M13 10h4v11"></path>
         </svg>
@@ -455,6 +458,25 @@
       </form>
     </div>
   </aside>
+
+  <!-- Leyenda Flotante de Zonas Pintadas en el Mapa -->
+  <div id="kitchen-map-legend" class="kitchen-map-legend glass">
+    <div class="legend-header">🎨 Cobertura de Cocinas</div>
+    <div class="legend-items">
+      <div class="legend-item" id="legend-btn-fuencarral" title="Ver cobertura Cocina Fuencarral">
+        <span class="legend-badge-color" style="background:#f59e0b; border-color:#fbbf24;"></span>
+        <span class="legend-text"><b>Fuencarral</b> (15 CPs)</span>
+      </div>
+      <div class="legend-item" id="legend-btn-alcorcon" title="Ver cobertura Cocina Alcorcón">
+        <span class="legend-badge-color" style="background:#10b981; border-color:#34d399;"></span>
+        <span class="legend-text"><b>Alcorcón</b> (35 CPs)</span>
+      </div>
+      <div class="legend-item" id="legend-btn-norte" title="Base central / Resto capital">
+        <span class="legend-badge-color" style="background:#6366f1; border-color:#818cf8;"></span>
+        <span class="legend-text"><b>Norte / Centro</b></span>
+      </div>
+    </div>
+  </div>
 
   <!-- Barra de Estado Inferior -->
   <div class="bottom-bar glass">

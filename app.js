@@ -30,13 +30,22 @@ function initApp() {
   ];
 
   function getCpColor(cp) {
-    let hash = 0;
-    const str = String(cp);
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    if (!cp) return '#334155';
+    const str = String(cp).trim();
+    if (typeof CP_TO_KITCHEN_ASSIGNMENT !== 'undefined') {
+      const assignedKid = CP_TO_KITCHEN_ASSIGNMENT[str];
+      if (assignedKid === 'fuencarral') {
+        return '#f59e0b'; // Ámbar / Dorado Fuencarral
+      }
+      if (assignedKid === 'alcorcon') {
+        return '#10b981'; // Verde Esmeralda Alcorcón
+      }
     }
-    const idx = Math.abs(hash) % COLOR_PALETTE.length;
-    return COLOR_PALETTE[idx];
+    const data = (typeof cpDataIndex !== 'undefined') ? cpDataIndex[str] : null;
+    if (data && data.es_capital) {
+      return '#6366f1'; // Azul Índigo Capital / Centro
+    }
+    return '#334155'; // Gris pizarra Comunidad
   }
 
   // --- Capas Base de Mapas (100% libres, sin API Key ni marcas de agua) ---
@@ -81,9 +90,10 @@ function initApp() {
   L.control.zoom({ position: 'bottomright' }).addTo(map);
 
   // Estado global de la aplicación
-  let currentScope = 'capital'; // 'capital' | 'comunidad'
+  let currentScope = 'operativa'; // 'operativa' | 'capital' | 'comunidad'
   let allFeatures = [];
   let capitalFeatures = [];
+  let operationalFeatures = [];
   let activeGeoJsonLayer = null;
   let cpLayerIndex = {};     // cp -> array de capas L.Polygon
   let cpDataIndex = {};      // cp -> objeto con metadatos
@@ -250,6 +260,7 @@ function initApp() {
   let optimalRouteLine = null;
 
   // Scope Buttons
+  const scopeOperativaBtn = document.getElementById('scope-operativa-btn');
   const scopeCapitalBtn = document.getElementById('scope-capital-btn');
   const scopeComunidadBtn = document.getElementById('scope-comunidad-btn');
 
@@ -323,6 +334,12 @@ function initApp() {
     } else {
       capitalFeatures = allFeatures.filter(f => f.properties && f.properties.es_capital);
     }
+
+    // Filtrar los 50 códigos de las zonas operativas asignadas a Fuencarral y Alcorcón
+    operationalFeatures = allFeatures.filter(f => {
+      const cp = f.properties && f.properties.cp;
+      return cp && CP_TO_KITCHEN_ASSIGNMENT[String(cp).trim()];
+    });
 
     renderCurrentScope();
   }
@@ -409,16 +426,47 @@ function initApp() {
 
   // --- Estilos de Polígonos ---
   function getStyle(feature) {
-    const cp = feature.properties.cp;
-    const baseColor = getCpColor(cp);
-    return {
-      fillColor: baseColor,
-      weight: 1.5,
-      opacity: 0.9,
-      color: '#ffffff',
-      dashArray: '',
-      fillOpacity: 0.42
-    };
+    const cp = feature.properties ? feature.properties.cp : null;
+    const str = cp ? String(cp).trim() : '';
+    const assignedKid = (typeof CP_TO_KITCHEN_ASSIGNMENT !== 'undefined') ? CP_TO_KITCHEN_ASSIGNMENT[str] : null;
+
+    if (assignedKid === 'fuencarral') {
+      return {
+        fillColor: '#f59e0b',
+        weight: 2.2,
+        opacity: 0.95,
+        color: '#fbbf24',
+        dashArray: '',
+        fillOpacity: 0.60
+      };
+    } else if (assignedKid === 'alcorcon') {
+      return {
+        fillColor: '#10b981',
+        weight: 2.2,
+        opacity: 0.95,
+        color: '#34d399',
+        dashArray: '',
+        fillOpacity: 0.60
+      };
+    } else if (feature.properties && feature.properties.es_capital) {
+      return {
+        fillColor: '#6366f1',
+        weight: 1.5,
+        opacity: 0.85,
+        color: '#818cf8',
+        dashArray: '',
+        fillOpacity: 0.38
+      };
+    } else {
+      return {
+        fillColor: '#334155',
+        weight: 1,
+        opacity: 0.5,
+        color: '#475569',
+        dashArray: '',
+        fillOpacity: 0.18
+      };
+    }
   }
 
   const HOVER_STYLE = {
@@ -458,7 +506,15 @@ function initApp() {
     cpLayerIndex = {};
     cpDataIndex = {};
 
-    const featuresToRender = currentScope === 'capital' ? capitalFeatures : allFeatures;
+    let featuresToRender;
+    if (currentScope === 'operativa') {
+      featuresToRender = (operationalFeatures && operationalFeatures.length > 0) ? operationalFeatures : allFeatures;
+    } else if (currentScope === 'capital') {
+      featuresToRender = capitalFeatures;
+    } else {
+      featuresToRender = allFeatures;
+    }
+
     const geojsonData = {
       type: 'FeatureCollection',
       features: featuresToRender
@@ -487,7 +543,11 @@ function initApp() {
       }
     }).addTo(map);
 
-    if (currentScope === 'capital') {
+    if (currentScope === 'operativa') {
+      const bounds = activeGeoJsonLayer.getBounds();
+      map.flyToBounds(bounds, { padding: [25, 25], duration: 1.0 });
+      if (statsCpCount) statsCpCount.textContent = '50 Códigos Postales (Zonas Cocinas: Fuencarral 15 + Alcorcón 35)';
+    } else if (currentScope === 'capital') {
       map.flyTo(MADRID_CENTER, 12, { duration: 1 });
       if (statsCpCount) statsCpCount.textContent = '55 Códigos Postales (Madrid Capital)';
     } else {
@@ -1218,9 +1278,12 @@ function initApp() {
       const shortCp = formatShortCp(cp);
       const data = cpDataIndex[cp] || {};
       const isSelected = (lockedCp === cp);
-      const labelTitle = `CP ${cp} (${data.zona ? data.zona.split('(')[0].trim() : (data.municipio || '')}) — Clic para enfocar y ver cocina más cercana`;
+      const assignedKid = (typeof CP_TO_KITCHEN_ASSIGNMENT !== 'undefined') ? CP_TO_KITCHEN_ASSIGNMENT[String(cp).trim()] : null;
+      const kitchenBadgeClass = assignedKid ? `kitchen-${assignedKid}` : '';
+      const kitchenTag = assignedKid === 'fuencarral' ? '🍳 Fuencarral' : (assignedKid === 'alcorcon' ? '🍳 Alcorcón' : '');
+      const labelTitle = `CP ${cp} (#${shortCp}) — ${data.zona ? data.zona.split('(')[0].trim() : (data.municipio || '')} ${kitchenTag ? '• ' + kitchenTag : ''}`;
 
-      const badgeHtml = `<div class="cp-map-badge ${isSelected ? 'active' : ''}" data-cp="${cp}" title="${labelTitle}">${shortCp}</div>`;
+      const badgeHtml = `<div class="cp-map-badge ${kitchenBadgeClass} ${isSelected ? 'active' : ''}" data-cp="${cp}" title="${labelTitle}">${shortCp}</div>`;
 
       const icon = L.divIcon({
         className: 'cp-map-label-wrapper',
@@ -3121,13 +3184,14 @@ function initApp() {
     }
   });
 
-  // --- Selector de Alcance (Capital vs Comunidad) ---
+  // --- Selector de Alcance (Zonas Cocinas vs Capital vs Comunidad) ---
   function setScope(scope) {
     if (currentScope === scope) return;
     currentScope = scope;
 
-    scopeCapitalBtn.classList.toggle('active', scope === 'capital');
-    scopeComunidadBtn.classList.toggle('active', scope === 'comunidad');
+    if (scopeOperativaBtn) scopeOperativaBtn.classList.toggle('active', scope === 'operativa');
+    if (scopeCapitalBtn) scopeCapitalBtn.classList.toggle('active', scope === 'capital');
+    if (scopeComunidadBtn) scopeComunidadBtn.classList.toggle('active', scope === 'comunidad');
 
     lockedCp = null;
     hoveredCp = null;
@@ -3140,8 +3204,24 @@ function initApp() {
     renderCurrentScope();
   }
 
-  scopeCapitalBtn.addEventListener('click', () => setScope('capital'));
-  scopeComunidadBtn.addEventListener('click', () => setScope('comunidad'));
+  if (scopeOperativaBtn) scopeOperativaBtn.addEventListener('click', () => setScope('operativa'));
+  if (scopeCapitalBtn) scopeCapitalBtn.addEventListener('click', () => setScope('capital'));
+  if (scopeComunidadBtn) scopeComunidadBtn.addEventListener('click', () => setScope('comunidad'));
+
+  // Manejadores para la leyenda flotante de cocinas
+  const legendBtnFuencarral = document.getElementById('legend-btn-fuencarral');
+  const legendBtnAlcorcon = document.getElementById('legend-btn-alcorcon');
+  const legendBtnNorte = document.getElementById('legend-btn-norte');
+
+  if (legendBtnFuencarral) {
+    legendBtnFuencarral.addEventListener('click', () => highlightKitchenCoverage('fuencarral'));
+  }
+  if (legendBtnAlcorcon) {
+    legendBtnAlcorcon.addEventListener('click', () => highlightKitchenCoverage('alcorcon'));
+  }
+  if (legendBtnNorte) {
+    legendBtnNorte.addEventListener('click', () => selectCocina('norte'));
+  }
 
   // --- Directorio Lateral (Sidebar Drawer) ---
   function populateSidebar(filterText = '') {
