@@ -37,24 +37,19 @@
       </div>
     </div>
 
-    <!-- Filtro de Alcance (Zonas Cocinas vs Capital vs Comunidad) -->
+    <!-- Filtro de Alcance de Reparto Activo (86 CPs) -->
     <div class="segmented-control">
-      <button id="scope-operativa-btn" class="segmented-btn active" title="Ver exclusivamente los 50 códigos asignados a Cocina Fuencarral y Cocina Alcorcón">
-        <span>🍳</span> Zonas Cocinas (50 CPs)
+      <button id="scope-area-btn" class="segmented-btn active" title="Ver las 86 zonas activas: Madrid Capital + Fuencarral + Alcorcón al mismo tiempo">
+        <span>🗺️</span> Toda el Área (86 CPs)
       </button>
-      <button id="scope-capital-btn" class="segmented-btn" title="Ver los 55 códigos postales de Madrid Capital">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <path d="M3 21h18M5 21V7l8-4v18M13 10h4v11"></path>
-        </svg>
-        Madrid Capital (55 CPs)
+      <button id="scope-fuencarral-btn" class="segmented-btn" title="Ver las 15 zonas asignadas a Cocina Fuencarral">
+        <span style="color:#f59e0b; font-size:12px;">●</span> Fuencarral (15 CPs)
       </button>
-      <button id="scope-comunidad-btn" class="segmented-btn" title="Ver los 298 códigos postales de la Comunidad">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
-          <path d="M2 12h20"></path>
-        </svg>
-        Toda la Comunidad (298 CPs)
+      <button id="scope-alcorcon-btn" class="segmented-btn" title="Ver las 35 zonas asignadas a Cocina Alcorcón">
+        <span style="color:#10b981; font-size:12px;">●</span> Alcorcón (35 CPs)
+      </button>
+      <button id="scope-capital-btn" class="segmented-btn" title="Ver las 55 zonas de Madrid Capital">
+        <span style="color:#3b82f6; font-size:12px;">●</span> Madrid Capital (55 CPs)
       </button>
     </div>
 
@@ -461,19 +456,19 @@
 
   <!-- Leyenda Flotante de Zonas Pintadas en el Mapa -->
   <div id="kitchen-map-legend" class="kitchen-map-legend glass">
-    <div class="legend-header">🎨 Cobertura de Cocinas</div>
+    <div class="legend-header">🎨 86 Zonas de Reparto Activas</div>
     <div class="legend-items">
-      <div class="legend-item" id="legend-btn-fuencarral" title="Ver cobertura Cocina Fuencarral">
+      <div class="legend-item" id="legend-btn-fuencarral" title="Ver 15 zonas de Cocina Fuencarral">
         <span class="legend-badge-color" style="background:#f59e0b; border-color:#fbbf24;"></span>
         <span class="legend-text"><b>Fuencarral</b> (15 CPs)</span>
       </div>
-      <div class="legend-item" id="legend-btn-alcorcon" title="Ver cobertura Cocina Alcorcón">
+      <div class="legend-item" id="legend-btn-alcorcon" title="Ver 35 zonas de Cocina Alcorcón">
         <span class="legend-badge-color" style="background:#10b981; border-color:#34d399;"></span>
         <span class="legend-text"><b>Alcorcón</b> (35 CPs)</span>
       </div>
-      <div class="legend-item" id="legend-btn-norte" title="Base central / Resto capital">
-        <span class="legend-badge-color" style="background:#6366f1; border-color:#818cf8;"></span>
-        <span class="legend-text"><b>Norte / Centro</b></span>
+      <div class="legend-item" id="legend-btn-norte" title="Ver 36 zonas de Cocina Norte / Centro Capital">
+        <span class="legend-badge-color" style="background:#3b82f6; border-color:#60a5fa;"></span>
+        <span class="legend-text"><b>Norte / Centro</b> (36 CPs)</span>
       </div>
     </div>
   </div>
