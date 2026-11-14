@@ -1575,6 +1575,10 @@ function initApp() {
 
   window.deleteDriver = function(driverId) {
     drivers = drivers.filter(d => d.id !== driverId);
+    if (driverTrails[driverId]) {
+      map.removeLayer(driverTrails[driverId]);
+      delete driverTrails[driverId];
+    }
     saveDrivers();
     renderDriverMarkers();
     renderDriversDrawer(currentDriverFilter);
@@ -1669,6 +1673,28 @@ function initApp() {
     }
   }
 
+  function updateDriverLiveTrail(driverId, lat, lon) {
+    if (!driverTrails[driverId]) {
+      driverTrails[driverId] = L.polyline([[lat, lon]], {
+        color: '#22c55e',
+        weight: 3.5,
+        opacity: 0.85,
+        dashArray: '6, 6',
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(map);
+      return;
+    }
+
+    const trail = driverTrails[driverId];
+    trail.addLatLng([lat, lon]);
+    const pts = trail.getLatLngs();
+    if (pts.length > 50) {
+      pts.shift();
+      trail.setLatLngs(pts);
+    }
+  }
+
   function handleIncomingFleetEvent(data) {
     if (!data || !data.type) return;
 
@@ -1699,6 +1725,8 @@ function initApp() {
         driver.lat = data.lat;
         driver.lon = data.lon;
         driver.accuracy = data.accuracy;
+        driver.speed = data.speed || 0;
+        driver.heading = data.heading || 0;
         driver.isGpsActive = true;
         driver.lastGpsTime = Date.now();
 
@@ -1708,6 +1736,9 @@ function initApp() {
         } else {
           renderDriverMarkers();
         }
+
+        // Trazar estela de la ruta recorrida en vivo
+        updateDriverLiveTrail(driver.id, data.lat, data.lon);
 
         const active = lockedCp || hoveredCp;
         if (active) {
@@ -1805,7 +1836,10 @@ function initApp() {
   const locationTelemetry = document.getElementById('location-telemetry');
   const telemetryCp = document.getElementById('telemetry-cp');
   const telemetryAccuracy = document.getElementById('telemetry-accuracy');
+  const telemetrySpeed = document.getElementById('telemetry-speed');
   const telemetryTimestamp = document.getElementById('telemetry-timestamp');
+  let driverGpsInterval = null;
+  const driverTrails = {}; // driverId -> L.polyline de ruta en vivo
 
   const driverOrderPanel = document.getElementById('driver-order-panel');
   const toggleMiniMapBtn = document.getElementById('toggle-mini-map-btn');
@@ -1978,24 +2012,51 @@ function initApp() {
 
     isGpsSharingEnabled = true;
 
+    // Configuración para máxima precisión (0 caché, chip GPS físico dedicado)
+    const gpsOptions = {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 6000
+    };
+
     driverGpsWatchId = navigator.geolocation.watchPosition(
       (pos) => {
-        onGpsPositionReceived(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+        onGpsPositionReceived(
+          pos.coords.latitude,
+          pos.coords.longitude,
+          pos.coords.accuracy,
+          pos.coords.speed,
+          pos.coords.heading
+        );
       },
       (err) => {
         let msg = 'Error obteniendo posición GPS';
         if (err.code === 1) msg = 'Permiso de ubicación denegado';
         else if (err.code === 2) msg = 'Señal GPS no disponible';
         else if (err.code === 3) msg = 'Tiempo de espera GPS agotado';
-        showToast('⚠️ ' + msg);
-        stopGpsSharing();
+        console.warn('GPS signal warning:', msg);
       },
-      {
-        enableHighAccuracy: true,
-        maximumAge: 4000,
-        timeout: 10000
-      }
+      gpsOptions
     );
+
+    // Refuerzo en tiempo real cada 1.5 a 2 segundos (máxima fluidez y precisión)
+    if (driverGpsInterval) clearInterval(driverGpsInterval);
+    driverGpsInterval = setInterval(() => {
+      if (!isGpsSharingEnabled || !navigator.geolocation) return;
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          onGpsPositionReceived(
+            pos.coords.latitude,
+            pos.coords.longitude,
+            pos.coords.accuracy,
+            pos.coords.speed,
+            pos.coords.heading
+          );
+        },
+        null,
+        gpsOptions
+      );
+    }, 1800);
 
     showToast('📡 Ubicación en vivo ACTIVADA. La central puede ver tu posición.');
   }
@@ -2004,6 +2065,11 @@ function initApp() {
     if (driverGpsWatchId !== null) {
       navigator.geolocation.clearWatch(driverGpsWatchId);
       driverGpsWatchId = null;
+    }
+
+    if (driverGpsInterval) {
+      clearInterval(driverGpsInterval);
+      driverGpsInterval = null;
     }
 
     isGpsSharingEnabled = false;
@@ -2033,11 +2099,15 @@ function initApp() {
     showToast('🔒 Ubicación pausada. Tu teléfono no comparte posición.');
   }
 
-  function onGpsPositionReceived(lat, lon, accuracy) {
+  function onGpsPositionReceived(lat, lon, accuracy, speed, heading) {
     if (!activeLoggedDriver) return;
 
     activeLoggedDriver.lat = lat;
     activeLoggedDriver.lon = lon;
+    activeLoggedDriver.accuracy = accuracy;
+    activeLoggedDriver.speed = (typeof speed === 'number' && !isNaN(speed) && speed > 0) ? Math.round(speed * 3.6) : 0;
+    activeLoggedDriver.heading = heading || 0;
+    activeLoggedDriver.lastUpdate = Date.now();
     saveDrivers();
 
     const insideCp = findCpContainingPoint(lat, lon);
@@ -2046,6 +2116,7 @@ function initApp() {
 
     if (telemetryCp) telemetryCp.textContent = cpName;
     if (telemetryAccuracy) telemetryAccuracy.textContent = `± ${Math.round(accuracy)} m`;
+    if (telemetrySpeed) telemetrySpeed.textContent = `${activeLoggedDriver.speed} km/h`;
     if (telemetryTimestamp) telemetryTimestamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
     if (driverMiniMap && driverMiniMarker) {
@@ -2061,9 +2132,12 @@ function initApp() {
     broadcastFleetEvent({
       type: 'GPS_UPDATE',
       driverId: activeLoggedDriver.id,
+      driver: activeLoggedDriver,
       lat: lat,
       lon: lon,
-      accuracy: Math.round(accuracy)
+      accuracy: Math.round(accuracy),
+      speed: activeLoggedDriver.speed,
+      heading: activeLoggedDriver.heading
     });
   }
 
