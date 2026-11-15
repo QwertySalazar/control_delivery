@@ -1882,6 +1882,7 @@ function initApp() {
           <div class="driver-card-meta">
             <div>🛵 <b>Vehículo:</b> ${driver.vehicle}</div>
             <div>🍳 <b>Base:</b> ${baseName}</div>
+            <div style="color:#86efac; font-size:11px;">⚡ <b>Velocidad:</b> ${driver.speed || 0} km/h ${driver.battery !== undefined && driver.battery !== null ? `• 🔋 <b>Bat:</b> ${driver.battery}%` : ''}</div>
             ${driver.phone ? `<div>📞 <b>Teléfono:</b> <a href="tel:${driver.phone}" style="color: #38bdf8; text-decoration:none;">${driver.phone}</a></div>` : ''}
             ${orderHtml}
           </div>
@@ -2083,8 +2084,12 @@ function initApp() {
         };
         drivers.push(driver);
         saveDrivers();
+        renderDriverMarkers();
         renderDriversDrawer(currentDriverFilter);
         showToast(`🛵 ¡Repartidor conectado vía Traccar: ${formattedName}!`);
+        if (map && !isNaN(data.lat) && !isNaN(data.lon)) {
+          map.panTo([data.lat, data.lon]);
+        }
       }
 
       if (driver) {
