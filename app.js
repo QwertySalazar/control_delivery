@@ -1454,34 +1454,68 @@ function initApp() {
   // GESTIÓN DE FLOTA Y REPARTIDORES (CONTROL Y ASIGNACIÓN)
   // =========================================================================
 
-  const STORAGE_KEY_DRIVERS = 'madrid_delivery_drivers_v2';
+  const STORAGE_KEY_DRIVERS = 'madrid_delivery_drivers_traccar_v3';
 
-  // Flota inicial vacía: solo aparecerán repartidores cuando alguien se registre o active
+  // Flota inicial 100% vacía: solo aparecerán repartidores cuando emitan señales desde Traccar
   const DEFAULT_DRIVERS = [];
 
   let drivers = loadDrivers();
 
   function loadDrivers() {
     try {
-      // Limpiar versiones anteriores de pruebas con repartidores simulados
+      // Limpiar versiones anteriores y ubicaciones simuladas o de pruebas
       localStorage.removeItem('madrid_delivery_drivers_v1');
-      const savedLogged = localStorage.getItem('madrid_logged_driver_id');
-      if (['d1', 'd2', 'd3', 'd4'].includes(savedLogged)) {
-        localStorage.removeItem('madrid_logged_driver_id');
-      }
+      localStorage.removeItem('madrid_delivery_drivers_v2');
+      localStorage.removeItem('madrid_sync_event');
+      localStorage.removeItem('madrid_logged_driver_id');
 
       const stored = localStorage.getItem(STORAGE_KEY_DRIVERS);
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed)) {
-          // Filtrar repartidores ficticios para no cargar datos obsoletos
-          return parsed.filter(d => !['d1', 'd2', 'd3', 'd4'].includes(d.id));
+          // Solo mantener repartidores verificados que provengan de Traccar
+          return parsed.filter(d => d.source === 'traccar_client' || d.source === 'traccar');
         }
       }
     } catch (e) {
       console.warn('Error loading drivers:', e);
     }
     return [];
+  }
+
+  function clearAllFleetLocations(notify = true) {
+    // 1. Quitar todos los marcadores del mapa
+    Object.keys(driverMarkers).forEach(id => {
+      if (driverMarkers[id]) {
+        map.removeLayer(driverMarkers[id]);
+      }
+    });
+    for (const k in driverMarkers) delete driverMarkers[k];
+
+    // 2. Quitar todas las estelas de ruta del mapa
+    Object.keys(driverTrails).forEach(id => {
+      if (driverTrails[id]) {
+        map.removeLayer(driverTrails[id]);
+      }
+    });
+    for (const k in driverTrails) delete driverTrails[k];
+
+    // 3. Vaciar lista de repartidores en memoria y almacenamiento local
+    drivers = [];
+    try {
+      localStorage.removeItem(STORAGE_KEY_DRIVERS);
+      localStorage.removeItem('madrid_delivery_drivers_v2');
+      localStorage.removeItem('madrid_delivery_drivers_v1');
+      localStorage.removeItem('madrid_sync_event');
+      localStorage.removeItem('madrid_logged_driver_id');
+    } catch (e) {}
+
+    renderDriversDrawer(currentDriverFilter);
+    updateDriverBadges();
+
+    if (notify) {
+      showToast('🧹 Mapa limpiado. Esperando señales en vivo de Traccar...');
+    }
   }
 
   function saveDrivers() {
@@ -2001,23 +2035,19 @@ function initApp() {
   function handleIncomingFleetEvent(data) {
     if (!data || !data.type) return;
 
-    if (data.type === 'DRIVER_REGISTERED' || data.type === 'DRIVER_JOINED') {
-      if (data.driver) {
-        const existingIdx = drivers.findIndex(d => d.id === data.driver.id);
-        if (existingIdx === -1) {
-          drivers.push(data.driver);
-        } else {
-          drivers[existingIdx] = data.driver;
-        }
-        saveDrivers();
-        renderDriverMarkers();
-        renderDriversDrawer(currentDriverFilter);
-        showToast(`🛵 ¡Nuevo repartidor conectado: ${data.driver.name}!`);
-      }
+    // Orden de reseteo y limpieza de la flota
+    if (data.type === 'FLEET_RESET' || data.type === 'CLEAR_ALL_DRIVERS') {
+      clearAllFleetLocations(false);
+      showToast('🧹 Todas las ubicaciones anteriores han sido limpiadas.');
       return;
     }
 
+    // REQUISITO ESTRICTO: Solo recibir y pintar ubicaciones provenientes de la app Traccar Client
     if (data.type === 'GPS_UPDATE') {
+      if (data.source !== 'traccar_client' && data.source !== 'traccar') {
+        return;
+      }
+
       const searchKey = (data.driverId || '').toString().toLowerCase().trim();
       let driver = drivers.find(d => 
         d.id.toLowerCase() === searchKey || 
@@ -2027,10 +2057,11 @@ function initApp() {
 
       if (!driver && data.driver) {
         driver = data.driver;
+        driver.source = 'traccar_client';
         drivers.push(driver);
         saveDrivers();
       } else if (!driver && data.driverId) {
-        // Auto-registro instantáneo si emite desde la app Traccar
+        // Auto-registro instantáneo del repartidor al emitir desde la app Traccar
         const formattedName = searchKey.charAt(0).toUpperCase() + searchKey.slice(1);
         driver = {
           id: data.driverId,
@@ -2047,7 +2078,8 @@ function initApp() {
           currentOrder: null,
           createdAt: Date.now(),
           isGpsActive: true,
-          lastGpsTime: Date.now()
+          lastGpsTime: Date.now(),
+          source: 'traccar_client'
         };
         drivers.push(driver);
         saveDrivers();
@@ -3584,6 +3616,20 @@ function initApp() {
     closeDriversBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       driversDrawer.classList.add('collapsed');
+    });
+  }
+
+  const btnClearFleetLocations = document.getElementById('btn-clear-fleet-locations');
+  if (btnClearFleetLocations) {
+    btnClearFleetLocations.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (confirm('¿Deseas limpiar todas las ubicaciones y repartidores anteriores del mapa?')) {
+        clearAllFleetLocations(true);
+        broadcastFleetEvent({
+          type: 'FLEET_RESET',
+          source: 'traccar_client'
+        });
+      }
     });
   }
 

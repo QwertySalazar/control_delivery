@@ -52,6 +52,53 @@ const server = http.createServer((req, res) => {
 
   const parsedUrl = url.parse(req.url, true);
   const query = parsedUrl.query;
+  const pathname = parsedUrl.pathname;
+
+  // Endpoint para limpiar y reiniciar todas las ubicaciones
+  if (pathname === '/reset' || query.reset === '1' || query.limpiar === '1') {
+    const previousCount = Object.keys(lastDriverUpdates).length;
+    for (const key in lastDriverUpdates) delete lastDriverUpdates[key];
+    totalPingsReceived = 0;
+
+    const resetPayload = {
+      type: 'FLEET_RESET',
+      source: 'traccar_server',
+      timestamp: Date.now()
+    };
+
+    if (mqttClient && mqttClient.connected) {
+      mqttClient.publish(MQTT_TOPIC, JSON.stringify(resetPayload));
+      console.log('🧹 [Traccar Bridge] Emitida orden de limpieza FLEET_RESET al mapa central.');
+    }
+
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end(`
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="utf-8">
+        <title>Ubicaciones Limpiadas</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          body { font-family: system-ui, sans-serif; background: #0b111a; color: #fff; padding: 32px; max-width: 550px; margin: 0 auto; text-align: center; }
+          .card { background: #182232; border: 1px solid #22c55e; border-radius: 12px; padding: 24px; margin-top: 24px; }
+          a { display: inline-block; margin-top: 18px; padding: 10px 20px; background: #22c55e; color: #022c22; text-decoration: none; font-weight: bold; border-radius: 8px; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div style="font-size: 40px; margin-bottom: 8px;">🧹</div>
+          <h2 style="color:#4ade80; margin:0 0 8px 0;">¡Ubicaciones Limpiadas con Éxito!</h2>
+          <p style="color:#94a3b8; font-size:14px; margin:0;">
+            Se han borrado los ${previousCount} repartidores anteriores en el servidor y se ha enviado la señal de limpieza al mapa central.
+          </p>
+          <a href="/">← Volver al Panel</a>
+        </div>
+      </body>
+      </html>
+    `);
+    return;
+  }
 
   // Procesar parámetros de Traccar
   const driverId = (query.id || query.deviceid || '').toString().trim().toLowerCase();
@@ -139,7 +186,10 @@ const server = http.createServer((req, res) => {
       </div>
 
       <div class="card">
-        <h3>Repartidores activos (${Object.keys(lastDriverUpdates).length}):</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="margin:0;">Repartidores activos (${Object.keys(lastDriverUpdates).length}):</h3>
+          <a href="/reset" onclick="return confirm('¿Limpiar todas las ubicaciones y repartidores anteriores?')" style="background:#ef4444; color:#fff; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:bold; text-decoration:none;">🧹 Limpiar Ubicaciones</a>
+        </div>
         <ul>${driversListHtml}</ul>
         <p style="font-size: 12px; color: #94a3b8;">Total de señales GPS procesadas: <b>${totalPingsReceived}</b></p>
       </div>
