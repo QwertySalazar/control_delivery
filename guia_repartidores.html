@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Configuración GPS para Repartidores - Control Delivery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090e17;
+      --card-bg: #111a28;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #10b981;
+      --primary-glow: rgba(16, 185, 129, 0.25);
+      --accent: #38bdf8;
+      --warning: #f59e0b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px 16px 60px 16px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Top Bar & Action */
+    .top-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--primary);
+      color: #34d399;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-pdf {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-pdf:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    /* Header */
+    .hero-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .hero-icon {
+      font-size: 46px;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    .hero-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Step Card */
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .step-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    /* Download Buttons */
+    .store-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 14px 0 6px 0;
+    }
+
+    @media (max-width: 480px) {
+      .store-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .store-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s;
+    }
+
+    .store-btn.android {
+      background: rgba(34, 197, 94, 0.12);
+      color: #4ade80;
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .store-btn.android:hover {
+      background: #10b981;
+      color: #022c22;
+    }
+
+    .store-btn.ios {
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .store-btn.ios:hover {
+      background: #0284c7;
+      color: #fff;
+    }
+
+    /* Configuration Table */
+    .config-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .config-table th, .config-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .config-table th {
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .config-table td {
+      color: #e2e8f0;
+    }
+
+    .field-name {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .field-val {
+      font-family: 'JetBrains Mono', monospace;
+      color: #86efac;
+      font-weight: 700;
+    }
+
+    /* URL Copy Box */
+    .url-copy-box {
+      margin: 12px 0;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid #0284c7;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .url-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #38bdf8;
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    .btn-copy {
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .btn-copy:active {
+      transform: scale(0.95);
+    }
+
+    /* Alert Boxes */
+    .alert-box {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 12px 0 6px 0;
+    }
+
+    .alert-warning {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fde68a;
+    }
+
+    .alert-success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #a7f3d0;
+    }
+
+    /* Daily Workflow */
+    .routine-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .routine-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .routine-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .routine-title {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .routine-title.start { color: #4ade80; }
+    .routine-title.end { color: #f87171; }
+
+    .routine-card ol {
+      padding-left: 18px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .routine-card li {
+      margin-bottom: 4px;
+    }
+
+    /* Footer */
+    .guide-footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: #022c22;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* PRINT STYLES FOR CLEAN PDF GENERATION */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+
+      .container {
+        max-width: 100% !important;
+      }
+
+      .btn-pdf, .badge-live, .btn-copy, .toast {
+        display: none !important;
+      }
+
+      .top-action-bar {
+        border-bottom: 2px solid #000 !important;
+      }
+
+      .step-card {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        margin-bottom: 16px !important;
+      }
+
+      .hero-title, .step-title, .field-name {
+        color: #000000 !important;
+      }
+
+      .hero-subtitle, .config-table th {
+        color: #475569 !important;
+      }
+
+      .field-val, .url-text {
+        color: #0f172a !important;
+      }
+
+      .url-copy-box {
+        background: #f1f5f9 !important;
+        border: 1px solid #94a3b8 !important;
+      }
+
+      .alert-box {
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #334155 !important;
+      }
+
+      .routine-card {
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+
+      .routine-card ol {
+        color: #1e293b !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Top Action Bar -->
+    <div class="top-action-bar">
+      <span class="badge-live">● Sistema de Flota Activo</span>
+      <button class="btn-pdf" onclick="window.print()">
+        📄 Guardar como PDF / Imprimir
+      </button>
+    </div>
+
+    <!-- Header -->
+    <header class="hero-header">
+      <div class="hero-icon">🛵</div>
+      <h1 class="hero-title">Guía Rápida para Repartidores</h1>
+      <p class="hero-subtitle">
+        Sigue estos sencillos pasos para activar tu GPS en el móvil. Solo se configura <b>una única vez</b>.
+      </p>
+    </header>
+
+    <!-- PASO 1 -->
+    <section class="step-card">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <h2 class="step-title">Descarga la App en tu Móvil</h2>
+      </div>
+      <p style="font-size:13px; color:#cbd5e1;">
+        Instala la aplicación gratuita oficial <b>Traccar Client</b> desde la tienda de tu teléfono:
+      </p>
+
+      <div class="store-buttons">
+        <a href="https://play.google.com/store/apps/details?id=org.traccar.client" target="_blank" class="store-btn android">
+          <span style="font-size:22px;">🤖</span>
+          <div>
+            <div>Descargar para Android</div>
+            <div style="font-size:10px; opacity:0.8;">Google Play Store</div>
+          </div>
+        </a>
+
+        <a href="https://apps.apple.com/app/traccar-client/id843156976" target="_blank" class="store-btn ios">
+          <span style="font-size:22px;">🍎</span>
+          <div>
+            <div>Descargar para iPhone</div>
+            <div style="font-size:10px; opacity:0.8;">Apple App Store</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- PASO 2 -->
+    <section class="step-card">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <h2 class="step-title">Permisos de Ubicación (¡Muy Importante!)</h2>
+      </div>
+      <p style="font-size:13px; color:#cbd5e1;">
+        Para que el mapa no se congele cuando bloquees la pantalla o abras Google Maps/Waze:
+      </p>
+
+      <div class="alert-box alert-warning">
+        <b>📍 En la pregunta de permisos de ubicación:</b><br>
+        Elige siempre <b>"Permitir siempre / Todo el tiempo"</b> (NO marques "Solo cuando la app esté abierta").
+      </div>
+
+      <div class="alert-box alert-success">
+        <b>🔋 Batería de Android:</b><br>
+        Asegúrate de desactivar el "Ahorro de batería" para la app Traccar para que Android no la cierre en el bolsillo.
+      </div>
+    </section>
+
+    <!-- PASO 3 -->
+    <section class="step-card">
+      <div class="step-header">
+        <div class="step-number">3</div>
+        <h2 class="step-title">Configuración de los 5 Campos</h2>
+      </div>
+      <p style="font-size:13px; color:#cbd5e1;">
+        Abre <b>Traccar Client</b> en tu móvil y escribe exactamente los siguientes valores:
+      </p>
+
+      <!-- URL Copy Tool -->
+      <div style="margin-top:12px;">
+        <span style="font-size:12px; font-weight:700; color:#94a3b8; text-transform:uppercase;">URL del Servidor:</span>
+        <div class="url-copy-box">
+          <span class="url-text" id="server-url-text">https://traccar-bridge.onrender.com</span>
+          <button class="btn-copy" onclick="copyServerUrl()">📋 Copiar</button>
+        </div>
+      </div>
+
+      <table class="config-table">
+        <thead>
+          <tr>
+            <th>Opción en Traccar</th>
+            <th>Qué debes poner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="field-name">Identificador de dispositivo</td>
+            <td class="field-val">Tu nombre en minúsculas (ej: <code>jeferson</code>, <code>javier</code>, <code>carlos</code>)</td>
+          </tr>
+          <tr>
+            <td class="field-name">URL del servidor</td>
+            <td class="field-val"><code>https://traccar-bridge.onrender.com</code></td>
+          </tr>
+          <tr>
+            <td class="field-name">Intervalo de frecuencia</td>
+            <td class="field-val"><code>3</code> (segundos)</td>
+          </tr>
+          <tr>
+            <td class="field-name">Distancia</td>
+            <td class="field-val"><code>5</code> (metros)</td>
+          </tr>
+          <tr>
+            <td class="field-name">Ángulo</td>
+            <td class="field-val"><code>25</code> (grados)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alert-box alert-warning" style="margin-top:14px;">
+        ⚠️ <b>Nota sobre la URL:</b> Debe empezar por <b>https://</b> y NO debes poner ningún número de puerto como <code>:5055</code> ni barras al final.
+      </div>
+    </section>
+
+    <!-- PASO 4 -->
+    <section class="step-card">
+      <div class="step-header">
+        <div class="step-number">4</div>
+        <h2 class="step-title">Tu Rutina Diaria (Solo 1 Clic)</h2>
+      </div>
+      <p style="font-size:13px; color:#cbd5e1;">
+        Una vez configurado, esto es lo único que harás cada día de trabajo:
+      </p>
+
+      <div class="routine-grid">
+        <div class="routine-card">
+          <div class="routine-title start">🟢 Al Empezar tu Turno</div>
+          <ol>
+            <li>Abre la app <b>Traccar Client</b>.</li>
+            <li>Enciende el interruptor: <b>"Estado del servicio: ACTIVADO"</b>.</li>
+            <li>Guarda el móvil en el bolsillo o abre Google Maps. ¡Ya estás visible para la central!</li>
+          </ol>
+        </div>
+
+        <div class="routine-card">
+          <div class="routine-title end">🛑 Al Terminar tu Turno</div>
+          <ol>
+            <li>Abre la app <b>Traccar Client</b>.</li>
+            <li>Apaga el interruptor: <b>"Estado del servicio: DESACTIVADO"</b>.</li>
+            <li>Tu ubicación se pausará y saldrás de servicio.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="guide-footer">
+      <p>Control Delivery Madrid • Flota y Reparto en Tiempo Real</p>
+    </footer>
+
+  </div>
+
+  <!-- Toast Element -->
+  <div id="toast" class="toast">URL copiada al portapapeles ✅</div>
+
+  <script>
+    function copyServerUrl() {
+      const url = document.getElementById('server-url-text').textContent.trim();
+      navigator.clipboard.writeText(url).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      });
+    }
+  </script>
+</body>
+</html>
