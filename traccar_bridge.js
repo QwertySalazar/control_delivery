@@ -1,0 +1,154 @@
+/**
+ * PUENTE DE CONEXIÓN TRACCAR -> MAPA CENTRAL DE REPARTO
+ * ----------------------------------------------------
+ * Este servidor recibe las peticiones HTTP que envía la app "Traccar Client"
+ * desde los móviles de los repartidores y las retransmite instantáneamente
+ * al canal MQTT del mapa en tiempo real.
+ */
+
+const http = require('http');
+const url = require('url');
+const mqtt = require('mqtt');
+
+const PORT = process.env.PORT || 5055;
+const MQTT_BROKER = process.env.MQTT_BROKER || 'mqtt://broker.emqx.io:1883';
+const MQTT_TOPIC = 'madrid_fleet_sync_channel_v1/events';
+
+console.log('==================================================');
+console.log('🚀 Iniciando Puente Traccar GPS -> Control Delivery');
+console.log('==================================================');
+
+// Conexión al Broker MQTT
+const mqttClient = mqtt.connect(MQTT_BROKER, {
+  clientId: 'traccar_bridge_' + Math.random().toString(16).substring(2, 8),
+  keepalive: 30,
+  reconnectPeriod: 3000
+});
+
+mqttClient.on('connect', () => {
+  console.log(`✅ Conectado exitosamente al broker MQTT (${MQTT_BROKER})`);
+  console.log(`📡 Retransmitiendo al canal: ${MQTT_TOPIC}`);
+});
+
+mqttClient.on('error', (err) => {
+  console.warn('⚠️ Error de conexión MQTT:', err.message);
+});
+
+let totalPingsReceived = 0;
+const lastDriverUpdates = {};
+
+// Servidor HTTP que escucha los envíos de la app Traccar Client (Protocolo OsmAnd)
+const server = http.createServer((req, res) => {
+  // Configurar cabeceras CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
+  const parsedUrl = url.parse(req.url, true);
+  const query = parsedUrl.query;
+
+  // Procesar parámetros de Traccar
+  const driverId = (query.id || query.deviceid || '').toString().trim().toLowerCase();
+  const lat = parseFloat(query.lat);
+  const lon = parseFloat(query.lon);
+
+  if (driverId && !isNaN(lat) && !isNaN(lon)) {
+    totalPingsReceived++;
+
+    // Traccar envía la velocidad en nudos (knots). 1 knot = 1.852 km/h
+    const rawSpeed = parseFloat(query.speed) || 0;
+    const speedKmh = Math.round(rawSpeed * 1.852);
+    const heading = Math.round(parseFloat(query.bearing) || 0);
+    const accuracy = Math.round(parseFloat(query.accuracy) || 8);
+    const battery = query.batt ? Math.round(parseFloat(query.batt)) : null;
+
+    const payload = {
+      type: 'GPS_UPDATE',
+      driverId: driverId,
+      lat: lat,
+      lon: lon,
+      accuracy: accuracy,
+      speed: speedKmh,
+      heading: heading,
+      battery: battery,
+      timestamp: Date.now(),
+      source: 'traccar_client'
+    };
+
+    lastDriverUpdates[driverId] = {
+      ...payload,
+      timeStr: new Date().toLocaleTimeString()
+    };
+
+    // Publicar al mapa central por MQTT
+    if (mqttClient && mqttClient.connected) {
+      mqttClient.publish(MQTT_TOPIC, JSON.stringify(payload));
+      console.log(`📍 [Traccar] 🛵 ${driverId.toUpperCase()} -> Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} | Vel: ${speedKmh} km/h | Bat: ${battery !== null ? battery + '%' : 'N/A'}`);
+    } else {
+      console.warn(`⚠️ [Traccar] Recibido ${driverId} pero MQTT está reconectando...`);
+    }
+
+    // Respuesta 200 OK obligatoria para Traccar Client
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('OK');
+    return;
+  }
+
+  // Página web informativa si abren el puerto en el navegador
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  const driversListHtml = Object.keys(lastDriverUpdates).length > 0
+    ? Object.entries(lastDriverUpdates).map(([id, d]) => `
+        <li style="margin-bottom:8px;">
+          <b>🛵 ${id.toUpperCase()}:</b> Lat ${d.lat.toFixed(4)}, Lon ${d.lon.toFixed(4)} | 
+          ⚡ ${d.speed} km/h | 🎯 ±${d.accuracy}m | 🔋 ${d.battery || '--'}% | ⏱️ ${d.timeStr}
+        </li>
+      `).join('')
+    : '<li>Ningún repartidor ha emitido aún.</li>';
+
+  res.end(`
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="utf-8">
+      <title>Puente Traccar - Central de Reparto</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+        body { font-family: system-ui, sans-serif; background: #0b111a; color: #fff; padding: 24px; max-width: 650px; margin: 0 auto; line-height: 1.5; }
+        .card { background: #182232; border: 1px solid #334155; border-radius: 12px; padding: 20px; margin-top: 16px; }
+        h1 { color: #22c55e; font-size: 22px; margin-bottom: 4px; }
+        code { background: #0f172a; padding: 3px 8px; border-radius: 6px; color: #38bdf8; font-family: monospace; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+        ul { padding-left: 20px; }
+      </style>
+    </head>
+    <body>
+      <h1>📡 Servidor Puente Traccar Activo</h1>
+      <p><span class="badge">ONLINE</span> Conectado con el mapa de entrega en vivo.</p>
+
+      <div class="card">
+        <h3>Configuración para la App "Traccar Client":</h3>
+        <p><b>URL del Servidor:</b> <code>http://${req.headers.host || 'tu-servidor:5055'}</code></p>
+        <p><b>Identificador de dispositivo:</b> El nombre del repartidor (ej: <code>jeferson</code>, <code>javier</code>, <code>carlos</code>)</p>
+        <p><b>Intervalo de frecuencia:</b> <code>3</code> o <code>5</code> segundos</p>
+      </div>
+
+      <div class="card">
+        <h3>Repartidores activos (${Object.keys(lastDriverUpdates).length}):</h3>
+        <ul>${driversListHtml}</ul>
+        <p style="font-size: 12px; color: #94a3b8;">Total de señales GPS procesadas: <b>${totalPingsReceived}</b></p>
+      </div>
+    </body>
+    </html>
+  `);
+});
+
+server.listen(PORT, () => {
+  console.log(`🎯 Servidor HTTP escuchando en el puerto ${PORT}`);
+  console.log(`👉 Configura en Traccar Client la URL: http://<TU_IP_O_DOMINIO>:${PORT}`);
+});

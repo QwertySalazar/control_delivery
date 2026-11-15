@@ -1,0 +1,21 @@
+{
+  "name": "control-delivery-traccar-bridge",
+  "version": "1.0.0",
+  "description": "Puente de enlace HTTP entre la app Traccar Client y el mapa MQTT de repartos",
+  "main": "traccar_bridge.js",
+  "scripts": {
+    "start": "node traccar_bridge.js"
+  },
+  "dependencies": {
+    "mqtt": "^5.3.5"
+  },
+  "keywords": [
+    "traccar",
+    "delivery",
+    "gps",
+    "mqtt",
+    "fleet"
+  ],
+  "author": "",
+  "license": "MIT"
+}

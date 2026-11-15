@@ -2018,18 +2018,52 @@ function initApp() {
     }
 
     if (data.type === 'GPS_UPDATE') {
-      let driver = drivers.find(d => d.id === data.driverId);
+      const searchKey = (data.driverId || '').toString().toLowerCase().trim();
+      let driver = drivers.find(d => 
+        d.id.toLowerCase() === searchKey || 
+        d.name.toLowerCase() === searchKey ||
+        d.id.toLowerCase().includes(searchKey)
+      );
+
       if (!driver && data.driver) {
         driver = data.driver;
         drivers.push(driver);
         saveDrivers();
+      } else if (!driver && data.driverId) {
+        // Auto-registro instantáneo si emite desde la app Traccar
+        const formattedName = searchKey.charAt(0).toUpperCase() + searchKey.slice(1);
+        driver = {
+          id: data.driverId,
+          name: formattedName,
+          vehicle: 'Moto 🛵',
+          status: 'disponible',
+          kitchenId: 'norte',
+          lat: data.lat,
+          lon: data.lon,
+          accuracy: data.accuracy || 10,
+          speed: data.speed || 0,
+          heading: data.heading || 0,
+          phone: '',
+          currentOrder: null,
+          createdAt: Date.now(),
+          isGpsActive: true,
+          lastGpsTime: Date.now()
+        };
+        drivers.push(driver);
+        saveDrivers();
+        renderDriversDrawer(currentDriverFilter);
+        showToast(`🛵 ¡Repartidor conectado vía Traccar: ${formattedName}!`);
       }
+
       if (driver) {
         driver.lat = data.lat;
         driver.lon = data.lon;
         driver.accuracy = data.accuracy;
         driver.speed = data.speed || 0;
         driver.heading = data.heading || 0;
+        if (data.battery !== undefined && data.battery !== null) {
+          driver.battery = data.battery;
+        }
         driver.isGpsActive = true;
         driver.lastGpsTime = Date.now();
 
