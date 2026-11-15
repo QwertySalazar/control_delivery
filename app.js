@@ -2131,23 +2131,37 @@ function initApp() {
   const driverAppMeta = document.getElementById('driver-app-meta');
   const driverAppExitBtn = document.getElementById('driver-app-exit-btn');
 
+  // Control 1: Turno
+  const btnToggleShift = document.getElementById('btn-toggle-shift');
+  const shiftStatusBadge = document.getElementById('shift-status-badge');
+  const shiftBtnIcon = document.getElementById('shift-btn-icon');
+  const shiftBtnMain = document.getElementById('shift-btn-main');
+  const shiftBtnSub = document.getElementById('shift-btn-sub');
+
+  // Control 2: Ubicación GPS
   const radarStatusDot = document.getElementById('radar-status-dot');
   const locationBadgeStatus = document.getElementById('location-badge-status');
   const toggleGpsBtn = document.getElementById('toggle-gps-btn');
   const toggleGpsIcon = document.getElementById('toggle-gps-icon');
   const toggleGpsText = document.getElementById('toggle-gps-text');
+  const toggleGpsSubtext = document.getElementById('toggle-gps-subtext');
   const locationTelemetry = document.getElementById('location-telemetry');
   const telemetryCp = document.getElementById('telemetry-cp');
   const telemetryAccuracy = document.getElementById('telemetry-accuracy');
   const telemetrySpeed = document.getElementById('telemetry-speed');
   const telemetryTimestamp = document.getElementById('telemetry-timestamp');
+
+  // Control 3: Actualizar Ubicación
+  const btnForceRefreshGps = document.getElementById('btn-force-refresh-gps');
+  const btnRefreshIcon = document.getElementById('btn-refresh-icon');
+  const btnRefreshMain = document.getElementById('btn-refresh-main');
+  const btnRefreshSub = document.getElementById('btn-refresh-sub');
+
   let driverGpsInterval = null;
+  let isForceRefreshing = false;
   const driverTrails = {}; // driverId -> L.polyline de ruta en vivo
 
   const driverOrderPanel = document.getElementById('driver-order-panel');
-  const toggleMiniMapBtn = document.getElementById('toggle-mini-map-btn');
-  const driverMiniMapContainer = document.getElementById('driver-mini-map-container');
-  const driverManualSyncBtn = document.getElementById('driver-manual-sync-btn');
 
   const tabLoginModeBtn = document.getElementById('tab-login-mode-btn');
   const tabRegisterModeBtn = document.getElementById('tab-register-mode-btn');
@@ -2239,18 +2253,16 @@ function initApp() {
     if (driverAppAvatar) driverAppAvatar.textContent = getVehicleIcon(driver.vehicle);
     if (driverAppName) driverAppName.textContent = driver.name;
 
-    const base = COCINAS.find(c => c.id === driver.kitchenId);
-    const baseName = base ? `${base.name} (${base.address})` : 'Base Central';
-    if (driverAppMeta) driverAppMeta.textContent = `${driver.vehicle} • ${baseName}`;
-
-    updateDriverStatusGridUI(driver.status);
+    const isShiftActive = (driver.status !== 'inactivo');
+    updateDriverShiftUI(isShiftActive);
     renderDriverPortalOrder();
 
-    setTimeout(() => {
-      initDriverMiniMap(driver);
-    }, 200);
+    // Si el turno está activo y no se está transmitiendo GPS, activarlo
+    if (isShiftActive && !isGpsSharingEnabled) {
+      startGpsSharing();
+    }
 
-    showToast(`👋 ¡Bienvenido, ${driver.name.split(' ')[0]}! Turno de reparto iniciado.`);
+    showToast(`👋 ¡Hola, ${driver.name.split(' ')[0]}! Módulo de repartidor listo.`);
   }
 
   function exitDriverPortal() {
@@ -2258,30 +2270,85 @@ function initApp() {
     document.body.style.overflow = '';
   }
 
-  function updateDriverStatusGridUI(status) {
-    document.querySelectorAll('.driver-status-choice-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.status === status);
-    });
-  }
-
-  function setDriverStatusFromPortal(status) {
+  // =========================================================================
+  // CONTROL 1: INICIAR / FINALIZAR TURNO
+  // =========================================================================
+  function toggleDriverShift() {
     if (!activeLoggedDriver) return;
 
-    activeLoggedDriver.status = status;
-    saveDrivers();
-    renderDriverMarkers();
-    renderDriversDrawer(currentDriverFilter);
-    updateDriverStatusGridUI(status);
+    const isCurrentlyActive = (activeLoggedDriver.status !== 'inactivo');
 
-    broadcastFleetEvent({
-      type: 'STATUS_UPDATE',
-      driverId: activeLoggedDriver.id,
-      status: status
-    });
+    if (isCurrentlyActive) {
+      // Finalizar turno
+      activeLoggedDriver.status = 'inactivo';
+      saveDrivers();
+      renderDriverMarkers();
+      renderDriversDrawer(currentDriverFilter);
+      stopGpsSharing();
+      updateDriverShiftUI(false);
 
-    showToast(`Tu estado: ${getStatusLabel(status)}`);
+      broadcastFleetEvent({
+        type: 'STATUS_UPDATE',
+        driverId: activeLoggedDriver.id,
+        status: 'inactivo'
+      });
+
+      showToast('🛑 Turno finalizado. Ahora estás fuera de servicio.');
+    } else {
+      // Iniciar turno
+      activeLoggedDriver.status = 'disponible';
+      saveDrivers();
+      renderDriverMarkers();
+      renderDriversDrawer(currentDriverFilter);
+      updateDriverShiftUI(true);
+
+      broadcastFleetEvent({
+        type: 'STATUS_UPDATE',
+        driverId: activeLoggedDriver.id,
+        status: 'disponible'
+      });
+
+      startGpsSharing();
+      showToast('🟢 ¡Turno iniciado! Ya estás en servicio para repartir.');
+    }
   }
 
+  function updateDriverShiftUI(isActive) {
+    if (shiftStatusBadge) {
+      if (isActive) {
+        shiftStatusBadge.className = 'driver-pill pill-online';
+        shiftStatusBadge.textContent = '🟢 En Turno';
+      } else {
+        shiftStatusBadge.className = 'driver-pill pill-offline';
+        shiftStatusBadge.textContent = '⚪ Fuera de Turno';
+      }
+    }
+
+    if (btnToggleShift) {
+      if (isActive) {
+        btnToggleShift.className = 'btn-action-mobile btn-shift-active';
+        if (shiftBtnIcon) shiftBtnIcon.textContent = '🛑';
+        if (shiftBtnMain) shiftBtnMain.textContent = 'Finalizar Turno';
+        if (shiftBtnSub) shiftBtnSub.textContent = 'Pasa a descanso / fuera de servicio';
+      } else {
+        btnToggleShift.className = 'btn-action-mobile btn-shift-inactive';
+        if (shiftBtnIcon) shiftBtnIcon.textContent = '🟢';
+        if (shiftBtnMain) shiftBtnMain.textContent = 'Iniciar Turno';
+        if (shiftBtnSub) shiftBtnSub.textContent = 'Ponte en servicio para recibir pedidos y repartir';
+      }
+    }
+
+    if (driverAppMeta && activeLoggedDriver) {
+      const base = COCINAS.find(c => c.id === activeLoggedDriver.kitchenId);
+      const baseName = base ? base.name : 'Base Central';
+      const shiftText = isActive ? 'Turno Activo' : 'Fuera de Turno';
+      driverAppMeta.textContent = `${activeLoggedDriver.vehicle} • ${baseName} • ${shiftText}`;
+    }
+  }
+
+  // =========================================================================
+  // CONTROL 2: PRENDER / APAGAR UBICACIÓN GPS
+  // =========================================================================
   function toggleGpsSharing() {
     if (isGpsSharingEnabled) {
       stopGpsSharing();
@@ -2292,35 +2359,39 @@ function initApp() {
 
   function startGpsSharing() {
     if (!navigator.geolocation) {
-      showToast('⚠️ Tu dispositivo no soporta geolocalización GPS.');
+      showToast('⚠️ Tu móvil no soporta geolocalización GPS.');
       return;
     }
 
     if (toggleGpsBtn) {
-      toggleGpsBtn.classList.remove('off');
-      toggleGpsBtn.classList.add('on');
+      toggleGpsBtn.className = 'btn-action-mobile btn-gps-on';
     }
-    if (toggleGpsIcon) toggleGpsIcon.textContent = '🛑';
-    if (toggleGpsText) toggleGpsText.textContent = 'Pausar / Desactivar mi Ubicación';
+    if (toggleGpsIcon) toggleGpsIcon.textContent = '⏸️';
+    if (toggleGpsText) toggleGpsText.textContent = 'Apagar Mi Ubicación';
+    if (toggleGpsSubtext) toggleGpsSubtext.textContent = 'Pausar transmisión de coordenadas GPS';
 
     if (radarStatusDot) radarStatusDot.classList.add('active');
     if (locationBadgeStatus) {
-      locationBadgeStatus.className = 'driver-status-pill status-disponible';
+      locationBadgeStatus.className = 'driver-pill pill-online';
       locationBadgeStatus.textContent = '🟢 GPS Activo';
     }
 
     if (locationTelemetry) locationTelemetry.style.display = 'grid';
-    if (telemetryCp) telemetryCp.textContent = 'Buscando satélites...';
+    if (telemetryCp) telemetryCp.textContent = 'Buscando satélites GPS...';
     if (telemetryAccuracy) telemetryAccuracy.textContent = 'Calculando...';
 
     isGpsSharingEnabled = true;
 
-    // Configuración para máxima precisión (0 caché, chip GPS físico dedicado)
     const gpsOptions = {
       enableHighAccuracy: true,
       maximumAge: 0,
-      timeout: 6000
+      timeout: 7000
     };
+
+    if (driverGpsWatchId !== null) {
+      navigator.geolocation.clearWatch(driverGpsWatchId);
+      driverGpsWatchId = null;
+    }
 
     driverGpsWatchId = navigator.geolocation.watchPosition(
       (pos) => {
@@ -2334,7 +2405,7 @@ function initApp() {
       },
       (err) => {
         let msg = 'Error obteniendo posición GPS';
-        if (err.code === 1) msg = 'Permiso de ubicación denegado';
+        if (err.code === 1) msg = 'Permiso GPS denegado en tu navegador';
         else if (err.code === 2) msg = 'Señal GPS no disponible';
         else if (err.code === 3) msg = 'Tiempo de espera GPS agotado';
         console.warn('GPS signal warning:', msg);
@@ -2342,7 +2413,6 @@ function initApp() {
       gpsOptions
     );
 
-    // Refuerzo en tiempo real cada 1.5 a 2 segundos (máxima fluidez y precisión)
     if (driverGpsInterval) clearInterval(driverGpsInterval);
     driverGpsInterval = setInterval(() => {
       if (!isGpsSharingEnabled || !navigator.geolocation) return;
@@ -2361,7 +2431,7 @@ function initApp() {
       );
     }, 1800);
 
-    showToast('📡 Ubicación en vivo ACTIVADA. La central puede ver tu posición.');
+    showToast('📡 GPS Activado: Transmitiendo en vivo a la central.');
   }
 
   function stopGpsSharing() {
@@ -2378,15 +2448,15 @@ function initApp() {
     isGpsSharingEnabled = false;
 
     if (toggleGpsBtn) {
-      toggleGpsBtn.classList.remove('on');
-      toggleGpsBtn.classList.add('off');
+      toggleGpsBtn.className = 'btn-action-mobile btn-gps-off';
     }
     if (toggleGpsIcon) toggleGpsIcon.textContent = '📡';
-    if (toggleGpsText) toggleGpsText.textContent = 'Activar mi Ubicación en Vivo';
+    if (toggleGpsText) toggleGpsText.textContent = 'Prender Mi Ubicación';
+    if (toggleGpsSubtext) toggleGpsSubtext.textContent = 'Transmitir GPS continuo en vivo';
 
     if (radarStatusDot) radarStatusDot.classList.remove('active');
     if (locationBadgeStatus) {
-      locationBadgeStatus.className = 'driver-status-pill status-inactivo';
+      locationBadgeStatus.className = 'driver-pill pill-offline';
       locationBadgeStatus.textContent = '🔒 Pausado';
     }
 
@@ -2399,7 +2469,67 @@ function initApp() {
       });
     }
 
-    showToast('🔒 Ubicación pausada. Tu teléfono no comparte posición.');
+    showToast('🔒 Ubicación GPS apagada.');
+  }
+
+  // =========================================================================
+  // CONTROL 3: ACTUALIZAR UBICACIÓN (EN CASO SE CIERRE O SE BLOQUEE LA PANTALLA)
+  // =========================================================================
+  function forceRefreshDriverGps() {
+    if (isForceRefreshing) return;
+    if (!navigator.geolocation) {
+      showToast('⚠️ Tu móvil no tiene soporte para geolocalización GPS.');
+      return;
+    }
+
+    isForceRefreshing = true;
+
+    if (btnRefreshIcon) btnRefreshIcon.classList.add('spinning');
+    if (btnRefreshMain) btnRefreshMain.textContent = 'Leyendo Satélites GPS...';
+    if (btnRefreshSub) btnRefreshSub.textContent = 'Conectando con la antena GPS del teléfono';
+
+    const gpsOptions = {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 8000
+    };
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        isForceRefreshing = false;
+        if (btnRefreshIcon) btnRefreshIcon.classList.remove('spinning');
+        if (btnRefreshMain) btnRefreshMain.textContent = 'Actualizar Ubicación Ahora';
+        if (btnRefreshSub) btnRefreshSub.textContent = 'Fuerza lectura de satélites y reenvío';
+
+        onGpsPositionReceived(
+          pos.coords.latitude,
+          pos.coords.longitude,
+          pos.coords.accuracy,
+          pos.coords.speed,
+          pos.coords.heading
+        );
+
+        if (!isGpsSharingEnabled) {
+          startGpsSharing();
+        }
+
+        renderDriverPortalOrder();
+        showToast('📍 ¡Ubicación GPS actualizada y transmitida a la central!');
+      },
+      (err) => {
+        isForceRefreshing = false;
+        if (btnRefreshIcon) btnRefreshIcon.classList.remove('spinning');
+        if (btnRefreshMain) btnRefreshMain.textContent = 'Actualizar Ubicación Ahora';
+        if (btnRefreshSub) btnRefreshSub.textContent = 'Fuerza lectura de satélites y reenvío';
+
+        let msg = 'No se pudo leer la posición GPS';
+        if (err.code === 1) msg = '⚠️ Permiso GPS denegado en tu navegador.';
+        else if (err.code === 2) msg = '⚠️ Sin señal GPS. Activa la ubicación en tu teléfono.';
+        else if (err.code === 3) msg = '⚠️ Tiempo de espera agotado. Reintenta al aire libre.';
+        showToast(msg);
+      },
+      gpsOptions
+    );
   }
 
   function onGpsPositionReceived(lat, lon, accuracy, speed, heading) {
@@ -2422,11 +2552,7 @@ function initApp() {
     if (telemetrySpeed) telemetrySpeed.textContent = `${activeLoggedDriver.speed} km/h`;
     if (telemetryTimestamp) telemetryTimestamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-    if (driverMiniMap && driverMiniMarker) {
-      driverMiniMarker.setLatLng([lat, lon]);
-      driverMiniMap.panTo([lat, lon]);
-    }
-
+    // Actualizar marcador central en el mapa de despacho
     const mainMarker = driverMarkers[activeLoggedDriver.id];
     if (mainMarker) {
       mainMarker.setLatLng([lat, lon]);
@@ -2450,13 +2576,13 @@ function initApp() {
     const order = activeLoggedDriver.currentOrder;
 
     if (!order) {
-      driverOrderPanel.className = 'driver-card-panel order-panel empty';
+      driverOrderPanel.className = 'driver-card-mobile card-order empty';
       driverOrderPanel.innerHTML = `
-        <div style="padding: 18px; text-align: center;">
-          <div style="font-size: 34px; margin-bottom: 6px;">🛵</div>
-          <b style="font-size: 15px; color: #fff;">Sin pedidos asignados ahora</b>
-          <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.5;">
-            Estás disponible en la flota. En cuanto la central te asigne un pedido, aparecerá aquí con la ruta directa.
+        <div style="padding: 14px 10px; text-align: center;">
+          <div style="font-size: 32px; margin-bottom: 4px;">🛵</div>
+          <b style="font-size: 14px; color: #fff;">Sin pedidos asignados ahora</b>
+          <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">
+            Estás conectado en la flota. En cuanto la central te asigne un pedido, aparecerá aquí con la ruta directa en Google Maps.
           </p>
         </div>
       `;
@@ -2468,7 +2594,7 @@ function initApp() {
     const destQuery = encodeURIComponent(`${order.address || ''}, ${order.cp} Madrid, España`);
     const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destQuery}`;
 
-    driverOrderPanel.className = 'driver-card-panel order-panel';
+    driverOrderPanel.className = 'driver-card-mobile card-order';
     driverOrderPanel.innerHTML = `
       <div class="order-badge-title">
         <span>📦</span> Pedido Asignado en Curso
@@ -2515,7 +2641,7 @@ function initApp() {
     saveDrivers();
     renderDriverMarkers();
     renderDriversDrawer(currentDriverFilter);
-    updateDriverStatusGridUI('disponible');
+    updateDriverShiftUI(true);
     renderDriverPortalOrder();
 
     broadcastFleetEvent({
@@ -2526,39 +2652,8 @@ function initApp() {
     showToast(`🎉 ¡Pedido en CP ${completedCp} entregado con éxito!`);
   }
 
-  function initDriverMiniMap(driver) {
-    const container = document.getElementById('driver-leaflet-map');
-    if (!container) return;
-
-    if (!driverMiniMap) {
-      driverMiniMap = L.map('driver-leaflet-map', {
-        zoomControl: false,
-        attributionControl: false
-      }).setView([driver.lat, driver.lon], 15);
-
-      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 18
-      }).addTo(driverMiniMap);
-
-      const icon = L.divIcon({
-        className: 'driver-custom-marker',
-        html: `
-          <div class="driver-marker-container">
-            <div class="driver-marker-pin status-disponible">
-              <span>${getVehicleIcon(driver.vehicle)}</span>
-            </div>
-          </div>
-        `,
-        iconSize: [36, 48],
-        iconAnchor: [18, 40]
-      });
-
-      driverMiniMarker = L.marker([driver.lat, driver.lon], { icon }).addTo(driverMiniMap);
-    } else {
-      driverMiniMap.invalidateSize();
-      driverMiniMap.setView([driver.lat, driver.lon], 15);
-      if (driverMiniMarker) driverMiniMarker.setLatLng([driver.lat, driver.lon]);
-    }
+  function initDriverMiniMap() {
+    // Sin mapa en el módulo móvil del repartidor según requerimiento
   }
 
   function checkUrlForDriver() {
@@ -3700,34 +3795,38 @@ function initApp() {
     });
   }
 
+  // Control 1: Iniciar / Finalizar Turno
+  if (btnToggleShift) {
+    btnToggleShift.addEventListener('click', toggleDriverShift);
+  }
+
+  // Control 2: Prender / Apagar Ubicación GPS
   if (toggleGpsBtn) {
     toggleGpsBtn.addEventListener('click', toggleGpsSharing);
   }
 
-  document.querySelectorAll('.driver-status-choice-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const st = btn.dataset.status;
-      setDriverStatusFromPortal(st);
-    });
+  // Control 3: Actualizar Ubicación Ahora (Forzar GPS en caso se cierre o bloquee)
+  if (btnForceRefreshGps) {
+    btnForceRefreshGps.addEventListener('click', forceRefreshDriverGps);
+  }
+
+  // Auto-reconectar y refrescar GPS al desbloquear el teléfono o volver a la pestaña
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && activeLoggedDriver && driverPortalScreen && driverPortalScreen.style.display !== 'none') {
+      if (isGpsSharingEnabled) {
+        console.log('📱 Teléfono desbloqueado o pestaña visible: refrescando GPS...');
+        forceRefreshDriverGps();
+      }
+    }
   });
 
-  if (toggleMiniMapBtn && driverMiniMapContainer) {
-    toggleMiniMapBtn.addEventListener('click', () => {
-      const isHidden = driverMiniMapContainer.style.display === 'none';
-      driverMiniMapContainer.style.display = isHidden ? 'block' : 'none';
-      document.getElementById('mini-map-toggle-icon').textContent = isHidden ? '▾' : '▸';
-      if (isHidden && driverMiniMap) {
-        setTimeout(() => driverMiniMap.invalidateSize(), 150);
+  window.addEventListener('pageshow', () => {
+    if (activeLoggedDriver && driverPortalScreen && driverPortalScreen.style.display !== 'none') {
+      if (isGpsSharingEnabled) {
+        forceRefreshDriverGps();
       }
-    });
-  }
-
-  if (driverManualSyncBtn) {
-    driverManualSyncBtn.addEventListener('click', () => {
-      showToast('🔄 Datos sincronizados');
-      renderDriverPortalOrder();
-    });
-  }
+    }
+  });
 
   function showToast(text) {
     toastMsg.textContent = text;

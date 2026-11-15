@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Mapa Interactivo de Códigos Postales de Madrid</title>
 
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
@@ -592,123 +592,132 @@
     </div>
   </div>
 
-  <!-- Interfaz Limpia para el Móvil del Repartidor -->
+  <!-- Módulo Exclusivo para Celular del Repartidor (Sin Mapa, Controles Grandes) -->
   <div id="driver-portal-screen" class="driver-portal-screen" style="display:none;">
-    <!-- Cabecera de Repartidor -->
-    <header class="driver-app-header glass">
-      <div class="driver-profile-info">
-        <div class="driver-avatar" id="driver-app-avatar">🛵</div>
-        <div>
-          <div class="driver-app-name" id="driver-app-name">Repartidor</div>
-          <div class="driver-app-meta" id="driver-app-meta">Turno activo</div>
-        </div>
-      </div>
-      <div style="display:flex; gap:6px;">
-        <button id="driver-app-exit-btn" class="driver-switch-view-btn" title="Volver a la vista del mapa central">
-          <span>🗺️</span> Salir / Central
-        </button>
-      </div>
-    </header>
+    <div class="driver-mobile-viewport">
 
-    <div class="driver-app-content">
-      <!-- Tarjeta de Permiso y Control de Ubicación GPS en Tiempo Real -->
-      <div class="driver-card-panel location-control-panel">
-        <div class="location-panel-header">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="radar-dot" id="radar-status-dot"></div>
-            <div>
-              <b style="font-size:14px; color:#fff;">Ubicación en Tiempo Real</b>
-              <div style="font-size:11px; color:#94a3b8;">Permite a la central y a los clientes ver tu posición en vivo</div>
+      <!-- Cabecera Móvil del Repartidor -->
+      <header class="driver-mobile-header">
+        <div class="driver-mobile-profile">
+          <div class="driver-avatar-badge" id="driver-app-avatar">🛵</div>
+          <div class="driver-mobile-info">
+            <div class="driver-mobile-name" id="driver-app-name">Repartidor</div>
+            <div class="driver-mobile-base" id="driver-app-meta">Base Central</div>
+          </div>
+        </div>
+        <button id="driver-app-exit-btn" class="driver-mobile-exit-btn" type="button" title="Cerrar sesión o salir a la vista central">
+          <span>🚪</span> Salir
+        </button>
+      </header>
+
+      <!-- Cuerpo del Módulo Móvil (Solo 3 Acciones Principales y Estado de Pedidos) -->
+      <main class="driver-mobile-body">
+
+        <!-- 1. INICIAR / FINALIZAR TURNO -->
+        <section class="driver-card-mobile card-shift" id="card-shift-control">
+          <div class="driver-card-header-clean">
+            <div class="card-icon-title">
+              <span class="card-header-icon">⏱️</span>
+              <div>
+                <h3 class="card-header-title">Turno de Reparto</h3>
+                <p class="card-header-subtitle">Control de tu jornada de trabajo</p>
+              </div>
+            </div>
+            <span id="shift-status-badge" class="driver-pill pill-online">🟢 En Turno</span>
+          </div>
+
+          <button id="btn-toggle-shift" class="btn-action-mobile btn-shift-active" type="button">
+            <span class="btn-action-icon" id="shift-btn-icon">🛑</span>
+            <div class="btn-action-text-group">
+              <span class="btn-action-main-text" id="shift-btn-main">Finalizar Turno</span>
+              <span class="btn-action-sub-text" id="shift-btn-sub">Pasa a estado fuera de servicio / descanso</span>
+            </div>
+          </button>
+        </section>
+
+        <!-- 2. PRENDER / APAGAR UBICACIÓN GPS -->
+        <section class="driver-card-mobile card-gps" id="card-gps-control">
+          <div class="driver-card-header-clean">
+            <div class="card-icon-title">
+              <div class="radar-dot" id="radar-status-dot"></div>
+              <div>
+                <h3 class="card-header-title">Ubicación GPS en Vivo</h3>
+                <p class="card-header-subtitle">Transmite tus satélites a la central</p>
+              </div>
+            </div>
+            <span id="location-badge-status" class="driver-pill pill-offline">🔒 Pausado</span>
+          </div>
+
+          <button id="toggle-gps-btn" class="btn-action-mobile btn-gps-off" type="button">
+            <span class="btn-action-icon" id="toggle-gps-icon">📡</span>
+            <div class="btn-action-text-group">
+              <span class="btn-action-main-text" id="toggle-gps-text">Prender Mi Ubicación</span>
+              <span class="btn-action-sub-text" id="toggle-gps-subtext">Transmitir GPS continuo en vivo</span>
+            </div>
+          </button>
+
+          <!-- Telemetría móvil en tiempo real -->
+          <div id="location-telemetry" class="mobile-gps-telemetry" style="display:none;">
+            <div class="telemetry-chip">
+              <span class="chip-label">📮 Zona actual:</span>
+              <b class="chip-value" id="telemetry-cp">Buscando CP...</b>
+            </div>
+            <div class="telemetry-chip">
+              <span class="chip-label">🎯 Precisión:</span>
+              <b class="chip-value" id="telemetry-accuracy">± -- m</b>
+            </div>
+            <div class="telemetry-chip">
+              <span class="chip-label">⚡ Velocidad:</span>
+              <b class="chip-value" id="telemetry-speed">0 km/h</b>
+            </div>
+            <div class="telemetry-chip">
+              <span class="chip-label">⏱️ Señal GPS:</span>
+              <b class="chip-value" id="telemetry-timestamp">Ahora mismo</b>
             </div>
           </div>
-          <span id="location-badge-status" class="driver-status-pill status-inactivo">🔒 Pausado</span>
-        </div>
+        </section>
 
-        <div class="location-toggle-action">
-          <button id="toggle-gps-btn" class="toggle-gps-btn off">
-            <span id="toggle-gps-icon">📡</span>
-            <span id="toggle-gps-text">Activar mi Ubicación en Vivo</span>
-          </button>
-        </div>
-
-        <div id="location-telemetry" class="location-telemetry" style="display:none;">
-          <div class="telemetry-item">
-            <span>📮 Zona detectada:</span>
-            <b id="telemetry-cp">Buscando código postal...</b>
+        <!-- 3. ACTUALIZAR UBICACIÓN (EN CASO SE CIERRE / BLOQUEE PANTALLA) -->
+        <section class="driver-card-mobile card-refresh" id="card-refresh-control">
+          <div class="driver-card-header-clean">
+            <div class="card-icon-title">
+              <span class="card-header-icon">🔄</span>
+              <div>
+                <h3 class="card-header-title">Actualizar Ubicación</h3>
+                <p class="card-header-subtitle">¿Se cerró la app o bloqueaste el móvil?</p>
+              </div>
+            </div>
           </div>
-          <div class="telemetry-item">
-            <span>🎯 Precisión GPS:</span>
-            <b id="telemetry-accuracy">± -- m</b>
-          </div>
-          <div class="telemetry-item">
-            <span>⚡ Velocidad:</span>
-            <b id="telemetry-speed">0 km/h</b>
-          </div>
-          <div class="telemetry-item">
-            <span>⏱️ Señal GPS:</span>
-            <b id="telemetry-timestamp">Ahora mismo</b>
-          </div>
-          <div class="telemetry-item" style="grid-column: 1 / -1; font-size:10px; color:#86efac; border-top:1px solid rgba(255,255,255,0.06); padding-top:4px; margin-top:2px;">
-            <span>🔄 Frecuencia de emisión:</span> <b>Cada 1 - 2 segundos (Máxima Precisión)</b>
-          </div>
-        </div>
-      </div>
 
-      <!-- Selector de Disponibilidad (Botones Grandes y Táctiles) -->
-      <div class="driver-card-panel">
-        <div style="font-size:12px; font-weight:700; color:#cbd5e1; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">
-          Tu Estado de Disponibilidad:
-        </div>
-        <div class="driver-status-grid">
-          <button class="driver-status-choice-btn active" data-status="disponible">
-            <span class="status-emoji">🟢</span>
-            <b>Libre</b>
-            <span class="status-sub">Listo para entregar</span>
+          <button id="btn-force-refresh-gps" class="btn-action-mobile btn-refresh" type="button">
+            <span class="btn-action-icon" id="btn-refresh-icon">🔄</span>
+            <div class="btn-action-text-group">
+              <span class="btn-action-main-text" id="btn-refresh-main">Actualizar Ubicación Ahora</span>
+              <span class="btn-action-sub-text" id="btn-refresh-sub">Fuerza lectura de satélites y reenvío</span>
+            </div>
           </button>
-          <button class="driver-status-choice-btn" data-status="en_reparto">
-            <span class="status-emoji">🟡</span>
-            <b>En ruta</b>
-            <span class="status-sub">Llevando un pedido</span>
-          </button>
-          <button class="driver-status-choice-btn" data-status="en_cocina">
-            <span class="status-emoji">🔵</span>
-            <b>En cocina</b>
-            <span class="status-sub">En base operativa</span>
-          </button>
-          <button class="driver-status-choice-btn" data-status="inactivo">
-            <span class="status-emoji">⚪</span>
-            <b>En pausa</b>
-            <span class="status-sub">Descanso</span>
-          </button>
-        </div>
-      </div>
 
-      <!-- Tarjeta de Pedido Asignado -->
-      <div id="driver-order-panel" class="driver-card-panel order-panel">
-        <!-- Rellenado dinámicamente según si tiene pedido o está esperando -->
-      </div>
+          <p class="refresh-helper-note">
+            💡 <span>Si el móvil entra en reposo o minimizas la pantalla, pulsa este botón al volver para reconectar y enviar tu posición exacta de inmediato.</span>
+          </p>
+        </section>
 
-      <!-- Mini Mapa del Repartidor (Opcional/Colapsable) -->
-      <div class="driver-card-panel">
-        <div class="mini-map-header" id="toggle-mini-map-btn" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
-          <span>🗺️ <b>Mi Mapa de Posición y Ruta</b></span>
-          <span id="mini-map-toggle-icon">▾</span>
-        </div>
-        <div id="driver-mini-map-container" class="driver-mini-map-container" style="display:block; margin-top:8px;">
-          <div id="driver-leaflet-map" style="height: 220px; width: 100%; border-radius: 8px;"></div>
-        </div>
-      </div>
-    </div>
+        <!-- Panel de Pedido Asignado (Solo si la central le asigna entrega) -->
+        <section id="driver-order-panel" class="driver-card-mobile card-order empty">
+          <!-- Rellenado dinámicamente si tiene pedido -->
+        </section>
 
-    <!-- Barra Inferior de Sincronización en Tiempo Real -->
-    <div class="driver-app-footer glass">
-      <div style="display:flex; align-items:center; gap:6px;">
-        <span class="pulse-indicator"></span>
-        <span id="driver-sync-status" style="font-size:11px; color:#86efac; font-weight:600;">Sincronizado en tiempo real</span>
-      </div>
-      <button id="driver-manual-sync-btn" class="driver-sync-btn" title="Forzar sincronización ahora">
-        🔄 Actualizar
-      </button>
+      </main>
+
+      <!-- Pie Móvil de Conexión -->
+      <footer class="driver-mobile-footer">
+        <div class="footer-sync-indicator">
+          <span class="pulse-indicator"></span>
+          <span id="driver-sync-status">Sincronizado con Central en Vivo</span>
+        </div>
+        <span class="mobile-version-tag">Móvil Repartidor</span>
+      </footer>
+
     </div>
   </div>
 

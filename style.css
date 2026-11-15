@@ -2051,115 +2051,273 @@ body, html {
   overflow: hidden;
 }
 
-/* Fullscreen Clean Mobile Driver App */
+/* =========================================================================
+   MÓDULO EXCLUSIVO PARA CELULAR DEL REPARTIDOR (MOBILE-FIRST - SIN MAPA)
+   ========================================================================= */
+
 .driver-portal-screen {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #090e17;
+  background: #06090e;
+  background-image: radial-gradient(circle at 50% 0%, #172033 0%, #06090e 75%);
   display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  font-family: 'Inter', sans-serif;
+  justify-content: center;
+  align-items: stretch;
+  overflow: hidden;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #fff;
 }
 
-.driver-app-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  padding: 12px 18px;
+/* Contenedor tipo teléfono móvil con proporción perfecta */
+.driver-mobile-viewport {
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  max-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #0b111a;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+  position: relative;
+}
+
+@media (max-width: 480px) {
+  .driver-mobile-viewport {
+    max-width: 100%;
+    border-left: none;
+    border-right: none;
+  }
+}
+
+/* Cabecera Móvil */
+.driver-mobile-header {
+  flex-shrink: 0;
+  padding: 14px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border-color);
-  background: rgba(15, 23, 42, 0.92);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.driver-profile-info {
+.driver-mobile-profile {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.driver-avatar {
-  width: 42px;
-  height: 42px;
-  background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+.driver-avatar-badge {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
-  border: 2px solid #ffffff;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.9);
 }
 
-.driver-app-name {
+.driver-mobile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.driver-mobile-name {
   font-size: 16px;
   font-weight: 800;
   color: #ffffff;
+  letter-spacing: -0.2px;
 }
 
-.driver-app-meta {
-  font-size: 12px;
+.driver-mobile-base {
+  font-size: 11px;
   color: #94a3b8;
+  font-weight: 500;
 }
 
-.driver-switch-view-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border-color);
-  color: #e2e8f0;
-  padding: 7px 12px;
-  border-radius: var(--radius-sm);
-  font-size: 12px;
+.driver-mobile-exit-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
-.driver-switch-view-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #cbd5e1;
+.driver-mobile-exit-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
 }
 
-.driver-app-content {
+/* Cuerpo con Scroll Móvil */
+.driver-mobile-body {
   flex: 1;
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
+  overflow-y: auto;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Driver Card Panels */
-.driver-card-panel {
-  background: rgba(30, 41, 59, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
-  padding: 14px 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+/* Tarjetas de Controles Táctiles para Móvil */
+.driver-card-mobile {
+  background: rgba(18, 25, 38, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* Location Control Panel */
-.location-control-panel {
-  border-color: rgba(34, 197, 94, 0.35);
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(30, 41, 59, 0.75) 100%);
-}
-
-.location-panel-header {
+.driver-card-header-clean {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
 }
 
+.card-icon-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-header-icon {
+  font-size: 20px;
+}
+
+.card-header-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.card-header-subtitle {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 2px 0 0 0;
+}
+
+/* Badges / Pills de Estado */
+.driver-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.driver-pill.pill-online {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.driver-pill.pill-offline {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+/* Botones de Acción Táctiles Grandes */
+.btn-action-mobile {
+  width: 100%;
+  min-height: 60px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+  gap: 14px;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-action-mobile:active {
+  transform: scale(0.98);
+}
+
+.btn-action-icon {
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  flex-shrink: 0;
+}
+
+.btn-action-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.btn-action-main-text {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.btn-action-sub-text {
+  font-size: 11px;
+  opacity: 0.85;
+  line-height: 1.2;
+}
+
+/* 1. Botón de Turno */
+.btn-shift-active {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
+}
+
+.btn-shift-inactive {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+}
+
+/* 2. Botón de GPS */
+.btn-gps-off {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1.5px solid #10b981;
+}
+
+.btn-gps-off:hover, .btn-gps-off:active {
+  background: #10b981;
+  color: #022c22;
+}
+
+.btn-gps-on {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.35);
+}
+
+/* Radar Dot Animado */
 .radar-dot {
   width: 12px;
   height: 12px;
@@ -2187,129 +2345,79 @@ body, html {
   100% { transform: scale(2.2); opacity: 0; }
 }
 
-.location-toggle-action {
-  margin-top: 6px;
-}
-
-.toggle-gps-btn {
-  width: 100%;
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  font-size: 14px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-}
-
-.toggle-gps-btn.off {
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
-  border-color: #22c55e;
-}
-
-.toggle-gps-btn.off:hover {
-  background: #22c55e;
-  color: #052e16;
-}
-
-.toggle-gps-btn.on {
-  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-  color: #ffffff;
-  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
-}
-
-.toggle-gps-btn.on:hover {
-  background: #dc2626;
-}
-
-.location-telemetry {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 12px;
-  font-size: 11px;
-  color: #cbd5e1;
-}
-
-.telemetry-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.telemetry-item b {
-  color: #86efac;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-}
-
-/* Driver Status Grid */
-.driver-status-grid {
+/* Telemetría Móvil */
+.mobile-gps-telemetry {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.driver-status-choice-btn {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--border-color);
-  padding: 10px 12px;
-  border-radius: var(--radius-md);
+.telemetry-chip {
+  background: rgba(15, 23, 42, 0.7);
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   gap: 2px;
-  cursor: pointer;
-  color: #e2e8f0;
-  transition: all 0.15s ease;
 }
 
-.driver-status-choice-btn .status-emoji {
-  font-size: 18px;
-}
-
-.driver-status-choice-btn b {
-  font-size: 13px;
-  margin-top: 2px;
-}
-
-.driver-status-choice-btn .status-sub {
+.chip-label {
   font-size: 10px;
-  color: var(--text-muted);
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-weight: 600;
 }
 
-.driver-status-choice-btn:hover {
-  background: rgba(30, 41, 59, 0.9);
-  border-color: #64748b;
+.chip-value {
+  font-size: 12px;
+  color: #86efac;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.driver-status-choice-btn.active {
-  background: rgba(34, 197, 94, 0.2);
-  border-color: #22c55e;
-  box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+/* 3. Botón de Actualizar Ubicación */
+.btn-refresh {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
 }
 
-.driver-status-choice-btn.active b {
-  color: #4ade80;
+.spin-on-click.spinning {
+  animation: spinDriver 1s linear infinite;
 }
 
-/* Order Panel */
-.order-panel {
+@keyframes spinDriver {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.refresh-helper-note {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+/* Tarjeta de Pedidos Móvil */
+.card-order {
   border: 1px solid rgba(245, 158, 11, 0.4);
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(30, 41, 59, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(18, 25, 38, 0.95) 100%);
 }
 
-.order-panel.empty {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(30, 41, 59, 0.5);
+.card-order.empty {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(18, 25, 38, 0.6);
 }
 
 .order-badge-title {
@@ -2324,15 +2432,15 @@ body, html {
 }
 
 .order-destination-box {
-  margin: 10px 0;
-  background: rgba(15, 23, 42, 0.6);
+  margin: 6px 0;
+  background: rgba(15, 23, 42, 0.65);
   padding: 10px 12px;
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .order-destination-cp {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   color: #fff;
   display: flex;
@@ -2350,15 +2458,15 @@ body, html {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .btn-open-navigation {
   background: #0284c7;
   color: #ffffff;
   border: none;
-  padding: 11px;
-  border-radius: var(--radius-sm);
+  padding: 12px;
+  border-radius: 10px;
   font-size: 13px;
   font-weight: 700;
   display: flex;
@@ -2379,7 +2487,7 @@ body, html {
   color: #052e16;
   border: none;
   padding: 12px;
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 800;
   display: flex;
@@ -2392,17 +2500,34 @@ body, html {
 
 .btn-mark-delivered:hover {
   background: #16a34a;
-  transform: translateY(-1px);
 }
 
-/* Driver App Footer */
-.driver-app-footer {
+/* Pie Móvil */
+.driver-mobile-footer {
+  flex-shrink: 0;
   padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(15, 23, 42, 0.95);
+  font-size: 11px;
+}
+
+.footer-sync-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #86efac;
+  font-weight: 600;
+}
+
+.mobile-version-tag {
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .pulse-indicator {
@@ -2412,25 +2537,6 @@ body, html {
   background: #22c55e;
   box-shadow: 0 0 8px #22c55e;
   animation: pulseDot 2s infinite;
-}
-
-.driver-sync-btn {
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: #94a3b8;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.driver-sync-btn:hover {
-  color: #fff;
-  border-color: #22c55e;
 }
 
 /* ===================================================
