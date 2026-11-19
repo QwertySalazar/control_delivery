@@ -688,6 +688,167 @@
     @media print { .center-kitchen-badge text {
       fill: #0f172a !important;
     }}
+
+    /* BARRA Y RUEDA DE ROTACIÓN DEL PLANO */
+    .rotation-control-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 14px;
+      margin-bottom: 12px;
+      user-select: none;
+    }
+    body.light-theme .rotation-control-panel {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .rot-wheel-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rot-wheel {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 2.5px solid var(--card-border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.15);
+      cursor: grab;
+      touch-action: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .rot-wheel:active {
+      cursor: grabbing;
+      border-color: #38bdf8;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+    }
+    body.light-theme .rot-wheel {
+      background: linear-gradient(135deg, #ffffff, #e2e8f0);
+      border-color: #94a3b8;
+    }
+
+    .rot-needle {
+      position: absolute;
+      top: 3px;
+      font-size: 15px;
+      color: #ef4444;
+      font-weight: 900;
+      transform-origin: center 19px;
+      pointer-events: none;
+      line-height: 1;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      transition: transform 0.05s linear;
+    }
+    .rot-wheel::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #475569;
+      pointer-events: none;
+    }
+
+    .rot-label-box {
+      display: flex;
+      flex-direction: column;
+    }
+    .rot-main-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .rot-degrees {
+      color: #38bdf8;
+      font-size: 13px;
+      font-weight: 900;
+      min-width: 38px;
+    }
+    .rot-sub-label {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .rot-slider-box {
+      flex: 1;
+      max-width: 200px;
+      display: flex;
+      align-items: center;
+    }
+    .rot-slider {
+      width: 100%;
+      accent-color: #38bdf8;
+      cursor: pointer;
+    }
+
+    .rot-buttons-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .btn-rot-preset {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-rot-preset:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+    .btn-preset-28042 {
+      background: rgba(37, 99, 235, 0.25);
+      border-color: #60a5fa;
+      color: #93c5fd;
+    }
+    .btn-preset-28042:hover {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #ffffff;
+    }
+    .btn-rot-step {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-rot-step:hover {
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    @media print {
+      .rotation-control-panel {
+        display: none !important;
+      }
+    }
 </style>
 </head>
 <body>
@@ -728,6 +889,29 @@
             <span>📍 Matriz Cartesiana (Líneas Definidas & CPs Completos)</span>
             <span>Radio: 15 km</span>
           </div>
+          <div class="rotation-control-panel" data-sheet="norte">
+            <div class="rot-wheel-box">
+              <div class="rot-wheel" id="wheel-norte" data-sheet="norte" title="Arrastra la rueda para girar el plano">
+                <div class="rot-needle" id="needle-norte">▲</div>
+              </div>
+              <div class="rot-label-box">
+                <div class="rot-main-label">🔄 Rotación: <span class="rot-degrees" id="deg-norte">0°</span></div>
+                <div class="rot-sub-label" id="desc-norte">Norte Geográfico (0°)</div>
+              </div>
+            </div>
+
+            <div class="rot-slider-box">
+              <input type="range" class="rot-slider" id="slider-norte" data-sheet="norte" min="-180" max="180" value="0" step="1">
+            </div>
+
+            <div class="rot-buttons-box">
+              <button class="btn-rot-preset btn-preset-28042" data-sheet="norte" data-angle="-56">🎯 28042 al Norte</button>
+              <button class="btn-rot-preset" data-sheet="norte" data-angle="0">🧭 0° Norte Real</button>
+              <button class="btn-rot-step" data-sheet="norte" data-step="-15" title="Girar -15°">↺ -15°</button>
+              <button class="btn-rot-step" data-sheet="norte" data-step="15" title="Girar +15°">↻ +15°</button>
+            </div>
+          </div>
+
 
           <svg class="radar-svg" viewBox="-450 -450 900 900" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -1689,6 +1873,28 @@
             <span>📍 Matriz Cartesiana (Líneas Definidas & CPs Completos)</span>
             <span>Radio: 15 km</span>
           </div>
+          <div class="rotation-control-panel" data-sheet="fuencarral">
+            <div class="rot-wheel-box">
+              <div class="rot-wheel" id="wheel-fuencarral" data-sheet="fuencarral" title="Arrastra la rueda para girar el plano">
+                <div class="rot-needle" id="needle-fuencarral">▲</div>
+              </div>
+              <div class="rot-label-box">
+                <div class="rot-main-label">🔄 Rotación: <span class="rot-degrees" id="deg-fuencarral">0°</span></div>
+                <div class="rot-sub-label" id="desc-fuencarral">Norte Geográfico (0°)</div>
+              </div>
+            </div>
+
+            <div class="rot-slider-box">
+              <input type="range" class="rot-slider" id="slider-fuencarral" data-sheet="fuencarral" min="-180" max="180" value="0" step="1">
+            </div>
+
+            <div class="rot-buttons-box">
+              <button class="btn-rot-preset" data-sheet="fuencarral" data-angle="0">🧭 0° Norte Real</button>
+              <button class="btn-rot-step" data-sheet="fuencarral" data-step="-15" title="Girar -15°">↺ -15°</button>
+              <button class="btn-rot-step" data-sheet="fuencarral" data-step="15" title="Girar +15°">↻ +15°</button>
+            </div>
+          </div>
+
 
           <svg class="radar-svg" viewBox="-450 -450 900 900" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -2172,6 +2378,28 @@
             <span>📍 Matriz Cartesiana (Líneas Definidas & CPs Completos)</span>
             <span>Radio: 15 km</span>
           </div>
+          <div class="rotation-control-panel" data-sheet="alcorcon">
+            <div class="rot-wheel-box">
+              <div class="rot-wheel" id="wheel-alcorcon" data-sheet="alcorcon" title="Arrastra la rueda para girar el plano">
+                <div class="rot-needle" id="needle-alcorcon">▲</div>
+              </div>
+              <div class="rot-label-box">
+                <div class="rot-main-label">🔄 Rotación: <span class="rot-degrees" id="deg-alcorcon">0°</span></div>
+                <div class="rot-sub-label" id="desc-alcorcon">Norte Geográfico (0°)</div>
+              </div>
+            </div>
+
+            <div class="rot-slider-box">
+              <input type="range" class="rot-slider" id="slider-alcorcon" data-sheet="alcorcon" min="-180" max="180" value="0" step="1">
+            </div>
+
+            <div class="rot-buttons-box">
+              <button class="btn-rot-preset" data-sheet="alcorcon" data-angle="0">🧭 0° Norte Real</button>
+              <button class="btn-rot-step" data-sheet="alcorcon" data-step="-15" title="Girar -15°">↺ -15°</button>
+              <button class="btn-rot-step" data-sheet="alcorcon" data-step="15" title="Girar +15°">↻ +15°</button>
+            </div>
+          </div>
+
 
           <svg class="radar-svg" viewBox="-450 -450 900 900" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -3062,6 +3290,29 @@
             <span>📍 Plano Bipolar de Fusión (Doble Centro & Eje Divisorio)</span>
             <span>Escala: 18 km radio</span>
           </div>
+          <div class="rotation-control-panel" data-sheet="fusion">
+            <div class="rot-wheel-box">
+              <div class="rot-wheel" id="wheel-fusion" data-sheet="fusion" title="Arrastra la rueda para girar el plano">
+                <div class="rot-needle" id="needle-fusion">▲</div>
+              </div>
+              <div class="rot-label-box">
+                <div class="rot-main-label">🔄 Rotación: <span class="rot-degrees" id="deg-fusion">0°</span></div>
+                <div class="rot-sub-label" id="desc-fusion">Norte Geográfico (0°)</div>
+              </div>
+            </div>
+
+            <div class="rot-slider-box">
+              <input type="range" class="rot-slider" id="slider-fusion" data-sheet="fusion" min="-180" max="180" value="0" step="1">
+            </div>
+
+            <div class="rot-buttons-box">
+              <button class="btn-rot-preset btn-preset-28042" data-sheet="fusion" data-angle="-79">🎯 28042 al Norte</button>
+              <button class="btn-rot-preset" data-sheet="fusion" data-angle="0">🧭 0° Norte Real</button>
+              <button class="btn-rot-step" data-sheet="fusion" data-step="-15" title="Girar -15°">↺ -15°</button>
+              <button class="btn-rot-step" data-sheet="fusion" data-step="15" title="Girar +15°">↻ +15°</button>
+            </div>
+          </div>
+
 
           <svg class="radar-svg fusion-svg" viewBox="-450 -450 900 900" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -4992,6 +5243,302 @@
     } else {
       document.querySelector('.btn-tab[data-target="norte"]').click();
     }
+  
+    // =========================================================================
+    // MOTOR DE ROTACIÓN MATEMÁTICA Y RUEDA DE ORIENTACIÓN (COMPASS WHEEL)
+    // =========================================================================
+    const ROTATION_STATE = {
+      norte: 0,
+      fuencarral: 0,
+      alcorcon: 0,
+      fusion: 0
+    };
+
+    const SHEET_DATA = {};
+
+    function initSheetData() {
+      ['norte', 'fuencarral', 'alcorcon', 'fusion'].forEach(sid => {
+        const sheet = document.getElementById('sheet-' + sid);
+        if (!sheet) return;
+        const svg = sheet.querySelector('.radar-svg');
+        if (!svg) return;
+
+        const data = {
+          sid: sid,
+          badges: [],
+          shiftLines: [],
+          shiftCircles: [],
+          rays: []
+        };
+
+        // Parse badges
+        sheet.querySelectorAll('.radar-node').forEach(node => {
+          const cp = node.getAttribute('data-cp');
+          const rect = node.querySelector('rect.node-rect');
+          const text = node.querySelector('text');
+          if (rect && text) {
+            const rx = parseFloat(rect.getAttribute('x'));
+            const ry = parseFloat(rect.getAttribute('y'));
+            const cx = rx + 25.0;
+            const cy = ry + 11.0;
+
+            // Find corresponding ray
+            let ray = svg.querySelector(`.radar-ray[data-cp="${cp}"]`);
+            if (!ray) ray = svg.querySelector(`.fusion-ray.ray-norte[data-cp="${cp}"]`);
+            let ox = cx, oy = cy;
+            if (ray) {
+              ox = parseFloat(ray.getAttribute('x2'));
+              oy = parseFloat(ray.getAttribute('y2'));
+            }
+
+            // Find shift line if present
+            let shiftLine = null;
+            let shiftCircle = null;
+            svg.querySelectorAll(`line[x2="${rx + 25}"][y2="${ry + 11}"]`).forEach(l => {
+              if (!l.classList.contains('radar-ray') && !l.classList.contains('fusion-ray')) {
+                shiftLine = l;
+              }
+            });
+            if (shiftLine) {
+              shiftCircle = svg.querySelector(`circle[cx="${shiftLine.getAttribute('x1')}"][cy="${shiftLine.getAttribute('y1')}"]`);
+            }
+
+            data.badges.push({
+              cp: cp,
+              node: node,
+              rect: rect,
+              text: text,
+              base_cx: cx,
+              base_cy: cy,
+              base_ox: ox,
+              base_oy: oy,
+              ray: ray,
+              shiftLine: shiftLine,
+              shiftCircle: shiftCircle
+            });
+          }
+        });
+
+        if (sid === 'fusion') {
+          data.fuencMarker = svg.querySelector('.kitchen-marker-fusion.marker-fuencarral');
+          data.norteMarker = svg.querySelector('.kitchen-marker-fusion.marker-norte');
+          data.base_kfx = -69.49864638175696;
+          data.base_kfy = -49.84274459998841;
+          data.base_knx = 69.49864638175777;
+          data.base_kny = 49.84274460000569;
+
+          // Kitchen connector
+          svg.querySelectorAll('line').forEach(l => {
+            if (l.getAttribute('stroke-dasharray') === '4 4' && l.getAttribute('stroke') === '#ffffff') {
+              data.kitchenLine = l;
+            }
+          });
+
+          // Bisector
+          data.bisectorLine = svg.querySelector('line[stroke-dasharray="6 4"][opacity="0.75"]');
+          data.bisectorText = svg.querySelector('.frontier-label');
+        }
+
+        SHEET_DATA[sid] = data;
+      });
+    }
+
+    function setSheetRotation(sid, deg) {
+      // Normalize deg (-180 to 180)
+      deg = Math.round(deg);
+      if (deg > 180) deg -= 360;
+      if (deg < -180) deg += 360;
+
+      ROTATION_STATE[sid] = deg;
+
+      // Update UI elements
+      const slider = document.getElementById('slider-' + sid);
+      if (slider) slider.value = deg;
+
+      const degLabel = document.getElementById('deg-' + sid);
+      if (degLabel) degLabel.textContent = (deg > 0 ? '+' : '') + deg + '°';
+
+      const needle = document.getElementById('needle-' + sid);
+      if (needle) needle.style.transform = `rotate(${deg}deg)`;
+
+      const descLabel = document.getElementById('desc-' + sid);
+      if (descLabel) {
+        if (deg === 0) {
+          descLabel.textContent = 'Norte Geográfico (0°)';
+        } else if ((sid === 'norte' && deg === -56) || (sid === 'fusion' && deg === -79)) {
+          descLabel.textContent = '🎯 Orientado a CP 28042 (Barajas / Alameda de Osuna)';
+        } else {
+          descLabel.textContent = `Ángulo de Orientación (${deg}°)`;
+        }
+      }
+
+      // Mathematical transformation on SVG elements
+      const data = SHEET_DATA[sid];
+      if (!data) return;
+
+      const rad = (deg * Math.PI) / 180.0;
+      const cos = Math.cos(rad);
+      const sin = Math.sin(rad);
+
+      // Rotate each badge while keeping its rectangle and text 100% upright!
+      data.badges.forEach(b => {
+        const rcx = b.base_cx * cos - b.base_cy * sin;
+        const rcy = b.base_cx * sin + b.base_cy * cos;
+
+        b.rect.setAttribute('x', (rcx - 25.0).toFixed(1));
+        b.rect.setAttribute('y', (rcy - 11.0).toFixed(1));
+
+        b.text.setAttribute('x', rcx.toFixed(1));
+        b.text.setAttribute('y', (rcy + 4.2).toFixed(1));
+
+        if (b.ray) {
+          const rox = b.base_ox * cos - b.base_oy * sin;
+          const roy = b.base_ox * sin + b.base_oy * cos;
+          b.ray.setAttribute('x2', rox.toFixed(1));
+          b.ray.setAttribute('y2', roy.toFixed(1));
+        }
+
+        if (b.shiftLine) {
+          const rox = b.base_ox * cos - b.base_oy * sin;
+          const roy = b.base_ox * sin + b.base_oy * cos;
+          b.shiftLine.setAttribute('x1', rox.toFixed(1));
+          b.shiftLine.setAttribute('y1', roy.toFixed(1));
+          b.shiftLine.setAttribute('x2', rcx.toFixed(1));
+          b.shiftLine.setAttribute('y2', rcy.toFixed(1));
+
+          if (b.shiftCircle) {
+            b.shiftCircle.setAttribute('cx', rox.toFixed(1));
+            b.shiftCircle.setAttribute('cy', roy.toFixed(1));
+          }
+        }
+      });
+
+      // Special rotation for fusion kitchen markers
+      if (sid === 'fusion') {
+        const r_kfx = data.base_kfx * cos - data.base_kfy * sin;
+        const r_kfy = data.base_kfx * sin + data.base_kfy * cos;
+        if (data.fuencMarker) {
+          data.fuencMarker.setAttribute('transform', `translate(${r_kfx.toFixed(1)}, ${r_kfy.toFixed(1)})`);
+        }
+
+        const r_knx = data.base_knx * cos - data.base_kny * sin;
+        const r_kny = data.base_knx * sin + data.base_kny * cos;
+        if (data.norteMarker) {
+          data.norteMarker.setAttribute('transform', `translate(${r_knx.toFixed(1)}, ${r_kny.toFixed(1)})`);
+        }
+
+        if (data.kitchenLine) {
+          data.kitchenLine.setAttribute('x1', r_kfx.toFixed(1));
+          data.kitchenLine.setAttribute('y1', r_kfy.toFixed(1));
+          data.kitchenLine.setAttribute('x2', r_knx.toFixed(1));
+          data.kitchenLine.setAttribute('y2', r_kny.toFixed(1));
+        }
+
+        if (data.bisectorLine) {
+          const bx1 = -310 * cos - 432 * sin;
+          const by1 = -310 * sin + 432 * cos;
+          const bx2 = 310 * cos - (-432) * sin;
+          const by2 = 310 * sin + (-432) * cos;
+          data.bisectorLine.setAttribute('x1', bx1.toFixed(1));
+          data.bisectorLine.setAttribute('y1', by1.toFixed(1));
+          data.bisectorLine.setAttribute('x2', bx2.toFixed(1));
+          data.bisectorLine.setAttribute('y2', by2.toFixed(1));
+        }
+
+        if (data.bisectorText) {
+          const tx = 215 * cos - (-300) * sin;
+          const ty = 215 * sin + (-300) * cos;
+          const textAngle = -54.4 + deg;
+          data.bisectorText.setAttribute('x', tx.toFixed(1));
+          data.bisectorText.setAttribute('y', ty.toFixed(1));
+          data.bisectorText.setAttribute('transform', `rotate(${textAngle.toFixed(1)}, ${tx.toFixed(1)}, ${ty.toFixed(1)})`);
+        }
+      }
+    }
+
+    function stepSheetRotation(sid, delta) {
+      setSheetRotation(sid, (ROTATION_STATE[sid] || 0) + delta);
+    }
+
+    // Attach Wheel & Controls Event Listeners
+    function setupRotationControls() {
+      ['norte', 'fuencarral', 'alcorcon', 'fusion'].forEach(sid => {
+        const slider = document.getElementById('slider-' + sid);
+        if (slider) {
+          slider.addEventListener('input', (e) => {
+            setSheetRotation(sid, parseFloat(e.target.value));
+          });
+        }
+
+        // Preset and step buttons
+        const panel = document.querySelector(`.rotation-control-panel[data-sheet="${sid}"]`);
+        if (panel) {
+          panel.querySelectorAll('.btn-rot-preset').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const ang = parseFloat(btn.getAttribute('data-angle'));
+              setSheetRotation(sid, ang);
+            });
+          });
+          panel.querySelectorAll('.btn-rot-step').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const stp = parseFloat(btn.getAttribute('data-step'));
+              stepSheetRotation(sid, stp);
+            });
+          });
+        }
+
+        // Interactive Circular Wheel Dragging
+        const wheel = document.getElementById('wheel-' + sid);
+        if (wheel) {
+          let isDragging = false;
+
+          function getAngleFromEvent(e) {
+            const rect = wheel.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : cx);
+            const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : cy);
+            const rad = Math.atan2(clientY - cy, clientX - cx);
+            let deg = Math.round((rad * 180) / Math.PI + 90);
+            if (deg > 180) deg -= 360;
+            return deg;
+          }
+
+          wheel.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            setSheetRotation(sid, getAngleFromEvent(e));
+          });
+          window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+              setSheetRotation(sid, getAngleFromEvent(e));
+            }
+          });
+          window.addEventListener('mouseup', () => {
+            isDragging = false;
+          });
+
+          // Touch events for mobile/tablet
+          wheel.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            setSheetRotation(sid, getAngleFromEvent(e));
+          }, { passive: true });
+          window.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+              setSheetRotation(sid, getAngleFromEvent(e));
+            }
+          }, { passive: true });
+          window.addEventListener('touchend', () => {
+            isDragging = false;
+          });
+        }
+      });
+    }
+
+    // Initialize rotation on load (alinear 28042 al Norte por defecto en Cocina Norte)
+    initSheetData();
+    setupRotationControls();
+    setSheetRotation('norte', -56);
+
   </script>
 </body>
 </html>
