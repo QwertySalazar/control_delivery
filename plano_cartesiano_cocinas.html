@@ -505,6 +505,25 @@
         font-weight: 900 !important;
       }
 
+      
+      .kitchen-marker-fusion rect {
+        fill: #ffffff !important;
+        stroke: #64748b !important;
+      }
+      .kitchen-marker-fusion text {
+        fill: #0f172a !important;
+      }
+      .midpoint-badge rect {
+        fill: #ffffff !important;
+        stroke: #7c3aed !important;
+      }
+      .midpoint-badge text {
+        fill: #5b21b6 !important;
+      }
+      .frontier-label {
+        fill: #6b21a8 !important;
+      }
+
       body.print-only-radar .table-card {
         display: none !important;
       }
@@ -519,6 +538,55 @@
         max-width: 190mm !important;
         margin: 0 auto !important;
       }
+    }
+  
+    /* MODO CLARO EN PANTALLA (PALETA PASTEL ARMONIOSA Y ELEGANTE) */
+    body.light-theme .radar-node.tipo-compartido rect {
+      fill: #f5f3ff !important;
+      stroke: #7c3aed !important;
+      stroke-width: 2px !important;
+    }
+    body.light-theme .radar-node.tipo-compartido text {
+      fill: #5b21b6 !important;
+      font-weight: 900 !important;
+    }
+
+    body.light-theme .radar-node.tipo-norte rect {
+      fill: #eff6ff !important;
+      stroke: #1d4ed8 !important;
+      stroke-width: 2px !important;
+    }
+    body.light-theme .radar-node.tipo-norte text {
+      fill: #1e40af !important;
+      font-weight: 900 !important;
+    }
+
+    body.light-theme .radar-node.tipo-fuencarral rect {
+      fill: #fffbeb !important;
+      stroke: #d97706 !important;
+      stroke-width: 2px !important;
+    }
+    body.light-theme .radar-node.tipo-fuencarral text {
+      fill: #92400e !important;
+      font-weight: 900 !important;
+    }
+
+    body.light-theme .kitchen-marker-fusion rect {
+      fill: #ffffff !important;
+      stroke: #64748b !important;
+    }
+    body.light-theme .kitchen-marker-fusion text {
+      fill: #0f172a !important;
+    }
+    body.light-theme .midpoint-badge rect {
+      fill: #ffffff !important;
+      stroke: #7c3aed !important;
+    }
+    body.light-theme .midpoint-badge text {
+      fill: #5b21b6 !important;
+    }
+    body.light-theme .frontier-label {
+      fill: #6b21a8 !important;
     }
   </style>
 </head>
@@ -2917,7 +2985,7 @@
 <rect x="373.0" y="-16" width="46" height="16" rx="4" fill="var(--ring-badge-bg)" stroke="var(--ring-stroke)" stroke-width="1.2"/>
 <text x="396.0" y="-4.5" font-size="9" fill="var(--ring-badge-text)" font-weight="900" text-anchor="middle">18 km</text>
 <line x1="-310" y1="432" x2="310" y2="-432" stroke="#a855f7" stroke-width="2.2" stroke-dasharray="6 4" opacity="0.7"/>
-<text x="215" y="-300" transform="rotate(-54.4, 215, -300)" font-size="9" font-weight="900" fill="#c084fc" letter-spacing="1">⚡ FRONTERA EQUIDISTANTE (dN = dF)</text>
+<text x="215" y="-300" transform="rotate(-54.4, 215, -300)" font-size="9" font-weight="900" fill="#c084fc" letter-spacing="1" class="frontier-label">⚡ FRONTERA EQUIDISTANTE (dN = dF)</text>
 <line x1="-420" y1="0" x2="420" y2="0" stroke="var(--axis-color)" stroke-width="2" opacity="0.65" marker-end="url(#arrow_fusion)"/>
 <line x1="0" y1="420" x2="0" y2="-420" stroke="var(--axis-color)" stroke-width="2" opacity="0.65" marker-end="url(#arrow_fusion)"/>
 <text x="428" y="4.5" font-size="11" font-weight="900" fill="var(--text-muted)">ESTE (+X)</text>
@@ -2926,22 +2994,22 @@
 <text x="0" y="438" font-size="11" font-weight="900" fill="var(--text-muted)" text-anchor="middle">SUR (-Y)</text>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="69.49864638175777" y2="49.84274460000569" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="4 4" opacity="0.8"/>
 <g class="midpoint-badge">
-  <rect x="-30" y="-8" width="60" height="16" rx="8" fill="#0f172a" stroke="#c084fc" stroke-width="1.4"/>
-  <text x="0" y="3.5" font-size="8" font-weight="900" fill="#f8fafc" text-anchor="middle">7.8 KM</text>
+  <rect x="-24" y="-7" width="48" height="14" rx="7" fill="#0f172a" stroke="#c084fc" stroke-width="1.4"/>
+  <text x="0" y="3.5" font-size="7.5" font-weight="900" fill="#f8fafc" text-anchor="middle">7.8 KM</text>
 </g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="129.1" y2="-181.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28703"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="129.1" y2="-181.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28703"/>
 <g class="radar-node fusion-node tipo-compartido" data-cp="28703" data-tipo="COMPARTIDO"><rect x="104.1" y="-192.7" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="129.1" y="-177.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28703</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-73.5" y2="98.4" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28004"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-73.5" y2="98.4" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28004"/>
-<line x1="-73.5" y1="98.4" x2="-60.9" y2="116.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-73.5" y1="98.4" x2="-66.0" y2="140.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-73.5" cy="98.4" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28004" data-tipo="COMPARTIDO"><rect x="-85.9" y="105.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-60.9" y="120.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28004</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28004" data-tipo="COMPARTIDO"><rect x="-91.0" y="129.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="144.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28004</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-84.3" y2="113.4" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28013"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-84.3" y2="113.4" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28013"/>
-<line x1="-84.3" y1="113.4" x2="-121.8" y2="116.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-84.3" y1="113.4" x2="-124.0" y2="140.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-84.3" cy="113.4" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28013" data-tipo="COMPARTIDO"><rect x="-146.8" y="105.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-121.8" y="120.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28013</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28013" data-tipo="COMPARTIDO"><rect x="-149.0" y="129.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-124.0" y="144.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28013</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="67.2" y2="-99.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28055"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="67.2" y2="-99.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28055"/>
 <line x1="67.2" y1="-99.6" x2="67.2" y2="-92.6" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
@@ -2949,19 +3017,19 @@
 <g class="radar-node fusion-node tipo-compartido" data-cp="28055" data-tipo="COMPARTIDO"><rect x="42.2" y="-103.6" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="67.2" y="-88.39999999999999" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28055</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-88.3" y2="137.0" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28005"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-88.3" y2="137.0" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28005"/>
-<line x1="-88.3" y1="137.0" x2="-125.5" y2="144.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-88.3" y1="137.0" x2="-125.5" y2="168.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-88.3" cy="137.0" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28005" data-tipo="COMPARTIDO"><rect x="-150.5" y="133.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-125.5" y="148.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28005</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28005" data-tipo="COMPARTIDO"><rect x="-150.5" y="157.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-125.5" y="172.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28005</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-24.7" y2="43.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28002"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-24.7" y2="43.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28002"/>
-<line x1="-24.7" y1="43.6" x2="-40.5" y2="60.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-24.7" y1="43.6" x2="-7.8" y2="52.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-24.7" cy="43.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28002" data-tipo="COMPARTIDO"><rect x="-65.5" y="49.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-40.5" y="64.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28002</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28002" data-tipo="COMPARTIDO"><rect x="-32.8" y="41.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-7.8" y="56.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28002</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-66.5" y2="78.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28010"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-66.5" y2="78.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28010"/>
-<line x1="-66.5" y1="78.8" x2="-81.5" y2="88.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-66.5" y1="78.8" x2="-112.5" y2="112.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-66.5" cy="78.8" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28010" data-tipo="COMPARTIDO"><rect x="-106.5" y="77.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-81.5" y="92.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28010</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28010" data-tipo="COMPARTIDO"><rect x="-137.5" y="101.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-112.5" y="116.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28010</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="65.6" y2="-114.2" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28109"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="65.6" y2="-114.2" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28109"/>
 <line x1="65.6" y1="-114.2" x2="65.6" y2="-121.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
@@ -2969,85 +3037,87 @@
 <g class="radar-node fusion-node tipo-compartido" data-cp="28109" data-tipo="COMPARTIDO"><rect x="40.599999999999994" y="-132.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="65.6" y="-117.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28109</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-23.6" y2="17.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28016"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-23.6" y2="17.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28016"/>
-<line x1="-23.6" y1="17.5" x2="13.9" y2="18.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-23.6" y1="17.5" x2="-1.7" y2="24.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-23.6" cy="17.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28016" data-tipo="COMPARTIDO"><rect x="-11.1" y="7.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="13.9" y="22.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28016</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28016" data-tipo="COMPARTIDO"><rect x="-26.7" y="13.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-1.7" y="28.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28016</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-73.6" y2="133.2" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28012"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-73.6" y2="133.2" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28012"/>
-<line x1="-73.6" y1="133.2" x2="-66.0" y2="172.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-73.6" y1="133.2" x2="-66.0" y2="196.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-73.6" cy="133.2" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28012" data-tipo="COMPARTIDO"><rect x="-91.0" y="161.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="176.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28012</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28012" data-tipo="COMPARTIDO"><rect x="-91.0" y="185.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="200.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28012</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="25.6" y2="-15.9" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28033"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="25.6" y2="-15.9" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28033"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28033" data-tipo="COMPARTIDO"><rect x="0.6000000000000014" y="-29.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="25.6" y="-13.8" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28033</text></g>
+<line x1="25.6" y1="-15.9" x2="56.5" y2="-40.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<circle cx="25.6" cy="-15.9" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28033" data-tipo="COMPARTIDO"><rect x="31.5" y="-51.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="56.5" y="-36.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28033</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-33.3" y2="74.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28006"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-33.3" y2="74.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28006"/>
-<line x1="-33.3" y1="74.8" x2="-23.5" y2="88.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-33.3" y1="74.8" x2="-54.5" y2="84.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-33.3" cy="74.8" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28006" data-tipo="COMPARTIDO"><rect x="-48.5" y="77.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-23.5" y="92.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28006</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28006" data-tipo="COMPARTIDO"><rect x="-79.5" y="73.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-54.5" y="88.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28006</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-87.2" y2="81.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28015"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-87.2" y2="81.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28015"/>
-<line x1="-87.2" y1="81.8" x2="-139.5" y2="88.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-87.2" y1="81.8" x2="-170.5" y2="89.9" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-87.2" cy="81.8" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28015" data-tipo="COMPARTIDO"><rect x="-164.5" y="77.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-139.5" y="92.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28015</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28015" data-tipo="COMPARTIDO"><rect x="-195.5" y="78.9" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-170.5" y="94.10000000000001" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28015</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-39.0" y2="99.0" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28001"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-39.0" y2="99.0" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28001"/>
-<line x1="-39.0" y1="99.0" x2="-0.8" y2="116.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-39.0" y1="99.0" x2="-8.0" y2="112.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-39.0" cy="99.0" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28001" data-tipo="COMPARTIDO"><rect x="-25.8" y="105.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-0.8" y="120.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28001</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28001" data-tipo="COMPARTIDO"><rect x="-33.0" y="101.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-8.0" y="116.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28001</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-52.9" y2="127.4" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28014"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-52.9" y2="127.4" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28014"/>
-<line x1="-52.9" y1="127.4" x2="-63.8" y2="144.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-52.9" y1="127.4" x2="-66.0" y2="168.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-52.9" cy="127.4" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28014" data-tipo="COMPARTIDO"><rect x="-88.8" y="133.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-63.8" y="148.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28014</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28014" data-tipo="COMPARTIDO"><rect x="-91.0" y="157.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="172.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28014</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-49.8" y2="30.2" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28046"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-49.8" y2="30.2" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28046"/>
-<line x1="-49.8" y1="30.2" x2="-44.1" y2="32.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-49.8" y1="30.2" x2="-66.1" y2="28.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-49.8" cy="30.2" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28046" data-tipo="COMPARTIDO"><rect x="-69.1" y="21.200000000000003" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-44.1" y="36.400000000000006" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28046</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28046" data-tipo="COMPARTIDO"><rect x="-91.1" y="17.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-66.1" y="32.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28046</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-110.1" y2="88.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28008"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-110.1" y2="88.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28008"/>
-<line x1="-110.1" y1="88.6" x2="-197.5" y2="87.9" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-110.1" y1="88.6" x2="-228.5" y2="87.9" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-110.1" cy="88.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28008" data-tipo="COMPARTIDO"><rect x="-222.5" y="76.9" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-197.5" y="92.10000000000001" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28008</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28008" data-tipo="COMPARTIDO"><rect x="-253.5" y="76.9" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-228.5" y="92.10000000000001" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28008</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-85.5" y2="54.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28003"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-85.5" y2="54.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28003"/>
-<line x1="-85.5" y1="54.6" x2="-98.5" y2="60.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-85.5" y1="54.6" x2="-112.5" y2="84.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-85.5" cy="54.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28003" data-tipo="COMPARTIDO"><rect x="-123.5" y="49.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-98.5" y="64.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28003</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28003" data-tipo="COMPARTIDO"><rect x="-137.5" y="73.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-112.5" y="88.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28003</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-26.8" y2="110.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28009"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-26.8" y2="110.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28009"/>
-<line x1="-26.8" y1="110.8" x2="-2.9" y2="144.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-26.8" y1="110.8" x2="-8.0" y2="140.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-26.8" cy="110.8" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28009" data-tipo="COMPARTIDO"><rect x="-27.9" y="133.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-2.9" y="148.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28009</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28009" data-tipo="COMPARTIDO"><rect x="-33.0" y="129.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-8.0" y="144.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28009</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-48.8" y2="177.9" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28045"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-48.8" y2="177.9" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28045"/>
-<line x1="-48.8" y1="177.9" x2="-48.8" y2="200.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-48.8" y1="177.9" x2="-48.8" y2="224.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-48.8" cy="177.9" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28045" data-tipo="COMPARTIDO"><rect x="-73.8" y="189.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-48.8" y="204.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28045</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28045" data-tipo="COMPARTIDO"><rect x="-73.8" y="213.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-48.8" y="228.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28045</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-37.0" y2="2.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28036"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-37.0" y2="2.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28036"/>
-<line x1="-37.0" y1="2.5" x2="-50.0" y2="4.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-37.0" y1="2.5" x2="-1.5" y2="-24.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-37.0" cy="2.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28036" data-tipo="COMPARTIDO"><rect x="-75.0" y="-6.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-50.0" y="8.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28036</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28036" data-tipo="COMPARTIDO"><rect x="-26.5" y="-35.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-1.5" y="-19.8" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28036</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="38.9" y2="-153.9" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28108"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="38.9" y2="-153.9" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28108"/>
 <g class="radar-node fusion-node tipo-compartido" data-cp="28108" data-tipo="COMPARTIDO"><rect x="13.899999999999999" y="-164.9" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="38.9" y="-149.70000000000002" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28108</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-9.9" y2="80.3" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28028"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-9.9" y2="80.3" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28028"/>
-<line x1="-9.9" y1="80.3" x2="34.5" y2="75.8" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-9.9" y1="80.3" x2="3.5" y2="80.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-9.9" cy="80.3" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28028" data-tipo="COMPARTIDO"><rect x="9.5" y="64.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="34.5" y="80.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28028</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28028" data-tipo="COMPARTIDO"><rect x="-21.5" y="69.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="3.5" y="84.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28028</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="33.9" y2="9.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28043"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="33.9" y2="9.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28043"/>
-<line x1="33.9" y1="9.6" x2="71.9" y2="10.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="33.9" y1="9.6" x2="56.5" y2="-12.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="33.9" cy="9.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28043" data-tipo="COMPARTIDO"><rect x="46.900000000000006" y="-0.8000000000000007" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="71.9" y="14.399999999999999" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28043</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28043" data-tipo="COMPARTIDO"><rect x="31.5" y="-23.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="56.5" y="-7.999999999999999" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28043</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-63.3" y2="18.0" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28020"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-63.3" y2="18.0" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28020"/>
-<line x1="-63.3" y1="18.0" x2="-102.1" y2="32.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-63.3" y1="18.0" x2="-75.2" y2="56.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-63.3" cy="18.0" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28020" data-tipo="COMPARTIDO"><rect x="-127.1" y="21.200000000000003" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-102.1" y="36.400000000000006" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28020</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28020" data-tipo="COMPARTIDO"><rect x="-100.2" y="45.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-75.2" y="60.400000000000006" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28020</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="43.6" y2="-210.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28701"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="43.6" y2="-210.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28701"/>
 <line x1="43.6" y1="-210.7" x2="58.1" y2="-210.7" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
@@ -3055,17 +3125,17 @@
 <g class="radar-node fusion-node tipo-fuencarral" data-cp="28701" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="33.1" y="-221.7" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="58.1" y="-206.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28701</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-22.1" y2="137.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28007"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-22.1" y2="137.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28007"/>
-<line x1="-22.1" y1="137.7" x2="-5.8" y2="172.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-22.1" y1="137.7" x2="-7.3" y2="168.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-22.1" cy="137.7" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28007" data-tipo="EXCLUSIVO_NORTE"><rect x="-30.8" y="161.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="-5.8" y="176.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28007</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28007" data-tipo="EXCLUSIVO_NORTE"><rect x="-32.3" y="157.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="-7.3" y="172.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28007</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="52.9" y2="-256.3" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28702"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="52.9" y2="-256.3" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28702"/>
 <g class="radar-node fusion-node tipo-fuencarral" data-cp="28702" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="28.700000000000003" y="-267.3" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="53.7" y="-252.10000000000002" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28702</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-115.3" y2="41.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28040"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-115.3" y2="41.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28040"/>
-<line x1="-115.3" y1="41.7" x2="-160.1" y2="41.7" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-115.3" y1="41.7" x2="-165.0" y2="41.7" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-115.3" cy="41.7" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-fuencarral" data-cp="28040" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-185.1" y="30.700000000000003" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-160.1" y="45.900000000000006" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28040</text></g>
+<g class="radar-node fusion-node tipo-fuencarral" data-cp="28040" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-190.0" y="30.700000000000003" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-165.0" y="45.900000000000006" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28040</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-1.5" y2="-112.1" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28050"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-1.5" y2="-112.1" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28050"/>
 <g class="radar-node fusion-node tipo-fuencarral" data-cp="28050" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-26.5" y="-123.1" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-1.5" y="-107.89999999999999" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28050</text></g>
@@ -3076,94 +3146,96 @@
 <g class="radar-node fusion-node tipo-fuencarral" data-cp="28100" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-26.0" y="-234.9" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-1.0" y="-219.70000000000002" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28100</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-6.7" y2="200.0" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28053"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-6.7" y2="200.0" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28053"/>
-<line x1="-6.7" y1="200.0" x2="-26.9" y2="228.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-6.7" y1="200.0" x2="-26.9" y2="252.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-6.7" cy="200.0" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28053" data-tipo="EXCLUSIVO_NORTE"><rect x="-51.9" y="217.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="-26.9" y="232.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28053</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28053" data-tipo="EXCLUSIVO_NORTE"><rect x="-51.9" y="241.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="-26.9" y="256.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28053</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-83.6" y2="11.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28039"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-83.6" y2="11.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28039"/>
-<line x1="-83.6" y1="11.5" x2="-113.2" y2="4.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-83.6" y1="11.5" x2="-125.9" y2="0.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-83.6" cy="11.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-fuencarral" data-cp="28039" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-138.2" y="-6.8" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-113.2" y="8.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28039</text></g>
+<g class="radar-node fusion-node tipo-fuencarral" data-cp="28039" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-150.9" y="-10.8" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-125.9" y="4.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28039</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-3.5" y2="-281.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28049"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-3.5" y2="-281.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28049"/>
 <g class="radar-node fusion-node tipo-fuencarral" data-cp="28049" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-29.4" y="-292.7" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-4.4" y="-277.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28049</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="12.5" y2="189.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28018"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="12.5" y2="189.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28018"/>
-<line x1="12.5" y1="189.7" x2="32.7" y2="228.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="12.5" y1="189.7" x2="32.7" y2="224.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="12.5" cy="189.7" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28018" data-tipo="EXCLUSIVO_NORTE"><rect x="7.700000000000003" y="217.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="32.7" y="232.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28018</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28018" data-tipo="EXCLUSIVO_NORTE"><rect x="7.700000000000003" y="213.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="32.7" y="228.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28018</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="19.5" y2="175.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28038"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="19.5" y2="175.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28038"/>
-<line x1="19.5" y1="175.8" x2="19.5" y2="200.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="19.5" y1="175.8" x2="19.5" y2="196.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="19.5" cy="175.8" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28038" data-tipo="EXCLUSIVO_NORTE"><rect x="-5.5" y="189.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="19.5" y="204.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28038</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28038" data-tipo="EXCLUSIVO_NORTE"><rect x="-5.5" y="185.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="19.5" y="200.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28038</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="199.5" y2="-37.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28042"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="199.5" y2="-37.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28042"/>
 <g class="radar-node fusion-node tipo-norte" data-cp="28042" data-tipo="EXCLUSIVO_NORTE"><rect x="174.5" y="-48.8" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="199.5" y="-33.599999999999994" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28042</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-70.5" y2="-17.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28029"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-70.5" y2="-17.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28029"/>
-<line x1="-70.5" y1="-17.5" x2="-66.7" y2="-23.8" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-70.5" y1="-17.5" x2="-67.5" y2="0.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-70.5" cy="-17.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-fuencarral" data-cp="28029" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-91.7" y="-34.8" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-66.7" y="-19.6" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28029</text></g>
+<g class="radar-node fusion-node tipo-fuencarral" data-cp="28029" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-92.5" y="-10.8" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-67.5" y="4.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28029</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="40.6" y2="146.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28030"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="40.6" y2="146.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28030"/>
-<line x1="40.6" y1="146.6" x2="55.1" y2="144.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="40.6" y1="146.6" x2="50.7" y2="143.4" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="40.6" cy="146.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28030" data-tipo="EXCLUSIVO_NORTE"><rect x="30.1" y="133.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="55.1" y="148.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28030</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28030" data-tipo="EXCLUSIVO_NORTE"><rect x="25.700000000000003" y="132.4" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="50.7" y="147.6" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28030</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="41.2" y2="92.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28017"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="41.2" y2="92.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28017"/>
-<line x1="41.2" y1="92.5" x2="57.2" y2="103.8" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="41.2" y1="92.5" x2="50.0" y2="108.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="41.2" cy="92.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28017" data-tipo="EXCLUSIVO_NORTE"><rect x="32.2" y="92.8" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="57.2" y="108.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28017</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28017" data-tipo="EXCLUSIVO_NORTE"><rect x="25.0" y="97.0" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="50.0" y="112.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28017</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="93.0" y2="307.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28051"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="93.0" y2="307.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28051"/>
 <g class="radar-node fusion-node tipo-norte" data-cp="28051" data-tipo="EXCLUSIVO_NORTE"><rect x="68.0" y="296.7" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="93.0" y="311.9" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28051</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="48.4" y2="56.3" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28027"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="48.4" y2="56.3" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28027"/>
-<line x1="48.4" y1="56.3" x2="17.5" y2="46.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="48.4" y1="56.3" x2="60.3" y2="15.8" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="48.4" cy="56.3" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28027" data-tipo="EXCLUSIVO_NORTE"><rect x="-7.5" y="35.0" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="17.5" y="50.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28027</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28027" data-tipo="EXCLUSIVO_NORTE"><rect x="35.3" y="4.800000000000001" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="60.3" y="20.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28027</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="93.6" y2="209.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28031"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="93.6" y2="209.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28031"/>
 <g class="radar-node fusion-node tipo-norte" data-cp="28031" data-tipo="EXCLUSIVO_NORTE"><rect x="68.6" y="198.6" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="93.6" y="213.79999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28031</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-120.5" y2="-30.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28035"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-120.5" y2="-30.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28035"/>
-<line x1="-120.5" y1="-30.7" x2="-125.0" y2="-30.7" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-120.5" y1="-30.7" x2="-137.5" y2="-30.7" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-120.5" cy="-30.7" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-fuencarral" data-cp="28035" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-150.0" y="-41.7" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-125.0" y="-26.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28035</text></g>
+<g class="radar-node fusion-node tipo-fuencarral" data-cp="28035" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-162.5" y="-41.7" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-137.5" y="-26.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28035</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="309.0" y2="64.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28830"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="309.0" y2="64.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28830"/>
-<line x1="309.0" y1="64.5" x2="324.5" y2="64.5" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="309.0" y1="64.5" x2="313.8" y2="64.5" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="309.0" cy="64.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28830" data-tipo="EXCLUSIVO_NORTE"><rect x="299.5" y="53.5" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="324.5" y="68.7" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28830</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28830" data-tipo="EXCLUSIVO_NORTE"><rect x="288.8" y="53.5" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="313.8" y="68.7" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28830</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="71.5" y2="81.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28037"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="71.5" y2="81.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28037"/>
-<line x1="71.5" y1="81.7" x2="92.5" y2="75.8" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="71.5" y1="81.7" x2="108.0" y2="99.8" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="71.5" cy="81.7" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28037" data-tipo="EXCLUSIVO_NORTE"><rect x="67.5" y="64.8" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="92.5" y="80.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28037</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28037" data-tipo="EXCLUSIVO_NORTE"><rect x="83.0" y="88.8" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="108.0" y="104.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28037</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="239.5" y2="77.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28823"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="239.5" y2="77.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28823"/>
-<line x1="239.5" y1="77.5" x2="266.5" y2="77.5" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="239.5" y1="77.5" x2="255.8" y2="77.5" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="239.5" cy="77.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28823" data-tipo="EXCLUSIVO_NORTE"><rect x="241.5" y="66.5" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="266.5" y="81.7" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28823</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28823" data-tipo="EXCLUSIVO_NORTE"><rect x="230.8" y="66.5" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="255.8" y="81.7" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28823</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="201.4" y2="69.3" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28821"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="201.4" y2="69.3" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28821"/>
-<line x1="201.4" y1="69.3" x2="208.5" y2="69.3" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="201.4" y1="69.3" x2="197.8" y2="69.3" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="201.4" cy="69.3" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28821" data-tipo="EXCLUSIVO_NORTE"><rect x="183.5" y="58.3" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="208.5" y="73.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28821</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28821" data-tipo="EXCLUSIVO_NORTE"><rect x="172.8" y="58.3" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="197.8" y="73.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28821</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="157.2" y2="59.4" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28022"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="157.2" y2="59.4" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28022"/>
-<line x1="157.2" y1="59.4" x2="150.5" y2="59.4" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="157.2" y1="59.4" x2="139.8" y2="59.4" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="157.2" cy="59.4" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28022" data-tipo="EXCLUSIVO_NORTE"><rect x="125.5" y="48.4" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="150.5" y="63.6" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28022</text></g>
+<g class="radar-node fusion-node tipo-norte" data-cp="28022" data-tipo="EXCLUSIVO_NORTE"><rect x="114.80000000000001" y="48.4" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="139.8" y="63.6" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28022</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-71.0" y2="-65.2" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28034"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-71.0" y2="-65.2" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28034"/>
-<line x1="-71.0" y1="-65.2" x2="-71.0" y2="-75.8" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<line x1="-71.0" y1="-65.2" x2="-71.0" y2="-83.8" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-71.0" cy="-65.2" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-fuencarral" data-cp="28034" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-96.0" y="-86.8" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-71.0" y="-71.6" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28034</text></g>
+<g class="radar-node fusion-node tipo-fuencarral" data-cp="28034" data-tipo="EXCLUSIVO_FUENCARRAL"><rect x="-96.0" y="-94.8" width="50" height="22" rx="11" ry="11" fill="#d97706" stroke="#fbbf24" stroke-width="1.8" class="node-rect"/><text x="-71.0" y="-79.6" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28034</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="119.0" y2="118.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28032"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="119.0" y2="118.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28032"/>
-<g class="radar-node fusion-node tipo-norte" data-cp="28032" data-tipo="EXCLUSIVO_NORTE"><rect x="94.0" y="107.5" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="119.0" y="122.7" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28032</text></g>
+<line x1="119.0" y1="118.5" x2="119.0" y2="127.8" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
+<circle cx="119.0" cy="118.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
+<g class="radar-node fusion-node tipo-norte" data-cp="28032" data-tipo="EXCLUSIVO_NORTE"><rect x="94.0" y="116.8" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="119.0" y="132.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28032</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="213.1" y2="121.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28822"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="213.1" y2="121.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28822"/>
 <g class="radar-node fusion-node tipo-norte" data-cp="28822" data-tipo="EXCLUSIVO_NORTE"><rect x="188.1" y="110.7" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="213.1" y="125.9" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28822</text></g>
@@ -3173,17 +3245,17 @@
 <line x1="69.49864638175777" y1="49.84274460000569" x2="221.5" y2="163.1" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28052"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="221.5" y2="163.1" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28052"/>
 <g class="radar-node fusion-node tipo-norte" data-cp="28052" data-tipo="EXCLUSIVO_NORTE"><rect x="196.5" y="152.1" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="221.5" y="167.29999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28052</text></g>
-<g class="kitchen-marker-fusion" transform="translate(-69.49864638175696, -49.84274459998841)">
-  <circle cx="0" cy="0" r="16" fill="#d97706" stroke="#ffffff" stroke-width="2.8"/>
+<g class="kitchen-marker-fusion marker-fuencarral" transform="translate(-69.49864638175696, -49.84274459998841)">
+  <circle cx="0" cy="0" r="15" fill="#d97706" stroke="#ffffff" stroke-width="2.5"/>
   <text x="0" y="5" font-size="12" text-anchor="middle">🍳</text>
-  <rect x="-44" y="19" width="88" height="15" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
-  <text x="0" y="30" font-size="7.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">BASE FUENCARRAL</text>
+  <rect x="-36" y="17" width="72" height="14" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
+  <text x="0" y="27.5" font-size="7" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">BASE FUENCARRAL</text>
 </g>
-<g class="kitchen-marker-fusion" transform="translate(69.49864638175777, 49.84274460000569)">
-  <circle cx="0" cy="0" r="16" fill="#2563eb" stroke="#ffffff" stroke-width="2.8"/>
+<g class="kitchen-marker-fusion marker-norte" transform="translate(69.49864638175777, 49.84274460000569)">
+  <circle cx="0" cy="0" r="15" fill="#2563eb" stroke="#ffffff" stroke-width="2.5"/>
   <text x="0" y="5" font-size="12" text-anchor="middle">🍳</text>
-  <rect x="-38" y="19" width="76" height="15" rx="4" fill="#0f172a" stroke="#60a5fa" stroke-width="1.2"/>
-  <text x="0" y="30" font-size="7.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">BASE NORTE</text>
+  <rect x="-32" y="17" width="64" height="14" rx="4" fill="#0f172a" stroke="#60a5fa" stroke-width="1.2"/>
+  <text x="0" y="27.5" font-size="7" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">BASE NORTE</text>
 </g>
 </svg>
 
