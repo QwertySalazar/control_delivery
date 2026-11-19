@@ -446,12 +446,12 @@
 
       /* Pastillas suaves en papel para evitar empastado de tinta */
       .radar-node.tipo-compartido rect {
-        fill: #f5f3ff !important;
-        stroke: #7c3aed !important;
+        fill: #ecfdf5 !important;
+        stroke: #059669 !important;
         stroke-width: 2px !important;
       }
       .radar-node.tipo-compartido text {
-        fill: #5b21b6 !important;
+        fill: #065f46 !important;
         font-weight: 900 !important;
       }
 
@@ -515,13 +515,13 @@
       }
       .midpoint-badge rect {
         fill: #ffffff !important;
-        stroke: #7c3aed !important;
+        stroke: #059669 !important;
       }
       .midpoint-badge text {
-        fill: #5b21b6 !important;
+        fill: #065f46 !important;
       }
       .frontier-label {
-        fill: #6b21a8 !important;
+        fill: #065f46 !important;
       }
 
       body.print-only-radar .table-card {
@@ -542,12 +542,12 @@
   
     /* MODO CLARO EN PANTALLA (PALETA PASTEL ARMONIOSA Y ELEGANTE) */
     body.light-theme .radar-node.tipo-compartido rect {
-      fill: #f5f3ff !important;
-      stroke: #7c3aed !important;
+      fill: #ecfdf5 !important;
+      stroke: #059669 !important;
       stroke-width: 2px !important;
     }
     body.light-theme .radar-node.tipo-compartido text {
-      fill: #5b21b6 !important;
+      fill: #065f46 !important;
       font-weight: 900 !important;
     }
 
@@ -580,13 +580,13 @@
     }
     body.light-theme .midpoint-badge rect {
       fill: #ffffff !important;
-      stroke: #7c3aed !important;
+      stroke: #059669 !important;
     }
     body.light-theme .midpoint-badge text {
-      fill: #5b21b6 !important;
+      fill: #065f46 !important;
     }
     body.light-theme .frontier-label {
-      fill: #6b21a8 !important;
+      fill: #065f46 !important;
     }
   </style>
 </head>
@@ -597,7 +597,7 @@
       <button class="btn-tab active" data-target="norte">🔵 Cocina Norte (38 CPs)</button>
       <button class="btn-tab" data-target="fuencarral">🟡 Cocina Fuencarral (16 CPs)</button>
       <button class="btn-tab" data-target="alcorcon">🟢 Cocina Alcorcón (35 CPs)</button>
-      <button class="btn-tab" data-target="fusion">🟣 Fusión Norte + Fuencarral (54 CPs)</button>
+      <button class="btn-tab" data-target="fusion">🟢 Fusión Norte + Fuencarral (54 CPs)</button>
       <button class="btn-tab" data-target="all">📑 Ver Todo (4 Hojas)</button>
     </div>
     <div class="action-buttons">
@@ -2942,12 +2942,12 @@
     <div class="kitchen-sheet" id="sheet-fusion" data-kitchen="fusion">
       <div class="sheet-header">
         <div class="kitchen-title-box">
-          <h1><span>🟣</span> FUSIÓN OPERATIVA: COCINA NORTE + COCINA FUENCARRAL <span style="font-size:13px; font-weight:700; color:#c084fc; background:rgba(255,255,255,0.08); padding:2px 8px; border-radius:10px;">Unión e Intersección Matemática</span></h1>
+          <h1><span>🟢</span> FUSIÓN OPERATIVA: COCINA NORTE + COCINA FUENCARRAL <span style="font-size:13px; font-weight:700; color:#34d399; background:rgba(255,255,255,0.08); padding:2px 8px; border-radius:10px;">Unión e Intersección Matemática</span></h1>
           <p><b>Eje de Conexión:</b> Av. de 25 de Septiembre ↔ C/ Sangenjo &bull; Separación Inter-Cocinas: <b>7.78 km</b> &bull; Unión: <b>54 CPs</b></p>
         </div>
         <div class="stats-badge-group">
-          <span class="stat-pill" style="border-color:#c084fc; color:#c084fc;">🟣 54 CPs en Unión Total</span>
-          <span class="stat-pill" style="border-color:#a855f7; color:#e9d5ff;">🤝 25 CPs Compartibles (Intersección)</span>
+          <span class="stat-pill" style="border-color:#34d399; color:#34d399;">🟢 54 CPs en Unión Total</span>
+          <span class="stat-pill" style="border-color:#10b981; color:#a7f3d0;">🤝 25 CPs Compartibles (Intersección)</span>
           <span class="stat-pill" style="border-color:#60a5fa; color:#93c5fd;">🔵 18 Exclusivos Norte</span>
           <span class="stat-pill" style="border-color:#fbbf24; color:#fde047;">🟡 11 Exclusivos Fuencarral</span>
         </div>
@@ -2964,7 +2964,7 @@
 <defs>
   <linearGradient id="grad_fusion_bg" x1="0%" y1="0%" x2="100%" y2="100%">
     <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.10"/>
-    <stop offset="50%" stop-color="#7c3aed" stop-opacity="0.06"/>
+    <stop offset="50%" stop-color="#059669" stop-opacity="0.08"/>
     <stop offset="100%" stop-color="#2563eb" stop-opacity="0.10"/>
   </linearGradient>
   <marker id="arrow_fusion" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto">
@@ -2984,8 +2984,8 @@
 <circle cx="0" cy="0" r="396.0" fill="none" stroke="var(--ring-stroke)" stroke-width="1.2" stroke-dasharray="6 4" opacity="0.6"/>
 <rect x="373.0" y="-16" width="46" height="16" rx="4" fill="var(--ring-badge-bg)" stroke="var(--ring-stroke)" stroke-width="1.2"/>
 <text x="396.0" y="-4.5" font-size="9" fill="var(--ring-badge-text)" font-weight="900" text-anchor="middle">18 km</text>
-<line x1="-310" y1="432" x2="310" y2="-432" stroke="#a855f7" stroke-width="2.2" stroke-dasharray="6 4" opacity="0.7"/>
-<text x="215" y="-300" transform="rotate(-54.4, 215, -300)" font-size="9" font-weight="900" fill="#c084fc" letter-spacing="1" class="frontier-label">⚡ FRONTERA EQUIDISTANTE (dN = dF)</text>
+<line x1="-310" y1="432" x2="310" y2="-432" stroke="#10b981" stroke-width="2.2" stroke-dasharray="6 4" opacity="0.75"/>
+<text x="215" y="-300" transform="rotate(-54.4, 215, -300)" font-size="9" font-weight="900" fill="#34d399" letter-spacing="1" class="frontier-label">⚡ FRONTERA EQUIDISTANTE (dN = dF)</text>
 <line x1="-420" y1="0" x2="420" y2="0" stroke="var(--axis-color)" stroke-width="2" opacity="0.65" marker-end="url(#arrow_fusion)"/>
 <line x1="0" y1="420" x2="0" y2="-420" stroke="var(--axis-color)" stroke-width="2" opacity="0.65" marker-end="url(#arrow_fusion)"/>
 <text x="428" y="4.5" font-size="11" font-weight="900" fill="var(--text-muted)">ESTE (+X)</text>
@@ -2994,130 +2994,130 @@
 <text x="0" y="438" font-size="11" font-weight="900" fill="var(--text-muted)" text-anchor="middle">SUR (-Y)</text>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="69.49864638175777" y2="49.84274460000569" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="4 4" opacity="0.8"/>
 <g class="midpoint-badge">
-  <rect x="-24" y="-7" width="48" height="14" rx="7" fill="#0f172a" stroke="#c084fc" stroke-width="1.4"/>
+  <rect x="-24" y="-7" width="48" height="14" rx="7" fill="#0f172a" stroke="#34d399" stroke-width="1.4"/>
   <text x="0" y="3.5" font-size="7.5" font-weight="900" fill="#f8fafc" text-anchor="middle">7.8 KM</text>
 </g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="129.1" y2="-181.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28703"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="129.1" y2="-181.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28703"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28703" data-tipo="COMPARTIDO"><rect x="104.1" y="-192.7" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="129.1" y="-177.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28703</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28703" data-tipo="COMPARTIDO"><rect x="104.1" y="-192.7" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="129.1" y="-177.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28703</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-73.5" y2="98.4" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28004"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-73.5" y2="98.4" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28004"/>
 <line x1="-73.5" y1="98.4" x2="-66.0" y2="140.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-73.5" cy="98.4" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28004" data-tipo="COMPARTIDO"><rect x="-91.0" y="129.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="144.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28004</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28004" data-tipo="COMPARTIDO"><rect x="-91.0" y="129.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="144.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28004</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-84.3" y2="113.4" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28013"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-84.3" y2="113.4" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28013"/>
 <line x1="-84.3" y1="113.4" x2="-124.0" y2="140.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-84.3" cy="113.4" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28013" data-tipo="COMPARTIDO"><rect x="-149.0" y="129.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-124.0" y="144.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28013</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28013" data-tipo="COMPARTIDO"><rect x="-149.0" y="129.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-124.0" y="144.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28013</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="67.2" y2="-99.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28055"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="67.2" y2="-99.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28055"/>
 <line x1="67.2" y1="-99.6" x2="67.2" y2="-92.6" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="67.2" cy="-99.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28055" data-tipo="COMPARTIDO"><rect x="42.2" y="-103.6" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="67.2" y="-88.39999999999999" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28055</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28055" data-tipo="COMPARTIDO"><rect x="42.2" y="-103.6" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="67.2" y="-88.39999999999999" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28055</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-88.3" y2="137.0" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28005"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-88.3" y2="137.0" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28005"/>
 <line x1="-88.3" y1="137.0" x2="-125.5" y2="168.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-88.3" cy="137.0" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28005" data-tipo="COMPARTIDO"><rect x="-150.5" y="157.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-125.5" y="172.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28005</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28005" data-tipo="COMPARTIDO"><rect x="-150.5" y="157.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-125.5" y="172.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28005</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-24.7" y2="43.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28002"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-24.7" y2="43.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28002"/>
 <line x1="-24.7" y1="43.6" x2="-7.8" y2="52.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-24.7" cy="43.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28002" data-tipo="COMPARTIDO"><rect x="-32.8" y="41.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-7.8" y="56.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28002</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28002" data-tipo="COMPARTIDO"><rect x="-32.8" y="41.0" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-7.8" y="56.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28002</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-66.5" y2="78.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28010"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-66.5" y2="78.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28010"/>
 <line x1="-66.5" y1="78.8" x2="-112.5" y2="112.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-66.5" cy="78.8" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28010" data-tipo="COMPARTIDO"><rect x="-137.5" y="101.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-112.5" y="116.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28010</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28010" data-tipo="COMPARTIDO"><rect x="-137.5" y="101.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-112.5" y="116.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28010</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="65.6" y2="-114.2" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28109"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="65.6" y2="-114.2" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28109"/>
 <line x1="65.6" y1="-114.2" x2="65.6" y2="-121.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="65.6" cy="-114.2" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28109" data-tipo="COMPARTIDO"><rect x="40.599999999999994" y="-132.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="65.6" y="-117.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28109</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28109" data-tipo="COMPARTIDO"><rect x="40.599999999999994" y="-132.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="65.6" y="-117.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28109</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-23.6" y2="17.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28016"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-23.6" y2="17.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28016"/>
 <line x1="-23.6" y1="17.5" x2="-1.7" y2="24.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-23.6" cy="17.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28016" data-tipo="COMPARTIDO"><rect x="-26.7" y="13.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-1.7" y="28.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28016</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28016" data-tipo="COMPARTIDO"><rect x="-26.7" y="13.0" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-1.7" y="28.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28016</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-73.6" y2="133.2" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28012"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-73.6" y2="133.2" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28012"/>
 <line x1="-73.6" y1="133.2" x2="-66.0" y2="196.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-73.6" cy="133.2" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28012" data-tipo="COMPARTIDO"><rect x="-91.0" y="185.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="200.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28012</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28012" data-tipo="COMPARTIDO"><rect x="-91.0" y="185.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="200.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28012</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="25.6" y2="-15.9" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28033"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="25.6" y2="-15.9" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28033"/>
 <line x1="25.6" y1="-15.9" x2="56.5" y2="-40.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="25.6" cy="-15.9" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28033" data-tipo="COMPARTIDO"><rect x="31.5" y="-51.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="56.5" y="-36.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28033</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28033" data-tipo="COMPARTIDO"><rect x="31.5" y="-51.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="56.5" y="-36.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28033</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-33.3" y2="74.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28006"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-33.3" y2="74.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28006"/>
 <line x1="-33.3" y1="74.8" x2="-54.5" y2="84.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-33.3" cy="74.8" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28006" data-tipo="COMPARTIDO"><rect x="-79.5" y="73.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-54.5" y="88.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28006</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28006" data-tipo="COMPARTIDO"><rect x="-79.5" y="73.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-54.5" y="88.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28006</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-87.2" y2="81.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28015"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-87.2" y2="81.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28015"/>
 <line x1="-87.2" y1="81.8" x2="-170.5" y2="89.9" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-87.2" cy="81.8" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28015" data-tipo="COMPARTIDO"><rect x="-195.5" y="78.9" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-170.5" y="94.10000000000001" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28015</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28015" data-tipo="COMPARTIDO"><rect x="-195.5" y="78.9" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-170.5" y="94.10000000000001" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28015</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-39.0" y2="99.0" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28001"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-39.0" y2="99.0" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28001"/>
 <line x1="-39.0" y1="99.0" x2="-8.0" y2="112.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-39.0" cy="99.0" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28001" data-tipo="COMPARTIDO"><rect x="-33.0" y="101.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-8.0" y="116.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28001</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28001" data-tipo="COMPARTIDO"><rect x="-33.0" y="101.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-8.0" y="116.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28001</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-52.9" y2="127.4" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28014"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-52.9" y2="127.4" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28014"/>
 <line x1="-52.9" y1="127.4" x2="-66.0" y2="168.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-52.9" cy="127.4" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28014" data-tipo="COMPARTIDO"><rect x="-91.0" y="157.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="172.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28014</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28014" data-tipo="COMPARTIDO"><rect x="-91.0" y="157.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-66.0" y="172.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28014</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-49.8" y2="30.2" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28046"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-49.8" y2="30.2" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28046"/>
 <line x1="-49.8" y1="30.2" x2="-66.1" y2="28.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-49.8" cy="30.2" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28046" data-tipo="COMPARTIDO"><rect x="-91.1" y="17.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-66.1" y="32.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28046</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28046" data-tipo="COMPARTIDO"><rect x="-91.1" y="17.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-66.1" y="32.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28046</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-110.1" y2="88.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28008"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-110.1" y2="88.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28008"/>
 <line x1="-110.1" y1="88.6" x2="-228.5" y2="87.9" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-110.1" cy="88.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28008" data-tipo="COMPARTIDO"><rect x="-253.5" y="76.9" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-228.5" y="92.10000000000001" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28008</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28008" data-tipo="COMPARTIDO"><rect x="-253.5" y="76.9" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-228.5" y="92.10000000000001" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28008</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-85.5" y2="54.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28003"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-85.5" y2="54.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28003"/>
 <line x1="-85.5" y1="54.6" x2="-112.5" y2="84.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-85.5" cy="54.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28003" data-tipo="COMPARTIDO"><rect x="-137.5" y="73.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-112.5" y="88.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28003</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28003" data-tipo="COMPARTIDO"><rect x="-137.5" y="73.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-112.5" y="88.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28003</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-26.8" y2="110.8" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28009"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-26.8" y2="110.8" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28009"/>
 <line x1="-26.8" y1="110.8" x2="-8.0" y2="140.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-26.8" cy="110.8" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28009" data-tipo="COMPARTIDO"><rect x="-33.0" y="129.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-8.0" y="144.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28009</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28009" data-tipo="COMPARTIDO"><rect x="-33.0" y="129.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-8.0" y="144.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28009</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-48.8" y2="177.9" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28045"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-48.8" y2="177.9" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28045"/>
 <line x1="-48.8" y1="177.9" x2="-48.8" y2="224.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-48.8" cy="177.9" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28045" data-tipo="COMPARTIDO"><rect x="-73.8" y="213.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-48.8" y="228.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28045</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28045" data-tipo="COMPARTIDO"><rect x="-73.8" y="213.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-48.8" y="228.39999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28045</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-37.0" y2="2.5" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28036"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-37.0" y2="2.5" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28036"/>
 <line x1="-37.0" y1="2.5" x2="-1.5" y2="-24.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-37.0" cy="2.5" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28036" data-tipo="COMPARTIDO"><rect x="-26.5" y="-35.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-1.5" y="-19.8" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28036</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28036" data-tipo="COMPARTIDO"><rect x="-26.5" y="-35.0" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-1.5" y="-19.8" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28036</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="38.9" y2="-153.9" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28108"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="38.9" y2="-153.9" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28108"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28108" data-tipo="COMPARTIDO"><rect x="13.899999999999999" y="-164.9" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="38.9" y="-149.70000000000002" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28108</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28108" data-tipo="COMPARTIDO"><rect x="13.899999999999999" y="-164.9" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="38.9" y="-149.70000000000002" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28108</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-9.9" y2="80.3" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28028"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-9.9" y2="80.3" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28028"/>
 <line x1="-9.9" y1="80.3" x2="3.5" y2="80.0" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-9.9" cy="80.3" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28028" data-tipo="COMPARTIDO"><rect x="-21.5" y="69.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="3.5" y="84.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28028</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28028" data-tipo="COMPARTIDO"><rect x="-21.5" y="69.0" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="3.5" y="84.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28028</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="33.9" y2="9.6" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28043"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="33.9" y2="9.6" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28043"/>
 <line x1="33.9" y1="9.6" x2="56.5" y2="-12.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="33.9" cy="9.6" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28043" data-tipo="COMPARTIDO"><rect x="31.5" y="-23.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="56.5" y="-7.999999999999999" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28043</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28043" data-tipo="COMPARTIDO"><rect x="31.5" y="-23.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="56.5" y="-7.999999999999999" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28043</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="-63.3" y2="18.0" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28020"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="-63.3" y2="18.0" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28020"/>
 <line x1="-63.3" y1="18.0" x2="-75.2" y2="56.2" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
 <circle cx="-63.3" cy="18.0" r="2.6" fill="var(--axis-color)" opacity="0.8"/>
-<g class="radar-node fusion-node tipo-compartido" data-cp="28020" data-tipo="COMPARTIDO"><rect x="-100.2" y="45.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-75.2" y="60.400000000000006" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28020</text></g>
+<g class="radar-node fusion-node tipo-compartido" data-cp="28020" data-tipo="COMPARTIDO"><rect x="-100.2" y="45.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-75.2" y="60.400000000000006" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28020</text></g>
 <line x1="69.49864638175777" y1="49.84274460000569" x2="43.6" y2="-210.7" stroke="#2563eb" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-norte" data-cp="28701"/>
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="43.6" y2="-210.7" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28701"/>
 <line x1="43.6" y1="-210.7" x2="58.1" y2="-210.7" stroke="var(--axis-color)" stroke-width="1.2" stroke-dasharray="2 2"/>
@@ -3248,19 +3248,19 @@
 <g class="kitchen-marker-fusion marker-fuencarral" transform="translate(-69.49864638175696, -49.84274459998841)">
   <circle cx="0" cy="0" r="15" fill="#d97706" stroke="#ffffff" stroke-width="2.5"/>
   <text x="0" y="5" font-size="12" text-anchor="middle">🍳</text>
-  <rect x="-36" y="17" width="72" height="14" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
-  <text x="0" y="27.5" font-size="7" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">BASE FUENCARRAL</text>
+  <rect x="-28" y="17" width="56" height="14" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
+  <text x="0" y="27.5" font-size="7.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">FUENCARRAL</text>
 </g>
 <g class="kitchen-marker-fusion marker-norte" transform="translate(69.49864638175777, 49.84274460000569)">
   <circle cx="0" cy="0" r="15" fill="#2563eb" stroke="#ffffff" stroke-width="2.5"/>
   <text x="0" y="5" font-size="12" text-anchor="middle">🍳</text>
-  <rect x="-32" y="17" width="64" height="14" rx="4" fill="#0f172a" stroke="#60a5fa" stroke-width="1.2"/>
-  <text x="0" y="27.5" font-size="7" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">BASE NORTE</text>
+  <rect x="-20" y="17" width="40" height="14" rx="4" fill="#0f172a" stroke="#60a5fa" stroke-width="1.2"/>
+  <text x="0" y="27.5" font-size="7.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">NORTE</text>
 </g>
 </svg>
 
           <div class="radar-legend">
-            <span><span class="legend-dot" style="background:#7c3aed;"></span>🟣 Compartido (Zona Intersección N ∩ F)</span>
+            <span><span class="legend-dot" style="background:#059669;"></span>🟢 Compartido (Zona Intersección N ∩ F)</span>
             <span><span class="legend-dot" style="background:#1d4ed8;"></span>🔵 Exclusivo Cocina Norte</span>
             <span><span class="legend-dot" style="background:#d97706;"></span>🟡 Exclusivo Cocina Fuencarral</span>
           </div>
@@ -3274,7 +3274,7 @@
 
           <div class="venn-filter-bar">
             <button class="btn-venn-filter active" data-filter="all">Todas (54)</button>
-            <button class="btn-venn-filter" data-filter="COMPARTIDO" style="border-color:#c084fc; color:#c084fc;">🟣 Compartibles (25)</button>
+            <button class="btn-venn-filter" data-filter="COMPARTIDO" style="border-color:#34d399; color:#34d399;">🟢 Compartibles (25)</button>
             <button class="btn-venn-filter" data-filter="EXCLUSIVO_NORTE" style="border-color:#60a5fa; color:#93c5fd;">🔵 Solo Norte (18)</button>
             <button class="btn-venn-filter" data-filter="EXCLUSIVO_FUENCARRAL" style="border-color:#fbbf24; color:#fde047;">🟡 Solo Fuencarral (11)</button>
           </div>
@@ -3298,13 +3298,13 @@
                 <tr data-cp="28703" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">1</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28703 <span class="pill-short">#703</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">10.87 km</span></td>
@@ -3323,13 +3323,13 @@
                 <tr data-cp="28004" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">2</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28004 <span class="pill-short">#04</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">6.87 km</span></td>
@@ -3348,13 +3348,13 @@
                 <tr data-cp="28013" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">3</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28013 <span class="pill-short">#13</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">7.57 km</span></td>
@@ -3373,13 +3373,13 @@
                 <tr data-cp="28055" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">4</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28055 <span class="pill-short">#55</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">6.79 km</span></td>
@@ -3398,13 +3398,13 @@
                 <tr data-cp="28005" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">5</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28005 <span class="pill-short">#05</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">8.2 km</span></td>
@@ -3423,13 +3423,13 @@
                 <tr data-cp="28002" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">6</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28002 <span class="pill-short">#02</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">4.29 km</span></td>
@@ -3448,13 +3448,13 @@
                 <tr data-cp="28010" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">7</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28010 <span class="pill-short">#10</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">6.32 km</span></td>
@@ -3473,13 +3473,13 @@
                 <tr data-cp="28109" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">8</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28109 <span class="pill-short">#109</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">7.46 km</span></td>
@@ -3498,13 +3498,13 @@
                 <tr data-cp="28016" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">9</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28016 <span class="pill-short">#16</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">4.48 km</span></td>
@@ -3523,13 +3523,13 @@
                 <tr data-cp="28012" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">10</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28012 <span class="pill-short">#12</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">7.53 km</span></td>
@@ -3548,13 +3548,13 @@
                 <tr data-cp="28033" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">11</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28033 <span class="pill-short">#33</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">3.59 km</span></td>
@@ -3573,13 +3573,13 @@
                 <tr data-cp="28006" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">12</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28006 <span class="pill-short">#06</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">4.81 km</span></td>
@@ -3598,13 +3598,13 @@
                 <tr data-cp="28015" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">13</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28015 <span class="pill-short">#15</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">7.27 km</span></td>
@@ -3623,13 +3623,13 @@
                 <tr data-cp="28001" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">14</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28001 <span class="pill-short">#01</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">5.42 km</span></td>
@@ -3648,13 +3648,13 @@
                 <tr data-cp="28014" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">15</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28014 <span class="pill-short">#14</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">6.59 km</span></td>
@@ -3673,13 +3673,13 @@
                 <tr data-cp="28046" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">16</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28046 <span class="pill-short">#46</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">5.5 km</span></td>
@@ -3698,13 +3698,13 @@
                 <tr data-cp="28008" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">17</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28008 <span class="pill-short">#08</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">8.36 km</span></td>
@@ -3723,13 +3723,13 @@
                 <tr data-cp="28003" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">18</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28003 <span class="pill-short">#03</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">7.05 km</span></td>
@@ -3748,13 +3748,13 @@
                 <tr data-cp="28009" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">19</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28009 <span class="pill-short">#09</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">5.18 km</span></td>
@@ -3773,13 +3773,13 @@
                 <tr data-cp="28045" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">20</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28045 <span class="pill-short">#45</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">7.92 km</span></td>
@@ -3798,13 +3798,13 @@
                 <tr data-cp="28036" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">21</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28036 <span class="pill-short">#36</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">5.3 km</span></td>
@@ -3823,13 +3823,13 @@
                 <tr data-cp="28108" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">22</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28108 <span class="pill-short">#108</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">9.36 km</span></td>
@@ -3848,13 +3848,13 @@
                 <tr data-cp="28028" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">23</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28028 <span class="pill-short">#28</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">3.87 km</span></td>
@@ -3873,13 +3873,13 @@
                 <tr data-cp="28043" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">24</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28043 <span class="pill-short">#43</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:#38bdf8; font-weight:800;">2.44 km</span></td>
@@ -3898,13 +3898,13 @@
                 <tr data-cp="28020" data-tipo="COMPARTIDO">
                   <td style="color:var(--text-muted); font-weight:700;">25</td>
                   <td>
-                    <span class="pill-cp" style="background:#7c3aed;">
+                    <span class="pill-cp" style="background:#059669;">
                       28020 <span class="pill-short">#20</span>
                     </span>
                   </td>
                   <td>
-                    <span style="font-size:11px; font-weight:800; color:#c084fc;">
-                      🟣 Compartido
+                    <span style="font-size:11px; font-weight:800; color:#34d399;">
+                      🟢 Compartido
                     </span>
                   </td>
                   <td><span style="color:var(--text-muted);">6.21 km</span></td>
@@ -4657,7 +4657,7 @@
 
   <script>
     window.CP_METADATA = {"28001": {"cp": "28001", "shortCp": "01", "dist": "5.42 km", "cardinal": "OSO", "zona": "Distrito Salamanca / Retiro", "mun": "Madrid", "streets": "Calle de Serrano (1-60), Calle de Velázquez (1-50), Calle de Claudio Coello (1-70)"}, "28002": {"cp": "28002", "shortCp": "02", "dist": "4.29 km", "cardinal": "O (Oeste)", "zona": "Distrito Chamartín", "mun": "Madrid", "streets": "Calle del Príncipe de Vergara (100-210), Calle de López de Hoyos (50-160), Calle de Cartagena (60-130)"}, "28003": {"cp": "28003", "shortCp": "03", "dist": "7.05 km", "cardinal": "O (Oeste)", "zona": "Distrito Chamberí", "mun": "Madrid", "streets": "Calle de Ríos Rosas, Calle de Vallehermoso (altos), Calle de Bravo Murillo (1-80)"}, "28004": {"cp": "28004", "shortCp": "04", "dist": "6.87 km", "cardinal": "OSO", "zona": "Distrito Centro", "mun": "Madrid", "streets": "Calle de Fuencarral (1-100), Calle de Hortaleza, Calle del Barquillo"}, "28005": {"cp": "28005", "shortCp": "05", "dist": "8.2 km", "cardinal": "OSO", "zona": "Distrito Centro / Arganzuela", "mun": "Madrid", "streets": "Calle de Toledo (1-110), Calle de Bailén (sur), Calle de Segovia"}, "28006": {"cp": "28006", "shortCp": "06", "dist": "4.81 km", "cardinal": "OSO", "zona": "Distrito Salamanca", "mun": "Madrid", "streets": "Calle de Serrano (61-120), Calle de Velázquez (51-110), Calle de Diego de León"}, "28007": {"cp": "28007", "shortCp": "07", "dist": "5.77 km", "cardinal": "SO (Suroeste)", "zona": "Distrito Retiro / Arganzuela", "mun": "Madrid", "streets": "Avenida de la Ciudad de Barcelona (1-80), Calle del Doctor Esquerdo (1-70), Paseo de la Reina Cristina"}, "28008": {"cp": "28008", "shortCp": "08", "dist": "8.36 km", "cardinal": "OSO", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "streets": "Calle de la Princesa (1-50), Paseo del Pintor Rosales, Calle de Ferraz (1-60)"}, "28009": {"cp": "28009", "shortCp": "09", "dist": "5.18 km", "cardinal": "OSO", "zona": "Distrito Retiro / Salamanca", "mun": "Madrid", "streets": "Calle de Alcalá (101-190), Calle de O'Donnell (1-45), Calle de Narváez"}, "28010": {"cp": "28010", "shortCp": "10", "dist": "6.32 km", "cardinal": "OSO", "zona": "Distrito Chamberí", "mun": "Madrid", "streets": "Calle de Almagro, Calle de Zurbano, Calle de Fortuny"}, "28012": {"cp": "28012", "shortCp": "12", "dist": "7.53 km", "cardinal": "OSO", "zona": "Distrito Centro", "mun": "Madrid", "streets": "Plaza de Lavapiés, Calle de Argumosa, Calle de Atocha (impares 40-120)"}, "28013": {"cp": "28013", "shortCp": "13", "dist": "7.57 km", "cardinal": "OSO", "zona": "Distrito Centro", "mun": "Madrid", "streets": "Gran Vía (1-45 impares y tramos centrales), Puerta del Sol (Kilómetro Cero), Plaza Mayor"}, "28014": {"cp": "28014", "shortCp": "14", "dist": "6.59 km", "cardinal": "OSO", "zona": "Distrito Centro / Retiro", "mun": "Madrid", "streets": "Paseo del Prado (Museo del Prado), Carrera de San Jerónimo (Congreso de los Diputados), Calle de las Huertas (Barrio de las Letras)"}, "28015": {"cp": "28015", "shortCp": "15", "dist": "7.27 km", "cardinal": "OSO", "zona": "Distrito Chamberí / Centro", "mun": "Madrid", "streets": "Calle de San Bernardo (71-130), Calle de Alberto Aguilera (1-40), Calle de la Princesa (pares)"}, "28016": {"cp": "28016", "shortCp": "16", "dist": "4.48 km", "cardinal": "ONO", "zona": "Distrito Chamartín", "mun": "Madrid", "streets": "Paseo de la Habana (60-150), Calle de Costa Rica, Calle de Alberto Alcocer (1-30)"}, "28017": {"cp": "28017", "shortCp": "17", "dist": "2.33 km", "cardinal": "SSO", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "streets": "Calle de Alcalá (250-360), Avenida de Daroca (1-50), Calle de Quintana"}, "28018": {"cp": "28018", "shortCp": "18", "dist": "6.87 km", "cardinal": "SSO", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "streets": "Avenida de la Albufera (1-120), Calle de Peña Gorbea (bulevar), Avenida del Monte Igueldo"}, "28022": {"cp": "28022", "shortCp": "22", "dist": "4.01 km", "cardinal": "E (Este)", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "streets": "Avenida de Arcentales, Avenida de Niza, Calle de San Mariano"}, "28027": {"cp": "28027", "shortCp": "27", "dist": "1.0 km", "cardinal": "OSO", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "streets": "Calle de Arturo Soria (1-110), Calle de la Condesa de Venadito, Calle de José Silva"}, "28028": {"cp": "28028", "shortCp": "28", "dist": "3.87 km", "cardinal": "OSO", "zona": "Distrito Salamanca", "mun": "Madrid", "streets": "Calle de Alcalá (191-249), Plaza de Toros de Las Ventas, Avenida de los Toreros"}, "28030": {"cp": "28030", "shortCp": "30", "dist": "4.59 km", "cardinal": "SSO", "zona": "Distrito Moratalaz", "mun": "Madrid", "streets": "Camino de los Vinateros, Calle de Fuente Carrantona, Calle de la Marroquina"}, "28031": {"cp": "28031", "shortCp": "31", "dist": "7.35 km", "cardinal": "S (Sur)", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "streets": "Avenida de Santa Eugenia, Calle Real de Arganda, Calle de la Sierra de Guadalupe"}, "28032": {"cp": "28032", "shortCp": "32", "dist": "3.85 km", "cardinal": "SE (Sureste)", "zona": "Distrito Vicálvaro", "mun": "Madrid", "streets": "Calle de San Cipriano, Avenida de Daroca (final), Avenida de Canillejas a Vicálvaro (este)"}, "28033": {"cp": "28033", "shortCp": "33", "dist": "3.59 km", "cardinal": "NNO", "zona": "Distrito Hortaleza", "mun": "Madrid", "streets": "Calle de Arturo Soria (200-340), Avenida de San Luis, Calle de San Luis"}, "28037": {"cp": "28037", "shortCp": "37", "dist": "1.45 km", "cardinal": "S (Sur)", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "streets": "Calle de los Hermanos García Noblejas, Calle de Alcalá (400-499), Calle de Julián Camarillo (Hub Tecnológico)"}, "28038": {"cp": "28038", "shortCp": "38", "dist": "6.16 km", "cardinal": "SSO", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "streets": "Avenida de Entrevías, Calle de la Sierra de Guadarrama, Calle de la Sierra Carbonera"}, "28042": {"cp": "28042", "shortCp": "42", "dist": "7.13 km", "cardinal": "NE (Noreste)", "zona": "Distrito Barajas", "mun": "Madrid", "streets": "Avenida de Logroño, Calle de la Playa de Riazor, Paseo de la Alameda de Osuna"}, "28043": {"cp": "28043", "shortCp": "43", "dist": "2.44 km", "cardinal": "NO (Noroeste)", "zona": "Distrito Hortaleza / Ciudad Lineal", "mun": "Madrid", "streets": "Calle de Silvano, Calle de Mota del Cuervo, Avenida de Machupichu"}, "28045": {"cp": "28045", "shortCp": "45", "dist": "7.92 km", "cardinal": "SO (Suroeste)", "zona": "Distrito Arganzuela", "mun": "Madrid", "streets": "Calle de Méndez Álvaro, Paseo de las Delicias, Calle del Ferrocarril"}, "28046": {"cp": "28046", "shortCp": "46", "dist": "5.5 km", "cardinal": "O (Oeste)", "zona": "Distrito Tetuán / Chamartín", "mun": "Madrid", "streets": "Paseo de la Castellana (280+ final), Cuatro Torres Business Area (Torre Cepsa, PwC"}, "28051": {"cp": "28051", "shortCp": "51", "dist": "11.77 km", "cardinal": "S (Sur)", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "streets": "Avenida de la Gran Vía del Sureste, Calle de Antonio Gades, Avenida del Mayorazgo"}, "28052": {"cp": "28052", "shortCp": "52", "dist": "8.62 km", "cardinal": "SE (Sureste)", "zona": "Distrito Vicálvaro", "mun": "Madrid", "streets": "Avenida de los Blasones, Avenida de Miguel Delibes, Avenida de Fernando Fernán Gómez"}, "28053": {"cp": "28053", "shortCp": "53", "dist": "7.65 km", "cardinal": "SSO", "zona": "Distrito Puente de Vallecas / Villaverde", "mun": "Madrid", "streets": "Avenida de San Diego, Calle de Martínez de la Riva (final), Calle de Sierra del Valle"}, "28055": {"cp": "28055", "shortCp": "55", "dist": "6.79 km", "cardinal": "N (Norte)", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Calle del Valle de Pinares Llanos, Calle del Mirador de la Reina (norte), Calle de Senda del Infante"}, "28821": {"cp": "28821", "shortCp": "821", "dist": "6.06 km", "cardinal": "E (Este)", "zona": "Coslada", "mun": "Coslada", "streets": "Avenida de la Constitución (Coslada), Calle de Méjico, Avenida de España (Coslada)"}, "28822": {"cp": "28822", "shortCp": "822", "dist": "7.3 km", "cardinal": "ESE", "zona": "Coslada", "mun": "Coslada", "streets": "Avenida del Puerto de Gijón, Calle Mar Cantábrico, Avenida de José Gárate"}, "28823": {"cp": "28823", "shortCp": "823", "dist": "7.83 km", "cardinal": "E (Este)", "zona": "Coslada", "mun": "Coslada", "streets": "Avenida de San Pablo, Avenida de Fuentemar, Calle del Mar Egeo"}, "28830": {"cp": "28830", "shortCp": "830", "dist": "10.91 km", "cardinal": "E (Este)", "zona": "San Fernando de Henares", "mun": "San Fernando de Henares", "streets": "Plaza de España (San Fernando), Avenida de Zarauz, Calle de la Presa"}, "28020": {"cp": "28020", "shortCp": "20", "dist": "3.09 km", "cardinal": "S (Sur)", "zona": "Distrito Tetuán", "mun": "Madrid", "streets": "Calle de Bravo Murillo (151-240), Avenida de General Perón, Calle de Orense"}, "28029": {"cp": "28029", "shortCp": "29", "dist": "1.47 km", "cardinal": "S (Sur)", "zona": "Distrito Tetuán / Fuencarral", "mun": "Madrid", "streets": "Paseo de la Castellana (200-270), Plaza de Castilla (Torres KIO), Calle de Sinesio Delgado"}, "28034": {"cp": "28034", "shortCp": "34", "dist": "0.7 km", "cardinal": "N (Norte)", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Avenida del Ventisquero de la Condesa, Carretera de Colmenar Viejo, Calle del Monasterio de Silos"}, "28035": {"cp": "28035", "shortCp": "35", "dist": "2.48 km", "cardinal": "OSO", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Avenida de la Ilustración, Avenida de Betanzos, Calle de Fermín Caballero"}, "28036": {"cp": "28036", "shortCp": "36", "dist": "2.8 km", "cardinal": "SSE", "zona": "Distrito Chamartín", "mun": "Madrid", "streets": "Paseo de la Habana (altos), Calle de Alberto Alcocer (este), Calle del Padre Damián"}, "28039": {"cp": "28039", "shortCp": "39", "dist": "2.86 km", "cardinal": "SSO", "zona": "Distrito Tetuán", "mun": "Madrid", "streets": "Calle de Bravo Murillo (241-320), Calle de Francos Rodríguez, Calle del Marqués de Viana"}, "28040": {"cp": "28040", "shortCp": "40", "dist": "4.65 km", "cardinal": "SSO", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "streets": "Avenida Complutense, Avenida de la Victoria, Plaza de la Moncloa (Faro e Intercambiador)"}, "28048": {"cp": "28048", "shortCp": "48", "dist": "14.36 km", "cardinal": "NO (Noroeste)", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Carretera de El Pardo, Pista de Cristo de El Pardo, Palacio Real de El Pardo"}, "28049": {"cp": "28049", "shortCp": "49", "dist": "10.96 km", "cardinal": "NNE", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Calle de Castiello de Jaca, Avenida del Camino de Santiago (Las Tablas), Avenida de Santo Domingo de la Calzada"}, "28050": {"cp": "28050", "shortCp": "50", "dist": "4.19 km", "cardinal": "NE (Noreste)", "zona": "Distrito Hortaleza", "mun": "Madrid", "streets": "Avenida de Francisco Pi y Margall (Sanchinarro), Calle de Ana de Austria, Avenida de las Fuerzas Armadas (Valdebebas)"}, "28100": {"cp": "28100", "shortCp": "100", "dist": "8.76 km", "cardinal": "NNE", "zona": "Alcobendas", "mun": "Alcobendas", "streets": "Paseo de la Chopera (Alcobendas), Avenida de España (Alcobendas), Calle Marquesa Viuda de Aldama"}, "28108": {"cp": "28108", "shortCp": "108", "dist": "6.83 km", "cardinal": "NE (Noreste)", "zona": "Alcobendas", "mun": "Alcobendas", "streets": "Avenida de Bruselas (Alcobendas), Paseo de Alcobendas, Camino Ancho (La Moraleja)"}, "28109": {"cp": "28109", "shortCp": "109", "dist": "6.8 km", "cardinal": "ENE", "zona": "Alcobendas", "mun": "Alcobendas", "streets": "Zona urbana consolidada"}, "28701": {"cp": "28701", "shortCp": "701", "dist": "8.94 km", "cardinal": "NE (Noreste)", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "streets": "Avenida de España (San Sebastián de los Reyes), Calle Real (Sanse), Paseo de Europa"}, "28702": {"cp": "28702", "shortCp": "702", "dist": "10.91 km", "cardinal": "NNE", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "streets": "Zona urbana consolidada"}, "28703": {"cp": "28703", "shortCp": "703", "dist": "10.83 km", "cardinal": "ENE", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "streets": "Zona urbana consolidada"}, "28670": {"cp": "28670", "shortCp": "670", "dist": "9.54 km", "cardinal": "O (Oeste)", "zona": "Villaviciosa de OdÃ³n", "mun": "Villaviciosa de OdÃ³n", "streets": "Zona urbana consolidada"}, "28922": {"cp": "28922", "shortCp": "922", "dist": "3.03 km", "cardinal": "O (Oeste)", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Zona urbana consolidada"}, "28223": {"cp": "28223", "shortCp": "223", "dist": "7.27 km", "cardinal": "N (Norte)", "zona": "Pozuelo de AlarcÃ³n", "mun": "Pozuelo de AlarcÃ³n", "streets": "Avenida de Europa (Pozuelo), Calle de la Vía de las Dos Castillas, Paseo de la Finca"}, "28011": {"cp": "28011", "shortCp": "11", "dist": "8.46 km", "cardinal": "NE (Noreste)", "zona": "Distrito Latina", "mun": "Madrid", "streets": "Paseo de Extremadura (1-150), Calle de Sepúlveda, Avenida de Portugal"}, "28019": {"cp": "28019", "shortCp": "19", "dist": "9.15 km", "cardinal": "ENE", "zona": "Distrito Carabanchel", "mun": "Madrid", "streets": "Calle del General Ricardos (1-100), Camino Viejo de Leganés (1-60), Calle de Antonio Leyva"}, "28047": {"cp": "28047", "shortCp": "47", "dist": "7.7 km", "cardinal": "NE (Noreste)", "zona": "Distrito Latina", "mun": "Madrid", "streets": "Calle de los Yébenes, Calle de la Duquesa de Parcent, Calle de Concejal Francisco José Jiménez Martín"}, "28024": {"cp": "28024", "shortCp": "24", "dist": "4.66 km", "cardinal": "NNE", "zona": "Distrito Latina", "mun": "Pozuelo de AlarcÃ³n", "streets": "Avenida de Las Águilas, Calle de Illescas, Calle de Maqueda"}, "28025": {"cp": "28025", "shortCp": "25", "dist": "7.77 km", "cardinal": "ENE", "zona": "Distrito Carabanchel", "mun": "Madrid", "streets": "Calle del General Ricardos (101-220), Calle de Eugenia de Montijo, Avenida de Carabanchel Alto"}, "28026": {"cp": "28026", "shortCp": "26", "dist": "10.35 km", "cardinal": "ENE", "zona": "Distrito Usera", "mun": "Madrid", "streets": "Calle de Marcelo Usera, Calle de Dolores Barranco (Chinatown Usera), Avenida de Córdoba"}, "28041": {"cp": "28041", "shortCp": "41", "dist": "10.24 km", "cardinal": "E (Este)", "zona": "Distrito Usera / Villaverde", "mun": "Madrid", "streets": "Avenida de Andalucía, Calle de Eduardo Barreiros, Avenida de los Rosales"}, "28044": {"cp": "28044", "shortCp": "44", "dist": "5.65 km", "cardinal": "ENE", "zona": "Distrito Carabanchel / Latina", "mun": "Madrid", "streets": "Avenida de la Aviación, Calle de Joaquín Turina, Base Aérea de Cuatro Vientos"}, "28054": {"cp": "28054", "shortCp": "54", "dist": "4.72 km", "cardinal": "ENE", "zona": "Distrito Carabanchel", "mun": "Madrid", "streets": "Avenida de la Peseta, Calle de Salvador Allende, Calle de la Tortera"}, "28925": {"cp": "28925", "shortCp": "925", "dist": "1.76 km", "cardinal": "NNE", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Zona urbana consolidada"}, "28923": {"cp": "28923", "shortCp": "923", "dist": "0.95 km", "cardinal": "SSE", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Zona urbana consolidada"}, "28921": {"cp": "28921", "shortCp": "921", "dist": "0.88 km", "cardinal": "SO (Suroeste)", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Calle Mayor (Alcorcón), Avenida de Leganés (Alcorcón), Plaza de España (Alcorcón)"}, "28924": {"cp": "28924", "shortCp": "924", "dist": "0.44 km", "cardinal": "E (Este)", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Zona urbana consolidada"}, "28918": {"cp": "28918", "shortCp": "918", "dist": "2.41 km", "cardinal": "E (Este)", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28919": {"cp": "28919", "shortCp": "919", "dist": "6.94 km", "cardinal": "E (Este)", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28021": {"cp": "28021", "shortCp": "21", "dist": "11.81 km", "cardinal": "ESE", "zona": "Distrito Villaverde", "mun": "Madrid", "streets": "Paseo de Alberto Palacios, Calle Real de Pinto, Gran Vía de Villaverde"}, "28916": {"cp": "28916", "shortCp": "916", "dist": "7.16 km", "cardinal": "ESE", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28912": {"cp": "28912", "shortCp": "912", "dist": "5.28 km", "cardinal": "ESE", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28913": {"cp": "28913", "shortCp": "913", "dist": "4.35 km", "cardinal": "ESE", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28911": {"cp": "28911", "shortCp": "911", "dist": "5.03 km", "cardinal": "ESE", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Avenida de Fuenlabrada (Leganés), Paseo de Colón, Calle del Charco (Leganés)"}, "28907": {"cp": "28907", "shortCp": "907", "dist": "7.52 km", "cardinal": "ESE", "zona": "Getafe", "mun": "Getafe", "streets": "Zona urbana consolidada"}, "28903": {"cp": "28903", "shortCp": "903", "dist": "8.9 km", "cardinal": "ESE", "zona": "Getafe", "mun": "Getafe", "streets": "Zona urbana consolidada"}, "28914": {"cp": "28914", "shortCp": "914", "dist": "5.68 km", "cardinal": "SE (Sureste)", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28932": {"cp": "28932", "shortCp": "932", "dist": "4.16 km", "cardinal": "OSO", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28933": {"cp": "28933", "shortCp": "933", "dist": "4.68 km", "cardinal": "OSO", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28931": {"cp": "28931", "shortCp": "931", "dist": "4.76 km", "cardinal": "SO (Suroeste)", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Avenida de Portugal (Móstoles), Calle de Simón Hernández, Plaza del Pradillo (Móstoles)"}, "28937": {"cp": "28937", "shortCp": "937", "dist": "4.57 km", "cardinal": "SO (Suroeste)", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28936": {"cp": "28936", "shortCp": "936", "dist": "4.17 km", "cardinal": "SO (Suroeste)", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28934": {"cp": "28934", "shortCp": "934", "dist": "5.61 km", "cardinal": "SO (Suroeste)", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28938": {"cp": "28938", "shortCp": "938", "dist": "7.22 km", "cardinal": "SSO", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28935": {"cp": "28935", "shortCp": "935", "dist": "10.06 km", "cardinal": "OSO", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28942": {"cp": "28942", "shortCp": "942", "dist": "6.14 km", "cardinal": "S (Sur)", "zona": "Fuenlabrada", "mun": "Fuenlabrada", "streets": "Zona urbana consolidada"}};
-    window.FUSION_METADATA = {"28001": {"cp": "28001", "shortCp": "01", "zona": "Distrito Salamanca / Retiro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "5.42 km", "df": "6.91 km", "diff": "1.49 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Serrano (1-60), Calle de Velázquez (1-50), Calle de Claudio Coello (1-70)"}, "28002": {"cp": "28002", "shortCp": "02", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "4.29 km", "df": "4.71 km", "diff": "0.42 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle del Príncipe de Vergara (100-210), Calle de López de Hoyos (50-160), Calle de Cartagena (60-130)"}, "28003": {"cp": "28003", "shortCp": "03", "zona": "Distrito Chamberí", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "7.05 km", "df": "4.8 km", "diff": "2.25 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Ríos Rosas, Calle de Vallehermoso (altos), Calle de Bravo Murillo (1-80)"}, "28004": {"cp": "28004", "shortCp": "04", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "6.87 km", "df": "6.74 km", "diff": "0.12 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Fuencarral (1-100), Calle de Hortaleza, Calle del Barquillo"}, "28005": {"cp": "28005", "shortCp": "05", "zona": "Distrito Centro / Arganzuela", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "8.2 km", "df": "8.53 km", "diff": "0.34 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Toledo (1-110), Calle de Bailén (sur), Calle de Segovia"}, "28006": {"cp": "28006", "shortCp": "06", "zona": "Distrito Salamanca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "4.81 km", "df": "5.9 km", "diff": "1.09 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Serrano (61-120), Calle de Velázquez (51-110), Calle de Diego de León"}, "28007": {"cp": "28007", "shortCp": "07", "zona": "Distrito Retiro / Arganzuela", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "5.77 km", "df": "8.79 km", "diff": "3.02 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Ciudad de Barcelona (1-80), Calle del Doctor Esquerdo (1-70), Paseo de la Reina Cristina"}, "28008": {"cp": "28008", "shortCp": "08", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "8.36 km", "df": "6.56 km", "diff": "1.8 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de la Princesa (1-50), Paseo del Pintor Rosales, Calle de Ferraz (1-60)"}, "28009": {"cp": "28009", "shortCp": "09", "zona": "Distrito Retiro / Salamanca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "5.18 km", "df": "7.55 km", "diff": "2.37 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Alcalá (101-190), Calle de O'Donnell (1-45), Calle de Narváez"}, "28010": {"cp": "28010", "shortCp": "10", "zona": "Distrito Chamberí", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "6.32 km", "df": "5.85 km", "diff": "0.48 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Almagro, Calle de Zurbano, Calle de Fortuny"}, "28012": {"cp": "28012", "shortCp": "12", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "7.53 km", "df": "8.32 km", "diff": "0.79 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Plaza de Lavapiés, Calle de Argumosa, Calle de Atocha (impares 40-120)"}, "28013": {"cp": "28013", "shortCp": "13", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "7.57 km", "df": "7.45 km", "diff": "0.12 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Gran Vía (1-45 impares y tramos centrales), Puerta del Sol (Kilómetro Cero), Plaza Mayor"}, "28014": {"cp": "28014", "shortCp": "14", "zona": "Distrito Centro / Retiro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "6.59 km", "df": "8.09 km", "diff": "1.5 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Paseo del Prado (Museo del Prado), Carrera de San Jerónimo (Congreso de los Diputados), Calle de las Huertas (Barrio de las Letras)"}, "28015": {"cp": "28015", "shortCp": "15", "zona": "Distrito Chamberí / Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "7.27 km", "df": "6.04 km", "diff": "1.23 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de San Bernardo (71-130), Calle de Alberto Aguilera (1-40), Calle de la Princesa (pares)"}, "28016": {"cp": "28016", "shortCp": "16", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "4.48 km", "df": "3.7 km", "diff": "0.78 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Habana (60-150), Calle de Costa Rica, Calle de Alberto Alcocer (1-30)"}, "28017": {"cp": "28017", "shortCp": "17", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "2.33 km", "df": "8.19 km", "diff": "5.87 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Alcalá (250-360), Avenida de Daroca (1-50), Calle de Quintana"}, "28018": {"cp": "28018", "shortCp": "18", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.87 km", "df": "11.51 km", "diff": "4.64 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Albufera (1-120), Calle de Peña Gorbea (bulevar), Avenida del Monte Igueldo"}, "28020": {"cp": "28020", "shortCp": "20", "zona": "Distrito Tetuán", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "6.21 km", "df": "3.09 km", "diff": "3.11 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Bravo Murillo (151-240), Avenida de General Perón, Calle de Orense"}, "28022": {"cp": "28022", "shortCp": "22", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.01 km", "df": "11.44 km", "diff": "7.42 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Arcentales, Avenida de Niza, Calle de San Mariano"}, "28027": {"cp": "28027", "shortCp": "27", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "1.0 km", "df": "7.21 km", "diff": "6.2 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Arturo Soria (1-110), Calle de la Condesa de Venadito, Calle de José Silva"}, "28028": {"cp": "28028", "shortCp": "28", "zona": "Distrito Salamanca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "3.87 km", "df": "6.5 km", "diff": "2.64 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Alcalá (191-249), Plaza de Toros de Las Ventas, Avenida de los Toreros"}, "28029": {"cp": "28029", "shortCp": "29", "zona": "Distrito Tetuán / Fuencarral", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "7.06 km", "df": "1.47 km", "diff": "5.59 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Castellana (200-270), Plaza de Castilla (Torres KIO), Calle de Sinesio Delgado"}, "28030": {"cp": "28030", "shortCp": "30", "zona": "Distrito Moratalaz", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.59 km", "df": "10.23 km", "diff": "5.65 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Camino de los Vinateros, Calle de Fuente Carrantona, Calle de la Marroquina"}, "28031": {"cp": "28031", "shortCp": "31", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.35 km", "df": "13.93 km", "diff": "6.58 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Santa Eugenia, Calle Real de Arganda, Calle de la Sierra de Guadalupe"}, "28032": {"cp": "28032", "shortCp": "32", "zona": "Distrito Vicálvaro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "3.85 km", "df": "11.49 km", "diff": "7.64 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de San Cipriano, Avenida de Daroca (final), Avenida de Canillejas a Vicálvaro (este)"}, "28033": {"cp": "28033", "shortCp": "33", "zona": "Distrito Hortaleza", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "3.59 km", "df": "4.59 km", "diff": "0.99 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Arturo Soria (200-340), Avenida de San Luis, Calle de San Luis"}, "28034": {"cp": "28034", "shortCp": "34", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "8.25 km", "df": "0.7 km", "diff": "7.55 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida del Ventisquero de la Condesa, Carretera de Colmenar Viejo, Calle del Monasterio de Silos"}, "28035": {"cp": "28035", "shortCp": "35", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "9.38 km", "df": "2.48 km", "diff": "6.91 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de la Ilustración, Avenida de Betanzos, Calle de Fermín Caballero"}, "28036": {"cp": "28036", "shortCp": "36", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "5.3 km", "df": "2.8 km", "diff": "2.5 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Habana (altos), Calle de Alberto Alcocer (este), Calle del Padre Damián"}, "28037": {"cp": "28037", "shortCp": "37", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "1.45 km", "df": "8.76 km", "diff": "7.31 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de los Hermanos García Noblejas, Calle de Alcalá (400-499), Calle de Julián Camarillo (Hub Tecnológico)"}, "28038": {"cp": "28038", "shortCp": "38", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.16 km", "df": "11.02 km", "diff": "4.86 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Entrevías, Calle de la Sierra de Guadarrama, Calle de la Sierra Carbonera"}, "28039": {"cp": "28039", "shortCp": "39", "zona": "Distrito Tetuán", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "7.18 km", "df": "2.86 km", "diff": "4.32 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Bravo Murillo (241-320), Calle de Francos Rodríguez, Calle del Marqués de Viana"}, "28040": {"cp": "28040", "shortCp": "40", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "8.41 km", "df": "4.65 km", "diff": "3.76 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida Complutense, Avenida de la Victoria, Plaza de la Moncloa (Faro e Intercambiador)"}, "28042": {"cp": "28042", "shortCp": "42", "zona": "Distrito Barajas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.13 km", "df": "12.24 km", "diff": "5.11 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Logroño, Calle de la Playa de Riazor, Paseo de la Alameda de Osuna"}, "28043": {"cp": "28043", "shortCp": "43", "zona": "Distrito Hortaleza / Ciudad Lineal", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "2.44 km", "df": "5.42 km", "diff": "2.98 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Silvano, Calle de Mota del Cuervo, Avenida de Machupichu"}, "28045": {"cp": "28045", "shortCp": "45", "zona": "Distrito Arganzuela", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "7.92 km", "df": "10.39 km", "diff": "2.47 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Méndez Álvaro, Paseo de las Delicias, Calle del Ferrocarril"}, "28046": {"cp": "28046", "shortCp": "46", "zona": "Distrito Tetuán / Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "5.5 km", "df": "3.75 km", "diff": "1.75 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Castellana (280+ final), Cuatro Torres Business Area (Torre Cepsa, PwC"}, "28048": {"cp": "28048", "shortCp": "48", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "22.11 km", "df": "14.36 km", "diff": "7.75 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Carretera de El Pardo, Pista de Cristo de El Pardo, Palacio Real de El Pardo"}, "28049": {"cp": "28049", "shortCp": "49", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "15.43 km", "df": "10.96 km", "diff": "4.48 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Castiello de Jaca, Avenida del Camino de Santiago (Las Tablas), Avenida de Santo Domingo de la Calzada"}, "28050": {"cp": "28050", "shortCp": "50", "zona": "Distrito Hortaleza", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "8.04 km", "df": "4.19 km", "diff": "3.85 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de Francisco Pi y Margall (Sanchinarro), Calle de Ana de Austria, Avenida de las Fuerzas Armadas (Valdebebas)"}, "28051": {"cp": "28051", "shortCp": "51", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "11.77 km", "df": "17.85 km", "diff": "6.08 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Gran Vía del Sureste, Calle de Antonio Gades, Avenida del Mayorazgo"}, "28052": {"cp": "28052", "shortCp": "52", "zona": "Distrito Vicálvaro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "8.62 km", "df": "16.39 km", "diff": "7.77 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de los Blasones, Avenida de Miguel Delibes, Avenida de Fernando Fernán Gómez"}, "28053": {"cp": "28053", "shortCp": "53", "zona": "Distrito Puente de Vallecas / Villaverde", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.65 km", "df": "11.71 km", "diff": "4.06 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de San Diego, Calle de Martínez de la Riva (final), Calle de Sierra del Valle"}, "28055": {"cp": "28055", "shortCp": "55", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "6.79 km", "df": "6.61 km", "diff": "0.18 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle del Valle de Pinares Llanos, Calle del Mirador de la Reina (norte), Calle de Senda del Infante"}, "28100": {"cp": "28100", "shortCp": "100", "zona": "Alcobendas", "mun": "Alcobendas", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "12.7 km", "df": "8.76 km", "diff": "3.94 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Chopera (Alcobendas), Avenida de España (Alcobendas), Calle Marquesa Viuda de Aldama"}, "28108": {"cp": "28108", "shortCp": "108", "zona": "Alcobendas", "mun": "Alcobendas", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "9.36 km", "df": "6.83 km", "diff": "2.53 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de Bruselas (Alcobendas), Paseo de Alcobendas, Camino Ancho (La Moraleja)"}, "28109": {"cp": "28109", "shortCp": "109", "zona": "Alcobendas", "mun": "Alcobendas", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "7.46 km", "df": "6.8 km", "diff": "0.66 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calles consolidadas"}, "28701": {"cp": "28701", "shortCp": "701", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "11.9 km", "df": "8.94 km", "diff": "2.96 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de España (San Sebastián de los Reyes), Calle Real (Sanse), Paseo de Europa"}, "28702": {"cp": "28702", "shortCp": "702", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "13.94 km", "df": "10.91 km", "diff": "3.03 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calles consolidadas"}, "28703": {"cp": "28703", "shortCp": "703", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "tipo": "COMPARTIDO", "tipo_badge": "🟣 Compartido (Zona Intersección)", "dn": "10.87 km", "df": "10.83 km", "diff": "0.04 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calles consolidadas"}, "28821": {"cp": "28821", "shortCp": "821", "zona": "Coslada", "mun": "Coslada", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.06 km", "df": "13.45 km", "diff": "7.39 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Constitución (Coslada), Calle de Méjico, Avenida de España (Coslada)"}, "28822": {"cp": "28822", "shortCp": "822", "zona": "Coslada", "mun": "Coslada", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.3 km", "df": "15.02 km", "diff": "7.72 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida del Puerto de Gijón, Calle Mar Cantábrico, Avenida de José Gárate"}, "28823": {"cp": "28823", "shortCp": "823", "zona": "Coslada", "mun": "Coslada", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.83 km", "df": "15.19 km", "diff": "7.36 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de San Pablo, Avenida de Fuentemar, Calle del Mar Egeo"}, "28830": {"cp": "28830", "shortCp": "830", "zona": "San Fernando de Henares", "mun": "San Fernando de Henares", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "10.91 km", "df": "17.97 km", "diff": "7.06 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Plaza de España (San Fernando), Avenida de Zarauz, Calle de la Presa"}};
+    window.FUSION_METADATA = {"28001": {"cp": "28001", "shortCp": "01", "zona": "Distrito Salamanca / Retiro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "5.42 km", "df": "6.91 km", "diff": "1.49 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Serrano (1-60), Calle de Velázquez (1-50), Calle de Claudio Coello (1-70)"}, "28002": {"cp": "28002", "shortCp": "02", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "4.29 km", "df": "4.71 km", "diff": "0.42 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle del Príncipe de Vergara (100-210), Calle de López de Hoyos (50-160), Calle de Cartagena (60-130)"}, "28003": {"cp": "28003", "shortCp": "03", "zona": "Distrito Chamberí", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.05 km", "df": "4.8 km", "diff": "2.25 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Ríos Rosas, Calle de Vallehermoso (altos), Calle de Bravo Murillo (1-80)"}, "28004": {"cp": "28004", "shortCp": "04", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.87 km", "df": "6.74 km", "diff": "0.12 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Fuencarral (1-100), Calle de Hortaleza, Calle del Barquillo"}, "28005": {"cp": "28005", "shortCp": "05", "zona": "Distrito Centro / Arganzuela", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "8.2 km", "df": "8.53 km", "diff": "0.34 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Toledo (1-110), Calle de Bailén (sur), Calle de Segovia"}, "28006": {"cp": "28006", "shortCp": "06", "zona": "Distrito Salamanca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "4.81 km", "df": "5.9 km", "diff": "1.09 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Serrano (61-120), Calle de Velázquez (51-110), Calle de Diego de León"}, "28007": {"cp": "28007", "shortCp": "07", "zona": "Distrito Retiro / Arganzuela", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "5.77 km", "df": "8.79 km", "diff": "3.02 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Ciudad de Barcelona (1-80), Calle del Doctor Esquerdo (1-70), Paseo de la Reina Cristina"}, "28008": {"cp": "28008", "shortCp": "08", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "8.36 km", "df": "6.56 km", "diff": "1.8 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de la Princesa (1-50), Paseo del Pintor Rosales, Calle de Ferraz (1-60)"}, "28009": {"cp": "28009", "shortCp": "09", "zona": "Distrito Retiro / Salamanca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "5.18 km", "df": "7.55 km", "diff": "2.37 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Alcalá (101-190), Calle de O'Donnell (1-45), Calle de Narváez"}, "28010": {"cp": "28010", "shortCp": "10", "zona": "Distrito Chamberí", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.32 km", "df": "5.85 km", "diff": "0.48 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Almagro, Calle de Zurbano, Calle de Fortuny"}, "28012": {"cp": "28012", "shortCp": "12", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.53 km", "df": "8.32 km", "diff": "0.79 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Plaza de Lavapiés, Calle de Argumosa, Calle de Atocha (impares 40-120)"}, "28013": {"cp": "28013", "shortCp": "13", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.57 km", "df": "7.45 km", "diff": "0.12 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Gran Vía (1-45 impares y tramos centrales), Puerta del Sol (Kilómetro Cero), Plaza Mayor"}, "28014": {"cp": "28014", "shortCp": "14", "zona": "Distrito Centro / Retiro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.59 km", "df": "8.09 km", "diff": "1.5 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Paseo del Prado (Museo del Prado), Carrera de San Jerónimo (Congreso de los Diputados), Calle de las Huertas (Barrio de las Letras)"}, "28015": {"cp": "28015", "shortCp": "15", "zona": "Distrito Chamberí / Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.27 km", "df": "6.04 km", "diff": "1.23 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de San Bernardo (71-130), Calle de Alberto Aguilera (1-40), Calle de la Princesa (pares)"}, "28016": {"cp": "28016", "shortCp": "16", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "4.48 km", "df": "3.7 km", "diff": "0.78 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Habana (60-150), Calle de Costa Rica, Calle de Alberto Alcocer (1-30)"}, "28017": {"cp": "28017", "shortCp": "17", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "2.33 km", "df": "8.19 km", "diff": "5.87 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Alcalá (250-360), Avenida de Daroca (1-50), Calle de Quintana"}, "28018": {"cp": "28018", "shortCp": "18", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.87 km", "df": "11.51 km", "diff": "4.64 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Albufera (1-120), Calle de Peña Gorbea (bulevar), Avenida del Monte Igueldo"}, "28020": {"cp": "28020", "shortCp": "20", "zona": "Distrito Tetuán", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.21 km", "df": "3.09 km", "diff": "3.11 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Bravo Murillo (151-240), Avenida de General Perón, Calle de Orense"}, "28022": {"cp": "28022", "shortCp": "22", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.01 km", "df": "11.44 km", "diff": "7.42 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Arcentales, Avenida de Niza, Calle de San Mariano"}, "28027": {"cp": "28027", "shortCp": "27", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "1.0 km", "df": "7.21 km", "diff": "6.2 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Arturo Soria (1-110), Calle de la Condesa de Venadito, Calle de José Silva"}, "28028": {"cp": "28028", "shortCp": "28", "zona": "Distrito Salamanca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "3.87 km", "df": "6.5 km", "diff": "2.64 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Alcalá (191-249), Plaza de Toros de Las Ventas, Avenida de los Toreros"}, "28029": {"cp": "28029", "shortCp": "29", "zona": "Distrito Tetuán / Fuencarral", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "7.06 km", "df": "1.47 km", "diff": "5.59 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Castellana (200-270), Plaza de Castilla (Torres KIO), Calle de Sinesio Delgado"}, "28030": {"cp": "28030", "shortCp": "30", "zona": "Distrito Moratalaz", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.59 km", "df": "10.23 km", "diff": "5.65 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Camino de los Vinateros, Calle de Fuente Carrantona, Calle de la Marroquina"}, "28031": {"cp": "28031", "shortCp": "31", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.35 km", "df": "13.93 km", "diff": "6.58 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Santa Eugenia, Calle Real de Arganda, Calle de la Sierra de Guadalupe"}, "28032": {"cp": "28032", "shortCp": "32", "zona": "Distrito Vicálvaro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "3.85 km", "df": "11.49 km", "diff": "7.64 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de San Cipriano, Avenida de Daroca (final), Avenida de Canillejas a Vicálvaro (este)"}, "28033": {"cp": "28033", "shortCp": "33", "zona": "Distrito Hortaleza", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "3.59 km", "df": "4.59 km", "diff": "0.99 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Arturo Soria (200-340), Avenida de San Luis, Calle de San Luis"}, "28034": {"cp": "28034", "shortCp": "34", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "8.25 km", "df": "0.7 km", "diff": "7.55 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida del Ventisquero de la Condesa, Carretera de Colmenar Viejo, Calle del Monasterio de Silos"}, "28035": {"cp": "28035", "shortCp": "35", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "9.38 km", "df": "2.48 km", "diff": "6.91 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de la Ilustración, Avenida de Betanzos, Calle de Fermín Caballero"}, "28036": {"cp": "28036", "shortCp": "36", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "5.3 km", "df": "2.8 km", "diff": "2.5 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Habana (altos), Calle de Alberto Alcocer (este), Calle del Padre Damián"}, "28037": {"cp": "28037", "shortCp": "37", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "1.45 km", "df": "8.76 km", "diff": "7.31 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de los Hermanos García Noblejas, Calle de Alcalá (400-499), Calle de Julián Camarillo (Hub Tecnológico)"}, "28038": {"cp": "28038", "shortCp": "38", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.16 km", "df": "11.02 km", "diff": "4.86 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Entrevías, Calle de la Sierra de Guadarrama, Calle de la Sierra Carbonera"}, "28039": {"cp": "28039", "shortCp": "39", "zona": "Distrito Tetuán", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "7.18 km", "df": "2.86 km", "diff": "4.32 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Bravo Murillo (241-320), Calle de Francos Rodríguez, Calle del Marqués de Viana"}, "28040": {"cp": "28040", "shortCp": "40", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "8.41 km", "df": "4.65 km", "diff": "3.76 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida Complutense, Avenida de la Victoria, Plaza de la Moncloa (Faro e Intercambiador)"}, "28042": {"cp": "28042", "shortCp": "42", "zona": "Distrito Barajas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.13 km", "df": "12.24 km", "diff": "5.11 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Logroño, Calle de la Playa de Riazor, Paseo de la Alameda de Osuna"}, "28043": {"cp": "28043", "shortCp": "43", "zona": "Distrito Hortaleza / Ciudad Lineal", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "2.44 km", "df": "5.42 km", "diff": "2.98 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Silvano, Calle de Mota del Cuervo, Avenida de Machupichu"}, "28045": {"cp": "28045", "shortCp": "45", "zona": "Distrito Arganzuela", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.92 km", "df": "10.39 km", "diff": "2.47 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Méndez Álvaro, Paseo de las Delicias, Calle del Ferrocarril"}, "28046": {"cp": "28046", "shortCp": "46", "zona": "Distrito Tetuán / Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "5.5 km", "df": "3.75 km", "diff": "1.75 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Castellana (280+ final), Cuatro Torres Business Area (Torre Cepsa, PwC"}, "28048": {"cp": "28048", "shortCp": "48", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "22.11 km", "df": "14.36 km", "diff": "7.75 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Carretera de El Pardo, Pista de Cristo de El Pardo, Palacio Real de El Pardo"}, "28049": {"cp": "28049", "shortCp": "49", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "15.43 km", "df": "10.96 km", "diff": "4.48 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Castiello de Jaca, Avenida del Camino de Santiago (Las Tablas), Avenida de Santo Domingo de la Calzada"}, "28050": {"cp": "28050", "shortCp": "50", "zona": "Distrito Hortaleza", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "8.04 km", "df": "4.19 km", "diff": "3.85 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de Francisco Pi y Margall (Sanchinarro), Calle de Ana de Austria, Avenida de las Fuerzas Armadas (Valdebebas)"}, "28051": {"cp": "28051", "shortCp": "51", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "11.77 km", "df": "17.85 km", "diff": "6.08 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Gran Vía del Sureste, Calle de Antonio Gades, Avenida del Mayorazgo"}, "28052": {"cp": "28052", "shortCp": "52", "zona": "Distrito Vicálvaro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "8.62 km", "df": "16.39 km", "diff": "7.77 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de los Blasones, Avenida de Miguel Delibes, Avenida de Fernando Fernán Gómez"}, "28053": {"cp": "28053", "shortCp": "53", "zona": "Distrito Puente de Vallecas / Villaverde", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.65 km", "df": "11.71 km", "diff": "4.06 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de San Diego, Calle de Martínez de la Riva (final), Calle de Sierra del Valle"}, "28055": {"cp": "28055", "shortCp": "55", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.79 km", "df": "6.61 km", "diff": "0.18 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle del Valle de Pinares Llanos, Calle del Mirador de la Reina (norte), Calle de Senda del Infante"}, "28100": {"cp": "28100", "shortCp": "100", "zona": "Alcobendas", "mun": "Alcobendas", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "12.7 km", "df": "8.76 km", "diff": "3.94 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Chopera (Alcobendas), Avenida de España (Alcobendas), Calle Marquesa Viuda de Aldama"}, "28108": {"cp": "28108", "shortCp": "108", "zona": "Alcobendas", "mun": "Alcobendas", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "9.36 km", "df": "6.83 km", "diff": "2.53 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de Bruselas (Alcobendas), Paseo de Alcobendas, Camino Ancho (La Moraleja)"}, "28109": {"cp": "28109", "shortCp": "109", "zona": "Alcobendas", "mun": "Alcobendas", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.46 km", "df": "6.8 km", "diff": "0.66 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calles consolidadas"}, "28701": {"cp": "28701", "shortCp": "701", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "11.9 km", "df": "8.94 km", "diff": "2.96 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de España (San Sebastián de los Reyes), Calle Real (Sanse), Paseo de Europa"}, "28702": {"cp": "28702", "shortCp": "702", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "13.94 km", "df": "10.91 km", "diff": "3.03 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calles consolidadas"}, "28703": {"cp": "28703", "shortCp": "703", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "10.87 km", "df": "10.83 km", "diff": "0.04 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calles consolidadas"}, "28821": {"cp": "28821", "shortCp": "821", "zona": "Coslada", "mun": "Coslada", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.06 km", "df": "13.45 km", "diff": "7.39 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Constitución (Coslada), Calle de Méjico, Avenida de España (Coslada)"}, "28822": {"cp": "28822", "shortCp": "822", "zona": "Coslada", "mun": "Coslada", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.3 km", "df": "15.02 km", "diff": "7.72 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida del Puerto de Gijón, Calle Mar Cantábrico, Avenida de José Gárate"}, "28823": {"cp": "28823", "shortCp": "823", "zona": "Coslada", "mun": "Coslada", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.83 km", "df": "15.19 km", "diff": "7.36 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de San Pablo, Avenida de Fuentemar, Calle del Mar Egeo"}, "28830": {"cp": "28830", "shortCp": "830", "zona": "San Fernando de Henares", "mun": "San Fernando de Henares", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "10.91 km", "df": "17.97 km", "diff": "7.06 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Plaza de España (San Fernando), Avenida de Zarauz, Calle de la Presa"}};
 
     const tabs = document.querySelectorAll('.btn-tab');
     const sheets = document.querySelectorAll('.kitchen-sheet');
@@ -4757,7 +4757,7 @@
         const cp = node.dataset.cp;
         const info = window.FUSION_METADATA[cp];
         if (info) {
-          const colorHeader = info.tipo === 'COMPARTIDO' ? '#c084fc' : (info.tipo === 'EXCLUSIVO_NORTE' ? '#60a5fa' : '#fbbf24');
+          const colorHeader = info.tipo === 'COMPARTIDO' ? '#34d399' : (info.tipo === 'EXCLUSIVO_NORTE' ? '#60a5fa' : '#fbbf24');
           tooltip.innerHTML = '<div style="font-size:13px; font-weight:900; color:' + colorHeader + '; margin-bottom:3px;">📮 CÓDIGO POSTAL ' + info.cp + ' (#' + info.shortCp + ')</div>' +
             '<div style="font-size:11.5px; font-weight:800; color:#ffffff; margin-bottom:4px;">🏷️ ' + info.tipo_badge + '</div>' +
             '<div style="font-size:11px; color:#93c5fd; margin-bottom:2px;">🔵 Distancia a Cocina Norte: <b>' + info.dn + '</b></div>' +
