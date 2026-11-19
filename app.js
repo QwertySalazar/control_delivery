@@ -40,6 +40,9 @@ function initApp() {
       if (assignedKid === 'alcorcon') {
         return '#10b981'; // Verde Esmeralda Alcorcón
       }
+      if (assignedKid === 'norte') {
+        return '#3b82f6'; // Azul Cocina Norte / Centro
+      }
     }
     return '#3b82f6'; // Azul Madrid Capital (Norte / Centro)
   }
@@ -85,11 +88,12 @@ function initApp() {
   // Reubicar zoom control abajo a la derecha
   L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-  // Estado global de la aplicación (86 CPs de Reparto Activos)
-  let currentScope = 'area'; // 'area' | 'fuencarral' | 'alcorcon' | 'capital'
-  let allFeatures = [];        // Los 86 códigos postales activos
-  let capitalFeatures = [];    // Los 55 códigos de Madrid Capital
-  let fuencarralFeatures = []; // Los 15 códigos de Cocina Fuencarral
+  // Estado global de la aplicación (89 CPs de Reparto Activos)
+  let currentScope = 'area'; // 'area' | 'norte' | 'fuencarral' | 'alcorcon' | 'capital'
+  let allFeatures = [];        // Los 89 códigos postales activos
+  let capitalFeatures = [];    // Los 54 códigos activos de Madrid Capital
+  let norteFeatures = [];      // Los 38 códigos de Cocina Norte
+  let fuencarralFeatures = []; // Los 16 códigos de Cocina Fuencarral
   let alcorconFeatures = [];   // Los 35 códigos de Cocina Alcorcón
   let activeGeoJsonLayer = null;
   let cpLayerIndex = {};     // cp -> array de capas L.Polygon
@@ -164,8 +168,17 @@ function initApp() {
   // ASIGNACIÓN OPERATIVA DE CÓDIGOS POSTALES POR COCINA
   // =========================================================================
   const KITCHEN_ASSIGNED_ZONES = {
+    norte: [
+      // 34 CPs de Madrid Capital asignados a Cocina Norte / Centro (28023 desactivado, 28048 en Fuencarral)
+      '28001', '28002', '28003', '28004', '28005', '28006', '28007', '28008', '28009', '28010',
+      '28012', '28013', '28014', '28015', '28016', '28017', '28018', '28022', '28027',
+      '28028', '28030', '28031', '28032', '28033', '28037', '28038', '28042', '28043', '28045',
+      '28046', '28051', '28052', '28053', '28055',
+      // Códigos de Corredor del Henares asignados a Cocina Norte (Coslada y San Fernando)
+      '28821', '28822', '28823', '28830'
+    ],
     fuencarral: [
-      '28020', '28029', '28034', '28035', '28036', '28039', '28040', '28049', '28050',
+      '28020', '28029', '28034', '28035', '28036', '28039', '28040', '28048', '28049', '28050',
       '28100', '28108', '28109', '28701', '28702', '28703'
     ],
     alcorcon: [
@@ -176,7 +189,7 @@ function initApp() {
     ]
   };
 
-  // Mapa rápido de búsqueda: CP -> 'fuencarral' | 'alcorcon'
+  // Mapa rápido de búsqueda: CP -> 'norte' | 'fuencarral' | 'alcorcon'
   const CP_TO_KITCHEN_ASSIGNMENT = {};
   Object.entries(KITCHEN_ASSIGNED_ZONES).forEach(([kid, cps]) => {
     cps.forEach(cp => {
@@ -184,17 +197,21 @@ function initApp() {
     });
   });
 
-  // Códigos de Madrid Capital (55 CPs: 28001 al 28055)
+  // Códigos desactivados permanentemente (no operan con ninguna cocina)
+  const DEACTIVATED_CPS = new Set(['28023']);
+
+  // Códigos de Madrid Capital Activos (54 CPs: 28001 al 28055, excluyendo 28023 desactivado)
   const MADRID_CAPITAL_CPS = new Set(
     Array.from({ length: 55 }, (_, i) => '28' + String(i + 1).padStart(3, '0'))
+      .filter(cp => !DEACTIVATED_CPS.has(cp))
   );
 
-  // Universo de Reparto Activo (86 CPs): Madrid Capital + Códigos enviados de Fuencarral y Alcorcón
+  // Universo de Reparto Activo (89 CPs): Códigos asignados a nuestras 3 cocinas operativas
   const ACTIVE_DELIVERY_CPS = new Set([
-    ...MADRID_CAPITAL_CPS,
+    ...KITCHEN_ASSIGNED_ZONES.norte,
     ...KITCHEN_ASSIGNED_ZONES.fuencarral,
     ...KITCHEN_ASSIGNED_ZONES.alcorcon
-  ]);
+  ].filter(cp => !DEACTIVATED_CPS.has(cp)));
 
   const cocinasLayerGroup = L.layerGroup().addTo(map);
   const kitchenMarkers = {};
@@ -268,8 +285,9 @@ function initApp() {
   const kitchensRankingList = document.getElementById('kitchens-ranking-list');
   let optimalRouteLine = null;
 
-  // Scope Buttons (86 CPs de Reparto Activos)
+  // Scope Buttons (89 CPs de Reparto Activos)
   const scopeAreaBtn = document.getElementById('scope-area-btn');
+  const scopeNorteBtn = document.getElementById('scope-norte-btn');
   const scopeFuencarralBtn = document.getElementById('scope-fuencarral-btn');
   const scopeAlcorconBtn = document.getElementById('scope-alcorcon-btn');
   const scopeCapitalBtn = document.getElementById('scope-capital-btn');
@@ -332,14 +350,15 @@ function initApp() {
     }
   }
 
-  // --- Carga de Datos GeoJSON (86 Códigos Postales Activos de Reparto) ---
+  // --- Carga de Datos GeoJSON (89 Códigos Postales Activos de Reparto) ---
   function loadData() {
     if (window.MADRID_GEOJSON && window.MADRID_GEOJSON.features) {
-      // Filtrar ÚNICAMENTE las 86 zonas activas: Madrid Capital (55 CPs) + Fuencarral (15 CPs) + Alcorcón (35 CPs)
-      // Excluir todos los demás códigos generales de la provincia que no se usarán
+      // Filtrar ÚNICAMENTE las 89 zonas activas: Norte (38 CPs) + Fuencarral (16 CPs) + Alcorcón (35 CPs)
+      // Excluir todos los códigos desactivados (ej: 28023) y códigos generales no asignados
       allFeatures = window.MADRID_GEOJSON.features.filter(f => {
-        const cp = f.properties && f.properties.cp;
-        return cp && ACTIVE_DELIVERY_CPS.has(String(cp).trim());
+        const cp = f.properties && f.properties.cp ? String(f.properties.cp).trim() : null;
+        if (!cp || DEACTIVATED_CPS.has(cp)) return false;
+        return ACTIVE_DELIVERY_CPS.has(cp);
       });
       allFeatures.forEach(fixFeatureCoordinates);
     }
@@ -347,6 +366,11 @@ function initApp() {
     capitalFeatures = allFeatures.filter(f => {
       const cp = f.properties && f.properties.cp;
       return cp && MADRID_CAPITAL_CPS.has(String(cp).trim());
+    });
+
+    norteFeatures = allFeatures.filter(f => {
+      const cp = f.properties && f.properties.cp;
+      return cp && KITCHEN_ASSIGNED_ZONES.norte.includes(String(cp).trim());
     });
 
     fuencarralFeatures = allFeatures.filter(f => {
@@ -469,7 +493,7 @@ function initApp() {
         fillOpacity: 0.62
       };
     } else {
-      // 🔵 Madrid Capital (Resto 36 CPs - Norte / Centro): Azul Índigo vivo
+      // 🔵 Cocina Norte (40 CPs - Resto Capital + Coslada/San Fernando): Azul Índigo vivo
       return {
         fillColor: '#3b82f6',
         weight: 2.0,
@@ -519,14 +543,16 @@ function initApp() {
     cpDataIndex = {};
 
     let featuresToRender;
-    if (currentScope === 'fuencarral') {
+    if (currentScope === 'norte') {
+      featuresToRender = norteFeatures;
+    } else if (currentScope === 'fuencarral') {
       featuresToRender = fuencarralFeatures;
     } else if (currentScope === 'alcorcon') {
       featuresToRender = alcorconFeatures;
     } else if (currentScope === 'capital') {
       featuresToRender = capitalFeatures;
     } else {
-      // 'area': Toda el área metropolitana de reparto activa (86 CPs al mismo tiempo)
+      // 'area': Toda el área metropolitana de reparto activa (90 CPs al mismo tiempo)
       featuresToRender = allFeatures;
     }
 
@@ -563,14 +589,16 @@ function initApp() {
       map.flyToBounds(bounds, { padding: [25, 25], duration: 1.0 });
     }
 
-    if (currentScope === 'fuencarral') {
-      if (statsCpCount) statsCpCount.textContent = '15 Códigos Postales (Cocina Fuencarral)';
+    if (currentScope === 'norte') {
+      if (statsCpCount) statsCpCount.textContent = '38 Códigos Postales (Cocina Norte / Este)';
+    } else if (currentScope === 'fuencarral') {
+      if (statsCpCount) statsCpCount.textContent = '16 Códigos Postales (Cocina Fuencarral)';
     } else if (currentScope === 'alcorcon') {
       if (statsCpCount) statsCpCount.textContent = '35 Códigos Postales (Cocina Alcorcón)';
     } else if (currentScope === 'capital') {
-      if (statsCpCount) statsCpCount.textContent = '55 Códigos Postales (Madrid Capital)';
+      if (statsCpCount) statsCpCount.textContent = '54 Códigos Postales (Madrid Capital)';
     } else {
-      if (statsCpCount) statsCpCount.textContent = '86 Códigos Postales Activos (Madrid Capital + Fuencarral + Alcorcón)';
+      if (statsCpCount) statsCpCount.textContent = '89 Códigos Postales Activos (Norte + Fuencarral + Alcorcón)';
     }
 
     populateSidebar();
@@ -599,10 +627,18 @@ function initApp() {
     if (cursorKitchenLabel) {
       const assignedKid = CP_TO_KITCHEN_ASSIGNMENT[cp];
       if (assignedKid) {
-        const assignedName = assignedKid === 'fuencarral' ? 'Cocina Fuencarral' : 'Cocina Alcorcón';
+        let assignedName = 'Cocina Norte';
+        let assignedColor = '#60a5fa';
+        if (assignedKid === 'fuencarral') {
+          assignedName = 'Cocina Fuencarral';
+          assignedColor = '#fbbf24';
+        } else if (assignedKid === 'alcorcon') {
+          assignedName = 'Cocina Alcorcón';
+          assignedColor = '#34d399';
+        }
         cursorKitchenLabel.innerHTML = `⭐ Asignado: <b>${assignedName}</b>`;
         cursorKitchenLabel.style.display = 'block';
-        cursorKitchenLabel.style.color = (assignedKid === 'fuencarral') ? '#fbbf24' : '#34d399';
+        cursorKitchenLabel.style.color = assignedColor;
       } else {
         cursorKitchenLabel.style.display = 'none';
       }
@@ -722,7 +758,17 @@ function initApp() {
   // CÁLCULO DE COCINA MÁS CERCANA Y ÓPTIMA EN DISTANCIA
   // =========================================================================
 
+  // Centros visuales optimizados para códigos postales de geometría asimétrica o muy alargada
+  const CP_CUSTOM_CENTERS = {
+    // 28108: El bounding box se extiende varios km al este hacia el río Jarama, desplazando el centroide al campo/golf.
+    // Anclamos su centro en el verdadero núcleo comercial y residencial (Metro La Moraleja / Diversia / Arroyo de la Vega):
+    '28108': [40.5283, -3.6417]
+  };
+
   function getCpCenter(cp) {
+    if (cp && CP_CUSTOM_CENTERS[String(cp).trim()]) {
+      return CP_CUSTOM_CENTERS[String(cp).trim()];
+    }
     const layers = cpLayerIndex[cp];
     if (layers && layers.length > 0) {
       const group = L.featureGroup(layers);
@@ -862,7 +908,8 @@ function initApp() {
 
     const matchedLayers = [];
     const isFuencarral = (kitchenId === 'fuencarral');
-    const fillCol = isFuencarral ? '#f59e0b' : '#10b981';
+    const isAlcorcon = (kitchenId === 'alcorcon');
+    const fillCol = isFuencarral ? '#f59e0b' : (isAlcorcon ? '#10b981' : '#3b82f6');
 
     cpList.forEach(cp => {
       const layers = cpLayerIndex[cp];
@@ -928,7 +975,7 @@ function initApp() {
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
           <span style="font-size:10px; color:${isAssigned ? '#34d399' : '#94a3b8'};">
-            ${isAssigned ? '✅ Código postal asignado a su ruta' : (k.id === 'norte' ? 'Hub Central' : `${(KITCHEN_ASSIGNED_ZONES[k.id] || []).length} CPs en zona`)}
+            ${isAssigned ? '✅ Código postal asignado a su ruta' : `${(KITCHEN_ASSIGNED_ZONES[k.id] || []).length} CPs en zona`}
           </span>
           <button class="kitchen-ranking-btn">
             Navegar a esta cocina ➔
@@ -955,12 +1002,32 @@ function initApp() {
           Haz clic en cualquier código para enfocarlo o en el botón para iluminar toda la cobertura de la cocina:
         </div>
 
-        <!-- Cocina Fuencarral (15 CPs) -->
+        <!-- Cocina Norte (38 CPs) -->
+        <div class="kitchen-zone-accordion" style="background:rgba(59, 130, 246, 0.08); border:1px solid rgba(59, 130, 246, 0.3); border-radius:8px; padding:10px; margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="font-size:11px; font-weight:800; color:#60a5fa; display:flex; align-items:center; gap:5px;">
+              <span>🍳</span> Cocina Norte
+              <span style="background:#3b82f6; color:#ffffff; font-size:10px; padding:1px 6px; border-radius:10px; font-weight:800;">38 CPs</span>
+            </div>
+            <button class="btn-highlight-coverage" data-kitchen="norte" style="background:rgba(59,130,246,0.2); border:1px solid #3b82f6; color:#93c5fd; font-size:10px; font-weight:700; border-radius:5px; padding:3px 8px; cursor:pointer;">
+              🗺️ Iluminar en mapa
+            </button>
+          </div>
+          <div class="kitchen-chips-list" style="display:flex; flex-wrap:wrap; gap:4px;">
+            ${(KITCHEN_ASSIGNED_ZONES.norte || []).map(cp => {
+              const short = formatShortCp(cp);
+              const isActive = (currentCp === cp);
+              return `<button class="cp-chip-btn ${isActive ? 'active' : ''}" data-cp="${cp}" title="CP ${cp}">#${short}</button>`;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Cocina Fuencarral (16 CPs) -->
         <div class="kitchen-zone-accordion" style="background:rgba(245, 158, 11, 0.08); border:1px solid rgba(245, 158, 11, 0.3); border-radius:8px; padding:10px; margin-bottom:8px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <div style="font-size:11px; font-weight:800; color:#fbbf24; display:flex; align-items:center; gap:5px;">
               <span>🍳</span> Cocina Fuencarral
-              <span style="background:#f59e0b; color:#0f172a; font-size:10px; padding:1px 6px; border-radius:10px; font-weight:800;">15 CPs</span>
+              <span style="background:#f59e0b; color:#0f172a; font-size:10px; padding:1px 6px; border-radius:10px; font-weight:800;">16 CPs</span>
             </div>
             <button class="btn-highlight-coverage" data-kitchen="fuencarral" style="background:rgba(245,158,11,0.2); border:1px solid #f59e0b; color:#fef08a; font-size:10px; font-weight:700; border-radius:5px; padding:3px 8px; cursor:pointer;">
               🗺️ Iluminar en mapa
@@ -1123,7 +1190,12 @@ function initApp() {
   }
 
   function findCpContainingPoint(lat, lon) {
-    const list = currentScope === 'capital' ? capitalFeatures : allFeatures;
+    let list;
+    if (currentScope === 'capital') list = capitalFeatures;
+    else if (currentScope === 'norte') list = norteFeatures;
+    else if (currentScope === 'fuencarral') list = fuencarralFeatures;
+    else if (currentScope === 'alcorcon') list = alcorconFeatures;
+    else list = allFeatures;
     for (const feat of list) {
       const geom = feat.geometry;
       if (geom.type === 'Polygon') {
@@ -3061,12 +3133,15 @@ function initApp() {
     const kitchenMatches = getKitchenMatches(query);
     const driverMatches = getDriverMatches(query);
 
+    const q = query.toLowerCase();
     const matches = Object.values(cpDataIndex).filter(item => {
+      if (DEACTIVATED_CPS.has(item.cp)) return false;
       const shortCp = formatShortCp(item.cp);
-      return item.cp.toLowerCase().includes(query.toLowerCase()) ||
-             shortCp.toLowerCase() === query.toLowerCase() ||
-             item.zona.toLowerCase().includes(query.toLowerCase());
-    }).slice(0, 6);
+      return item.cp.toLowerCase().includes(q) ||
+             shortCp.toLowerCase() === q ||
+             item.zona.toLowerCase().includes(q) ||
+             (item.municipio && item.municipio.toLowerCase().includes(q));
+    }).slice(0, 8);
 
     if (matches.length === 0 && kitchenMatches.length === 0 && driverMatches.length === 0) {
       searchDropdown.innerHTML = `<div style="padding: 10px; font-size: 12px; color: #94a3b8; text-align: center;">Sin resultados para "${query}"</div>`;
@@ -3134,6 +3209,7 @@ function initApp() {
     const localStreetMatches = [];
     if (window.MADRID_STREETS) {
       for (const cp in window.MADRID_STREETS) {
+        if (DEACTIVATED_CPS.has(cp) || !ACTIVE_DELIVERY_CPS.has(cp)) continue;
         const streets = window.MADRID_STREETS[cp];
         streets.forEach(st => {
           if (st.toLowerCase().includes(query.toLowerCase()) && localStreetMatches.length < 5) {
@@ -3360,12 +3436,13 @@ function initApp() {
     }
   });
 
-  // --- Selector de Alcance de Reparto Activo (86 CPs) ---
+  // --- Selector de Alcance de Reparto Activo (90 CPs) ---
   function setScope(scope) {
     if (currentScope === scope) return;
     currentScope = scope;
 
     if (scopeAreaBtn) scopeAreaBtn.classList.toggle('active', scope === 'area');
+    if (scopeNorteBtn) scopeNorteBtn.classList.toggle('active', scope === 'norte');
     if (scopeFuencarralBtn) scopeFuencarralBtn.classList.toggle('active', scope === 'fuencarral');
     if (scopeAlcorconBtn) scopeAlcorconBtn.classList.toggle('active', scope === 'alcorcon');
     if (scopeCapitalBtn) scopeCapitalBtn.classList.toggle('active', scope === 'capital');
@@ -3382,6 +3459,7 @@ function initApp() {
   }
 
   if (scopeAreaBtn) scopeAreaBtn.addEventListener('click', () => setScope('area'));
+  if (scopeNorteBtn) scopeNorteBtn.addEventListener('click', () => setScope('norte'));
   if (scopeFuencarralBtn) scopeFuencarralBtn.addEventListener('click', () => setScope('fuencarral'));
   if (scopeAlcorconBtn) scopeAlcorconBtn.addEventListener('click', () => setScope('alcorcon'));
   if (scopeCapitalBtn) scopeCapitalBtn.addEventListener('click', () => setScope('capital'));
@@ -3398,7 +3476,7 @@ function initApp() {
     legendBtnAlcorcon.addEventListener('click', () => setScope('alcorcon'));
   }
   if (legendBtnNorte) {
-    legendBtnNorte.addEventListener('click', () => setScope('capital'));
+    legendBtnNorte.addEventListener('click', () => setScope('norte'));
   }
 
   // --- Directorio Lateral (Sidebar Drawer) ---

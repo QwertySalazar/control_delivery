@@ -129,11 +129,6 @@ window.MADRID_STREETS = {
     "Calle de Canillejas a Vicálvaro", "Avenida de Luis Aragonés (Estadio Cívitas Metropolitano)",
     "Calle de Alcalá (500-600)", "Calle de las Rosas", "Avenida de Veinticinco de Julio"
   ],
-  "28023": [
-    "Avenida del Talgo", "Avenida de Valdemarín", "Carretera de Húmera",
-    "Calle de Blanca de Castilla", "Camino de la Zarzuela", "Calle de las Rosas de Aravaca",
-    "Estación de Aravaca", "Camino del Barrial"
-  ],
   "28024": [
     "Avenida de Las Águilas", "Calle de Illescas", "Calle de Maqueda",
     "Calle de Tembleque", "Calle de Valmojado", "Parque Aluche",
@@ -276,6 +271,11 @@ window.MADRID_STREETS = {
   "28901": ["Calle Madrid (Getafe)", "Avenida Juan de la Cierva", "Plaza General Palacio (Getafe)"],
   "28921": ["Calle Mayor (Alcorcón)", "Avenida de Leganés (Alcorcón)", "Plaza de España (Alcorcón)"],
   "28100": ["Paseo de la Chopera (Alcobendas)", "Avenida de España (Alcobendas)", "Calle Marquesa Viuda de Aldama"],
+  "28108": ["Avenida de Bruselas (Alcobendas)", "Paseo de Alcobendas", "Camino Ancho (La Moraleja)", "Avenida de Europa (Alcobendas)", "Carretera de Fuencarral (Alcobendas)", "Heron City Diversia"],
+  "28821": ["Avenida de la Constitución (Coslada)", "Calle de Méjico", "Avenida de España (Coslada)", "Plaza Mayor (Coslada)", "Avenida de Berlín (Valleaguado)"],
+  "28822": ["Avenida del Puerto de Gijón", "Calle Mar Cantábrico", "Avenida de José Gárate", "Barrio del Puerto (Coslada)"],
+  "28823": ["Avenida de San Pablo", "Avenida de Fuentemar", "Calle del Mar Egeo", "Centro de Transportes de Coslada (CTC)", "Puerto Seco"],
+  "28830": ["Plaza de España (San Fernando)", "Avenida de Zarauz", "Calle de la Presa", "Avenida de Somorrostro", "Carretera de Mejorada"],
   "28701": ["Avenida de España (San Sebastián de los Reyes)", "Calle Real (Sanse)", "Paseo de Europa"],
   "28220": ["Gran Vía (Majadahonda)", "Avenida de España (Majadahonda)", "Carretera de Pozuelo"],
   "28223": ["Avenida de Europa (Pozuelo)", "Calle de la Vía de las Dos Castillas", "Paseo de la Finca"],

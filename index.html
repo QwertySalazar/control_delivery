@@ -37,19 +37,22 @@
       </div>
     </div>
 
-    <!-- Filtro de Alcance de Reparto Activo (86 CPs) -->
+    <!-- Filtro de Alcance de Reparto Activo (89 CPs) -->
     <div class="segmented-control">
-      <button id="scope-area-btn" class="segmented-btn active" title="Ver las 86 zonas activas: Madrid Capital + Fuencarral + Alcorcón al mismo tiempo">
-        <span>🗺️</span> Toda el Área (86 CPs)
+      <button id="scope-area-btn" class="segmented-btn active" title="Ver las 89 zonas activas: Cocina Norte + Fuencarral + Alcorcón al mismo tiempo">
+        <span>🗺️</span> Toda el Área (89 CPs)
       </button>
-      <button id="scope-fuencarral-btn" class="segmented-btn" title="Ver las 15 zonas asignadas a Cocina Fuencarral">
-        <span style="color:#f59e0b; font-size:12px;">●</span> Fuencarral (15 CPs)
+      <button id="scope-norte-btn" class="segmented-btn" title="Ver las 38 zonas asignadas a Cocina Norte (Capital Este/Centro + Coslada y San Fernando)">
+        <span style="color:#60a5fa; font-size:12px;">●</span> Norte (38 CPs)
+      </button>
+      <button id="scope-fuencarral-btn" class="segmented-btn" title="Ver las 16 zonas asignadas a Cocina Fuencarral">
+        <span style="color:#f59e0b; font-size:12px;">●</span> Fuencarral (16 CPs)
       </button>
       <button id="scope-alcorcon-btn" class="segmented-btn" title="Ver las 35 zonas asignadas a Cocina Alcorcón">
         <span style="color:#10b981; font-size:12px;">●</span> Alcorcón (35 CPs)
       </button>
-      <button id="scope-capital-btn" class="segmented-btn" title="Ver las 55 zonas de Madrid Capital">
-        <span style="color:#3b82f6; font-size:12px;">●</span> Madrid Capital (55 CPs)
+      <button id="scope-capital-btn" class="segmented-btn" title="Ver las 54 zonas activas de Madrid Capital">
+        <span style="color:#38bdf8; font-size:12px;">●</span> Madrid Capital (54 CPs)
       </button>
     </div>
 
@@ -106,18 +109,21 @@
           <div class="cocina-option-btn" data-id="norte">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <div class="cocina-btn-title">🍳 Cocina Norte</div>
-              <span style="background:rgba(139,92,246,0.25); color:#c084fc; font-size:10px; padding:1px 6px; border-radius:8px; font-weight:700;">Base Central</span>
+              <span style="background:rgba(59,130,246,0.25); color:#60a5fa; font-size:10px; padding:1px 6px; border-radius:8px; font-weight:800;">38 CPs asignados</span>
             </div>
             <div class="cocina-btn-sub">Av. 25 de Septiembre 8 • CP 28027</div>
+            <button class="btn-view-kitchen-coverage" data-kitchen="norte" style="margin-top:5px; font-size:10px; font-weight:700; background:rgba(59,130,246,0.18); border:1px solid rgba(59,130,246,0.45); color:#93c5fd; border-radius:5px; padding:3px 8px; cursor:pointer; width:100%; text-align:center; display:flex; align-items:center; justify-content:center; gap:4px;">
+              <span>🗺️</span> Ver 38 zonas asignadas en mapa
+            </button>
           </div>
           <div class="cocina-option-btn" data-id="fuencarral">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <div class="cocina-btn-title">🍳 Cocina Fuencarral</div>
-              <span style="background:rgba(245,158,11,0.25); color:#fbbf24; font-size:10px; padding:1px 6px; border-radius:8px; font-weight:800;">15 CPs asignados</span>
+              <span style="background:rgba(245,158,11,0.25); color:#fbbf24; font-size:10px; padding:1px 6px; border-radius:8px; font-weight:800;">16 CPs asignados</span>
             </div>
             <div class="cocina-btn-sub">C/ Sangenjo 29 • CP 28034</div>
             <button class="btn-view-kitchen-coverage" data-kitchen="fuencarral" style="margin-top:5px; font-size:10px; font-weight:700; background:rgba(245,158,11,0.18); border:1px solid rgba(245,158,11,0.45); color:#fef08a; border-radius:5px; padding:3px 8px; cursor:pointer; width:100%; text-align:center; display:flex; align-items:center; justify-content:center; gap:4px;">
-              <span>🗺️</span> Ver 15 zonas asignadas en mapa
+              <span>🗺️</span> Ver 16 zonas asignadas en mapa
             </button>
           </div>
           <div class="cocina-option-btn" data-id="alcorcon">
@@ -468,19 +474,19 @@
 
   <!-- Leyenda Flotante de Zonas Pintadas en el Mapa -->
   <div id="kitchen-map-legend" class="kitchen-map-legend glass">
-    <div class="legend-header">🎨 86 Zonas de Reparto Activas</div>
+    <div class="legend-header">🎨 89 Zonas de Reparto Activas</div>
     <div class="legend-items">
-      <div class="legend-item" id="legend-btn-fuencarral" title="Ver 15 zonas de Cocina Fuencarral">
+      <div class="legend-item" id="legend-btn-fuencarral" title="Ver 16 zonas de Cocina Fuencarral">
         <span class="legend-badge-color" style="background:#f59e0b; border-color:#fbbf24;"></span>
-        <span class="legend-text"><b>Fuencarral</b> (15 CPs)</span>
+        <span class="legend-text"><b>Fuencarral</b> (16 CPs)</span>
       </div>
       <div class="legend-item" id="legend-btn-alcorcon" title="Ver 35 zonas de Cocina Alcorcón">
         <span class="legend-badge-color" style="background:#10b981; border-color:#34d399;"></span>
         <span class="legend-text"><b>Alcorcón</b> (35 CPs)</span>
       </div>
-      <div class="legend-item" id="legend-btn-norte" title="Ver 36 zonas de Cocina Norte / Centro Capital">
+      <div class="legend-item" id="legend-btn-norte" title="Ver 38 zonas de Cocina Norte (Capital Este/Centro + Coslada y San Fernando)">
         <span class="legend-badge-color" style="background:#3b82f6; border-color:#60a5fa;"></span>
-        <span class="legend-text"><b>Norte / Centro</b> (36 CPs)</span>
+        <span class="legend-text"><b>Norte / Este</b> (38 CPs)</span>
       </div>
     </div>
   </div>
@@ -740,12 +746,12 @@
   <script src="mqtt.min.js"></script>
 
   <!-- Datos GeoJSON embebidos como variables JS (permite abrir localmente con doble clic sin problemas CORS) -->
-  <script src="madrid_capital_data.js"></script>
-  <script src="madrid_cp_data.js"></script>
-  <script src="madrid_streets_data.js"></script>
+  <script src="madrid_capital_data.js?v=20261119_03"></script>
+  <script src="madrid_cp_data.js?v=20261119_03"></script>
+  <script src="madrid_streets_data.js?v=20261119_03"></script>
 
   <!-- Lógica de la Aplicación -->
-  <script src="app.js"></script>
+  <script src="app.js?v=20261119_03"></script>
 </body>
 </html>
 
