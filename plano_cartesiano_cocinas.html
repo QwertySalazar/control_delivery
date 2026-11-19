@@ -588,7 +588,89 @@
     body.light-theme .frontier-label {
       fill: #065f46 !important;
     }
-  </style>
+  
+    /* RESALTE DESTACADO DE LAS COCINAS OPERATIVAS */
+    .kitchen-marker-fusion {
+      cursor: pointer;
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+    .kitchen-marker-fusion.marker-fuencarral {
+      filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+    .kitchen-marker-fusion.marker-norte {
+      filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+    .center-kitchen-badge {
+      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.35)) drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+    }
+    .kitchen-marker-fusion:hover, .center-kitchen-badge:hover {
+      transform: scale(1.12);
+    }
+
+    @keyframes beacon-pulse {
+      0%, 100% {
+        opacity: 0.95;
+        stroke-width: 2px;
+      }
+      50% {
+        opacity: 0.35;
+        stroke-width: 3.5px;
+      }
+    }
+    .beacon-ring {
+      animation: beacon-pulse 2.2s ease-in-out infinite;
+    }
+
+    body.light-theme .kitchen-marker-fusion.marker-fuencarral,
+    @media print { .kitchen-marker-fusion.marker-fuencarral {
+      filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.45));
+    }}
+    body.light-theme .kitchen-marker-fusion.marker-norte,
+    @media print { .kitchen-marker-fusion.marker-norte {
+      filter: drop-shadow(0 2px 4px rgba(29, 78, 216, 0.45));
+    }}
+
+    body.light-theme .beacon-ring,
+    @media print { .beacon-ring {
+      animation: none !important;
+      opacity: 0.65 !important;
+      stroke-width: 1.6px !important;
+    }}
+
+    body.light-theme .kitchen-name-rect.rect-fuencarral,
+    @media print { .kitchen-name-rect.rect-fuencarral {
+      fill: #fffbeb !important;
+      stroke: #d97706 !important;
+      stroke-width: 2.2px !important;
+    }}
+    body.light-theme .kitchen-marker-fusion.marker-fuencarral text,
+    @media print { .kitchen-marker-fusion.marker-fuencarral text {
+      fill: #92400e !important;
+      font-weight: 900 !important;
+    }}
+
+    body.light-theme .kitchen-name-rect.rect-norte,
+    @media print { .kitchen-name-rect.rect-norte {
+      fill: #eff6ff !important;
+      stroke: #1d4ed8 !important;
+      stroke-width: 2.2px !important;
+    }}
+    body.light-theme .kitchen-marker-fusion.marker-norte text,
+    @media print { .kitchen-marker-fusion.marker-norte text {
+      fill: #1e40af !important;
+      font-weight: 900 !important;
+    }}
+
+    body.light-theme .center-kitchen-badge rect,
+    @media print { .center-kitchen-badge rect {
+      fill: #ffffff !important;
+      stroke-width: 2px !important;
+    }}
+    body.light-theme .center-kitchen-badge text,
+    @media print { .center-kitchen-badge text {
+      fill: #0f172a !important;
+    }}
+</style>
 </head>
 <body>
 
@@ -845,9 +927,10 @@
 <line x1="0" y1="0" x2="28.3" y2="310.6" stroke="#7c3aed" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="2 2" class="radar-ray" data-cp="28051"/>
 <g class="radar-node tier-periferia" data-cp="28051"><rect x="3.3000000000000007" y="299.6" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="28.3" y="314.8" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28051</text></g>
 <g class="center-kitchen-badge">
-  <circle cx="0" cy="0" r="22" fill="#2563eb" stroke="#ffffff" stroke-width="3"/>
+  <circle cx="0" cy="0" r="29" class="beacon-ring" fill="none" stroke="#60a5fa" stroke-width="2.2" stroke-dasharray="4 4" opacity="0.85"/>
+  <circle cx="0" cy="0" r="22" fill="#1d4ed8" stroke="#ffffff" stroke-width="3.5"/>
   <text x="0" y="6" font-size="15" text-anchor="middle">🍳</text>
-  <rect x="-64" y="26" width="128" height="20" rx="5" fill="rgba(15,23,42,0.96)" stroke="#60a5fa" stroke-width="1.6"/>
+  <rect x="-64" y="26" width="128" height="20" rx="5" fill="#1e293b" stroke="#60a5fa" stroke-width="2"/>
   <text x="0" y="40" font-size="9.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.4">COCINA NORTE (0,0)</text>
 </g>
 </svg>
@@ -1723,9 +1806,10 @@
 <line x1="0" y1="0" x2="-280.8" y2="-257.0" stroke="#7c3aed" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="2 2" class="radar-ray" data-cp="28048"/>
 <g class="radar-node tier-periferia" data-cp="28048"><rect x="-305.8" y="-268.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-280.8" y="-252.8" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28048</text></g>
 <g class="center-kitchen-badge">
-  <circle cx="0" cy="0" r="22" fill="#d97706" stroke="#ffffff" stroke-width="3"/>
+  <circle cx="0" cy="0" r="29" class="beacon-ring" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-dasharray="4 4" opacity="0.85"/>
+  <circle cx="0" cy="0" r="22" fill="#d97706" stroke="#ffffff" stroke-width="3.5"/>
   <text x="0" y="6" font-size="15" text-anchor="middle">🍳</text>
-  <rect x="-64" y="26" width="128" height="20" rx="5" fill="rgba(15,23,42,0.96)" stroke="#fbbf24" stroke-width="1.6"/>
+  <rect x="-64" y="26" width="128" height="20" rx="5" fill="#1e293b" stroke="#fbbf24" stroke-width="2"/>
   <text x="0" y="40" font-size="9.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.4">COCINA FUENCARRAL (0,0)</text>
 </g>
 </svg>
@@ -2269,9 +2353,10 @@
 <line x1="0" y1="0" x2="306.8" y2="61.5" stroke="#7c3aed" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="2 2" class="radar-ray" data-cp="28021"/>
 <g class="radar-node tier-periferia" data-cp="28021"><rect x="281.8" y="50.5" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="306.8" y="65.7" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28021</text></g>
 <g class="center-kitchen-badge">
-  <circle cx="0" cy="0" r="22" fill="#059669" stroke="#ffffff" stroke-width="3"/>
+  <circle cx="0" cy="0" r="29" class="beacon-ring" fill="none" stroke="#34d399" stroke-width="2.2" stroke-dasharray="4 4" opacity="0.85"/>
+  <circle cx="0" cy="0" r="22" fill="#059669" stroke="#ffffff" stroke-width="3.5"/>
   <text x="0" y="6" font-size="15" text-anchor="middle">🍳</text>
-  <rect x="-64" y="26" width="128" height="20" rx="5" fill="rgba(15,23,42,0.96)" stroke="#34d399" stroke-width="1.6"/>
+  <rect x="-64" y="26" width="128" height="20" rx="5" fill="#1e293b" stroke="#34d399" stroke-width="2"/>
   <text x="0" y="40" font-size="9.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.4">COCINA ALCORCÓN (0,0)</text>
 </g>
 </svg>
@@ -3246,16 +3331,18 @@
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="221.5" y2="163.1" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28052"/>
 <g class="radar-node fusion-node tipo-norte" data-cp="28052" data-tipo="EXCLUSIVO_NORTE"><rect x="196.5" y="152.1" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="221.5" y="167.29999999999998" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28052</text></g>
 <g class="kitchen-marker-fusion marker-fuencarral" transform="translate(-69.49864638175696, -49.84274459998841)">
-  <circle cx="0" cy="0" r="15" fill="#d97706" stroke="#ffffff" stroke-width="2.5"/>
-  <text x="0" y="5" font-size="12" text-anchor="middle">🍳</text>
-  <rect x="-28" y="17" width="56" height="14" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
-  <text x="0" y="27.5" font-size="7.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">FUENCARRAL</text>
+  <circle cx="0" cy="0" r="21" class="beacon-ring beacon-fuencarral" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="3 3"/>
+  <circle cx="0" cy="0" r="16" class="kitchen-core-circle core-fuencarral" fill="#d97706" stroke="#ffffff" stroke-width="3"/>
+  <text x="0" y="5.5" font-size="13" text-anchor="middle">🍳</text>
+  <rect x="-30" y="18" width="60" height="16" rx="5" class="kitchen-name-rect rect-fuencarral" fill="#d97706" stroke="#ffffff" stroke-width="2"/>
+  <text x="0" y="29.5" font-size="8.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.6">FUENCARRAL</text>
 </g>
 <g class="kitchen-marker-fusion marker-norte" transform="translate(69.49864638175777, 49.84274460000569)">
-  <circle cx="0" cy="0" r="15" fill="#2563eb" stroke="#ffffff" stroke-width="2.5"/>
-  <text x="0" y="5" font-size="12" text-anchor="middle">🍳</text>
-  <rect x="-20" y="17" width="40" height="14" rx="4" fill="#0f172a" stroke="#60a5fa" stroke-width="1.2"/>
-  <text x="0" y="27.5" font-size="7.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">NORTE</text>
+  <circle cx="0" cy="0" r="21" class="beacon-ring beacon-norte" fill="none" stroke="#60a5fa" stroke-width="2" stroke-dasharray="3 3"/>
+  <circle cx="0" cy="0" r="16" class="kitchen-core-circle core-norte" fill="#1d4ed8" stroke="#ffffff" stroke-width="3"/>
+  <text x="0" y="5.5" font-size="13" text-anchor="middle">🍳</text>
+  <rect x="-22" y="18" width="44" height="16" rx="5" class="kitchen-name-rect rect-norte" fill="#1d4ed8" stroke="#ffffff" stroke-width="2"/>
+  <text x="0" y="29.5" font-size="8.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.6">NORTE</text>
 </g>
 </svg>
 
@@ -4829,6 +4916,49 @@
 
     document.getElementById('btn-toggle-theme').addEventListener('click', () => {
       document.body.classList.toggle('light-theme');
+    });
+
+    
+    // Interacción hover sobre las cocinas de la fusión para iluminar su red
+    document.querySelectorAll('.kitchen-marker-fusion').forEach(marker => {
+      marker.addEventListener('mouseenter', (e) => {
+        const isNorte = marker.classList.contains('marker-norte');
+        const targetClass = isNorte ? '.ray-norte' : '.ray-fuencarral';
+        const targetColor = isNorte ? '#3b82f6' : '#f59e0b';
+        document.querySelectorAll(targetClass).forEach(ray => {
+          ray.style.strokeOpacity = '0.75';
+          ray.style.strokeWidth = '2px';
+          ray.style.stroke = targetColor;
+        });
+
+        const name = isNorte ? 'Cocina Norte' : 'Cocina Fuencarral';
+        const addr = isNorte ? 'Av. de 25 de Septiembre, 8 (CP 28027)' : 'C/ Sangenjo, 29 (CP 28034)';
+        const assigned = isNorte ? '38 CPs en catálogo base' : '16 CPs en catálogo base';
+        const color = isNorte ? '#60a5fa' : '#fbbf24';
+
+        tooltip.innerHTML = `
+          <div style="font-weight:900; font-size:14px; margin-bottom:4px; color:${color}; display:flex; align-items:center; gap:6px;">
+            <span>🍳</span> ${name}
+          </div>
+          <div style="font-size:12px; color:var(--text); margin-bottom:3px;"><b>Dirección:</b> ${addr}</div>
+          <div style="font-size:11.5px; color:var(--text-muted);">${assigned} &bull; Nodo Operativo Base</div>
+        `;
+        tooltip.style.borderColor = color;
+        tooltip.classList.add('visible');
+      });
+
+      marker.addEventListener('mousemove', (e) => {
+        tooltip.style.left = (e.clientX + 14) + 'px';
+        tooltip.style.top = (e.clientY + 14) + 'px';
+      });
+
+      marker.addEventListener('mouseleave', () => {
+        document.querySelectorAll('.fusion-ray').forEach(ray => {
+          ray.style.strokeOpacity = '0';
+          ray.style.strokeWidth = '1.2px';
+        });
+        tooltip.classList.remove('visible');
+      });
     });
 
     if (window.location.hash === '#fusion') {
