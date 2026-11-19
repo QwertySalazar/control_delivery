@@ -589,32 +589,47 @@
       fill: #065f46 !important;
     }
   
-    /* RESALTE DESTACADO DE LAS COCINAS OPERATIVAS */
+    /* RESALTE DESTACADO DE LAS COCINAS OPERATIVAS (SIN PARPADEO) */
+    .beacon-ring, .fusion-ray, .radar-ray {
+      pointer-events: none !important;
+    }
+
     .kitchen-marker-fusion {
       cursor: pointer;
-      transition: transform 0.25s ease, filter 0.25s ease;
+      transition: filter 0.2s ease;
     }
     .kitchen-marker-fusion.marker-fuencarral {
-      filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+      filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
     }
     .kitchen-marker-fusion.marker-norte {
-      filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+      filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
     }
     .center-kitchen-badge {
       filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.35)) drop-shadow(0 4px 8px rgba(0,0,0,0.6));
     }
-    .kitchen-marker-fusion:hover, .center-kitchen-badge:hover {
-      transform: scale(1.12);
+
+    /* Hover estable: sin scale() para eliminar por completo cualquier vibracion/parpadeo */
+    .kitchen-marker-fusion:hover {
+      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.95)) drop-shadow(0 4px 12px rgba(0,0,0,0.8)) !important;
+    }
+    .kitchen-marker-fusion:hover .kitchen-core-circle {
+      stroke-width: 5.5px !important;
+    }
+    .kitchen-marker-fusion:hover .kitchen-name-rect {
+      stroke-width: 3.5px !important;
+    }
+    .center-kitchen-badge:hover circle {
+      stroke-width: 5px !important;
     }
 
     @keyframes beacon-pulse {
       0%, 100% {
         opacity: 0.95;
-        stroke-width: 2px;
+        stroke-width: 2.2px;
       }
       50% {
         opacity: 0.35;
-        stroke-width: 3.5px;
+        stroke-width: 3.8px;
       }
     }
     .beacon-ring {
@@ -3334,6 +3349,7 @@
 <line x1="-69.49864638175696" y1="-49.84274459998841" x2="221.5" y2="163.1" stroke="#d97706" stroke-width="1.2" stroke-opacity="0" stroke-dasharray="2 2" class="fusion-ray ray-fuencarral" data-cp="28052"/>
 <g class="radar-node fusion-node tipo-norte" data-cp="28052" data-tipo="EXCLUSIVO_NORTE"><rect x="196.5" y="152.1" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="221.5" y="167.3" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28052</text></g>
 <g class="kitchen-marker-fusion marker-fuencarral" transform="translate(-69.49864638175696, -49.84274459998841)" style="cursor: pointer;">
+  <rect x="-42" y="-32" width="84" height="84" fill="none" pointer-events="all"/>
   <circle cx="0" cy="0" r="36" class="beacon-ring beacon-fuencarral" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="4 4"/>
   <circle cx="0" cy="0" r="26" class="kitchen-core-circle core-fuencarral" fill="#d97706" stroke="#ffffff" stroke-width="4"/>
   <text x="0" y="7.5" font-size="21" text-anchor="middle">🍳</text>
@@ -3341,6 +3357,7 @@
   <text x="0" y="42" font-size="10" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.8">FUENCARRAL</text>
 </g>
 <g class="kitchen-marker-fusion marker-norte" transform="translate(69.49864638175777, 49.84274460000569)" style="cursor: pointer;">
+  <rect x="-36" y="-32" width="72" height="84" fill="none" pointer-events="all"/>
   <circle cx="0" cy="0" r="36" class="beacon-ring beacon-norte" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-dasharray="4 4"/>
   <circle cx="0" cy="0" r="26" class="kitchen-core-circle core-norte" fill="#1d4ed8" stroke="#ffffff" stroke-width="4"/>
   <text x="0" y="7.5" font-size="21" text-anchor="middle">🍳</text>
@@ -4922,15 +4939,21 @@
     });
 
     
-    // Interacción hover sobre las cocinas de la fusión para iluminar su red
+    // Interacción hover sobre las cocinas de la fusión (completamente estable y sin parpadeo)
     document.querySelectorAll('.kitchen-marker-fusion').forEach(marker => {
       marker.addEventListener('mouseenter', (e) => {
         const isNorte = marker.classList.contains('marker-norte');
         const targetClass = isNorte ? '.ray-norte' : '.ray-fuencarral';
         const targetColor = isNorte ? '#3b82f6' : '#f59e0b';
+
+        // Ocultar rayos previos y encender solo los de esta cocina
+        document.querySelectorAll('.fusion-ray').forEach(ray => {
+          ray.style.strokeOpacity = '0';
+          ray.style.strokeWidth = '1.2px';
+        });
         document.querySelectorAll(targetClass).forEach(ray => {
-          ray.style.strokeOpacity = '0.75';
-          ray.style.strokeWidth = '2px';
+          ray.style.strokeOpacity = '0.85';
+          ray.style.strokeWidth = '2.2px';
           ray.style.stroke = targetColor;
         });
 
@@ -4951,8 +4974,8 @@
       });
 
       marker.addEventListener('mousemove', (e) => {
-        tooltip.style.left = (e.clientX + 14) + 'px';
-        tooltip.style.top = (e.clientY + 14) + 'px';
+        tooltip.style.left = (e.clientX + 16) + 'px';
+        tooltip.style.top = (e.clientY + 16) + 'px';
       });
 
       marker.addEventListener('mouseleave', () => {
