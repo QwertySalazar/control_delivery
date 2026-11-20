@@ -276,6 +276,8 @@ window.MADRID_STREETS = {
   "28822": ["Avenida del Puerto de Gijón", "Calle Mar Cantábrico", "Avenida de José Gárate", "Barrio del Puerto (Coslada)"],
   "28823": ["Avenida de San Pablo", "Avenida de Fuentemar", "Calle del Mar Egeo", "Centro de Transportes de Coslada (CTC)", "Puerto Seco"],
   "28830": ["Plaza de España (San Fernando)", "Avenida de Zarauz", "Calle de la Presa", "Avenida de Somorrostro", "Carretera de Mejorada"],
+  "28860": ["Avenida de Circunvalación", "Paseo del Radar", "Calle Real", "Avenida de Valdediego", "Avenida de los Deportes", "Plaza de la Constitución (Paracuellos)", "Avenida de Juan Pablo II (Miramadrid)"],
+  "28861": ["Avenida del Puente de los Viveros", "Paseo de las Arroyas", "Calle Galiana", "Paseo del Pago de la Perdiz", "Calle Cerro del Picón", "Urbanización Los Berrocales de Jarama"],
   "28701": ["Avenida de España (San Sebastián de los Reyes)", "Calle Real (Sanse)", "Paseo de Europa"],
   "28220": ["Gran Vía (Majadahonda)", "Avenida de España (Majadahonda)", "Carretera de Pozuelo"],
   "28223": ["Avenida de Europa (Pozuelo)", "Calle de la Vía de las Dos Castillas", "Paseo de la Finca"],

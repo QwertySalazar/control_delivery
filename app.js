@@ -174,8 +174,8 @@ function initApp() {
       '28012', '28013', '28014', '28015', '28016', '28017', '28018', '28022', '28027',
       '28028', '28030', '28031', '28032', '28033', '28037', '28038', '28042', '28043', '28045',
       '28046', '28051', '28052', '28053', '28055',
-      // Códigos de Corredor del Henares asignados a Cocina Norte (Coslada y San Fernando)
-      '28821', '28822', '28823', '28830'
+      // Códigos de Corredor del Henares asignados a Cocina Norte (Coslada, San Fernando y Paracuellos)
+      '28821', '28822', '28823', '28830', '28860', '28861'
     ],
     fuencarral: [
       '28020', '28029', '28034', '28035', '28036', '28039', '28040', '28048', '28049', '28050',
@@ -206,7 +206,7 @@ function initApp() {
       .filter(cp => !DEACTIVATED_CPS.has(cp))
   );
 
-  // Universo de Reparto Activo (89 CPs): Códigos asignados a nuestras 3 cocinas operativas
+  // Universo de Reparto Activo (91 CPs): Códigos asignados a nuestras 3 cocinas operativas
   const ACTIVE_DELIVERY_CPS = new Set([
     ...KITCHEN_ASSIGNED_ZONES.norte,
     ...KITCHEN_ASSIGNED_ZONES.fuencarral,
