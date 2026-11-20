@@ -506,7 +506,7 @@
       }
 
       
-      .kitchen-marker-fusion, .center-kitchen-badge, .radar-node, .radar-svg {
+      .kitchen-marker-fusion, .kitchen-marker-fusion-na, .center-kitchen-badge, .radar-node, .radar-svg {
         filter: none !important;
       }
       .midpoint-badge rect {
@@ -852,6 +852,65 @@
         display: none !important;
       }
     }
+
+    .btn-tab.active[data-target="fusion-alcorcon"] {
+      background: #7c3aed;
+      border-color: #c084fc;
+      color: #fff;
+      box-shadow: 0 2px 14px rgba(124, 58, 237, 0.45);
+    }
+
+    .kitchen-marker-fusion-na {
+      cursor: pointer;
+      transition: filter 0.2s ease;
+    }
+
+    .kitchen-marker-fusion-na.marker-alcorcon {
+      filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+
+    .kitchen-marker-fusion-na.marker-norte {
+      filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.95)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+
+    .kitchen-marker-fusion-na:hover {
+      filter: drop-shadow(0 0 18px rgba(255,255,255,0.95)) drop-shadow(0 0 8px currentColor);
+    }
+
+    .kitchen-marker-fusion-na:hover .kitchen-core-circle {
+      stroke-width: 5.5px !important;
+    }
+
+    .kitchen-marker-fusion-na:hover .kitchen-name-rect {
+      stroke-width: 3.5px !important;
+    }
+
+    body.light-theme .kitchen-marker-fusion-na.marker-alcorcon,
+    @media print { .kitchen-marker-fusion-na.marker-alcorcon {
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+    } }
+
+    body.light-theme .kitchen-marker-fusion-na.marker-norte,
+    @media print { .kitchen-marker-fusion-na.marker-norte {
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+    } }
+
+    body.light-theme .kitchen-marker-fusion-na.marker-alcorcon text,
+    @media print { .kitchen-marker-fusion-na.marker-alcorcon text {
+      fill: #6b21a8 !important;
+    } }
+
+    body.light-theme .kitchen-marker-fusion-na.marker-norte text,
+    @media print { .kitchen-marker-fusion-na.marker-norte text {
+      fill: #1e40af !important;
+    } }
+
+    .core-alcorcon-na {
+      fill: #7c3aed;
+      stroke: #c084fc;
+      stroke-width: 4px;
+    }
+
 </style>
 </head>
 <body>
@@ -862,7 +921,8 @@
       <button class="btn-tab" data-target="fuencarral">🟡 Cocina Fuencarral (16 CPs)</button>
       <button class="btn-tab" data-target="alcorcon">🟢 Cocina Alcorcón (35 CPs)</button>
       <button class="btn-tab" data-target="fusion">🟢 Fusión Norte + Fuencarral (56 CPs)</button>
-      <button class="btn-tab" data-target="all">📑 Ver Todo (4 Hojas)</button>
+      <button class="btn-tab" data-target="fusion-alcorcon">🟣 Fusión Norte + Alcorcón (56 CPs)</button>
+      <button class="btn-tab" data-target="all">📑 Ver Todo (5 Hojas)</button>
     </div>
     <div class="action-buttons">
       <button class="btn-action" id="btn-print">🖨️ Imprimir Plano + Tabla</button>
@@ -4687,6 +4747,1717 @@
         </div>
       </div>
     </div>
+
+    <!-- HOJA 5: FUSIÓN OPERATIVA NORTE + ALCORCÓN (CORREDOR Y TRANSICIÓN) -->
+    <div class="kitchen-sheet" id="sheet-fusion-alcorcon" data-kitchen="fusion-alcorcon" style="display:none;">
+      <div class="sheet-header">
+        <div class="kitchen-title-box">
+          <h1><span>🟣</span> FUSIÓN OPERATIVA: COCINA NORTE + COCINA ALCORCÓN <span style="font-size:13px; font-weight:700; color:#c084fc; background:rgba(255,255,255,0.08); padding:2px 8px; border-radius:10px;">Corredor Activo e Intersección</span></h1>
+          <p><b>Eje de Conexión:</b> Av. de 25 de Septiembre ↔ Pl. Príncipes de España &bull; Separación Inter-Cocinas: <b>19.38 km</b> &bull; Corredor Activo: <b>56 CPs</b></p>
+        </div>
+        <div class="stats-badge-group">
+          <span class="stat-pill" style="border-color:#c084fc; color:#e9d5ff;">🟣 56 CPs en Corredor Activo</span>
+          <span class="stat-pill" style="border-color:#10b981; color:#a7f3d0;">🤝 12 CPs Compartibles (Intersección)</span>
+          <span class="stat-pill" style="border-color:#60a5fa; color:#93c5fd;">🔵 26 Exclusivos Norte</span>
+          <span class="stat-pill" style="border-color:#c084fc; color:#d8b4fe;">🟣 18 Exclusivos Alcorcón</span>
+        </div>
+      </div>
+
+      <div class="sheet-grid">
+        <div class="radar-card">
+          <div class="radar-title">
+            <span>📍 Plano Bipolar de Fusión (Doble Centro & Eje Divisorio)</span>
+            <span>Escala: 18 km radio</span>
+          </div>
+          <div class="rotation-control-panel" data-sheet="fusion-alcorcon">
+            <div class="rot-wheel-box">
+              <div class="rot-wheel" id="wheel-fusion-alcorcon" data-sheet="fusion-alcorcon" title="Arrastra la rueda para girar el plano">
+                <div class="rot-needle" id="needle-fusion-alcorcon">▲</div>
+              </div>
+              <div class="rot-label-box">
+                <div class="rot-main-label">🔄 Rotación: <span class="rot-degrees" id="deg-fusion-alcorcon">0°</span></div>
+                <div class="rot-sub-label" id="desc-fusion-alcorcon">Norte Geográfico (0°)</div>
+              </div>
+            </div>
+
+            <div class="rot-slider-box">
+              <input type="range" class="rot-slider" id="slider-fusion-alcorcon" data-sheet="fusion-alcorcon" min="-180" max="180" value="0" step="1">
+            </div>
+
+            <div class="rot-buttons-box">
+              <button class="btn-rot-preset" data-sheet="fusion-alcorcon" data-angle="0">🧭 0° Norte Real</button>
+              <button class="btn-rot-step" data-sheet="fusion-alcorcon" data-step="-15" title="Girar -15°">↺ -15°</button>
+              <button class="btn-rot-step" data-sheet="fusion-alcorcon" data-step="15" title="Girar +15°">↻ +15°</button>
+            </div>
+          </div>
+
+          <svg class="radar-svg fusion-alcorcon-svg" viewBox="-450 -450 900 900" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="grad_fusion_alcorcon_bg" x1="0%" y1="100%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.12"/>
+    <stop offset="50%" stop-color="#059669" stop-opacity="0.08"/>
+    <stop offset="100%" stop-color="#2563eb" stop-opacity="0.12"/>
+  </linearGradient>
+  <marker id="arrow_fusion_alcorcon" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+    <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--axis-color)"/>
+  </marker>
+</defs>
+<circle cx="0" cy="0" r="415" fill="url(#grad_fusion_alcorcon_bg)" stroke="var(--axis-color)" stroke-width="2" stroke-dasharray="4 4"/>
+<circle cx="0" cy="0" r="111.1" fill="none" stroke="var(--ring-stroke)" stroke-width="2" stroke-dasharray="none" opacity="0.6"/>
+<text x="0" y="-115.1" font-size="10" font-weight="700" fill="var(--text-muted)" text-anchor="middle">5 km</text>
+<circle cx="0" cy="0" r="222.2" fill="none" stroke="var(--ring-stroke)" stroke-width="2" stroke-dasharray="none" opacity="0.6"/>
+<text x="0" y="-226.2" font-size="10" font-weight="700" fill="var(--text-muted)" text-anchor="middle">10 km</text>
+<circle cx="0" cy="0" r="333.3" fill="none" stroke="var(--ring-stroke)" stroke-width="2" stroke-dasharray="none" opacity="0.6"/>
+<text x="0" y="-337.3" font-size="10" font-weight="700" fill="var(--text-muted)" text-anchor="middle">15 km</text>
+<circle cx="0" cy="0" r="400.0" fill="none" stroke="var(--ring-stroke)" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.9"/>
+<text x="0" y="-404.0" font-size="10" font-weight="800" fill="var(--text-muted)" text-anchor="middle">18 km (Borde Operativo)</text>
+
+<!-- Ejes cartesianos -->
+<line x1="-420" y1="0" x2="420" y2="0" stroke="var(--axis-color)" stroke-width="1.8" stroke-dasharray="none" marker-end="url(#arrow_fusion_alcorcon)"/>
+<line x1="0" y1="420" x2="0" y2="-420" stroke="var(--axis-color)" stroke-width="1.8" stroke-dasharray="none" marker-end="url(#arrow_fusion_alcorcon)"/>
+
+<!-- Segmento de Conexión entre Cocinas -->
+<line class="kitchen-connect-line" x1="-181.8" y1="115.4" x2="181.8" y2="-115.4" stroke="#c084fc" stroke-width="2.2" stroke-dasharray="6,4" opacity="0.85"/>
+<g class="kitchen-distance-badge" transform="translate(0, 0)">
+  <rect x="-35" y="-12" width="70" height="24" rx="12" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.8"/>
+  <text x="0" y="4.5" font-size="11" font-weight="900" fill="#f5d0fe" text-anchor="middle" letter-spacing="0.5">19.4 KM</text>
+</g>
+
+<!-- Frontera Equidistante (Bisectriz dN = dA) -->
+<line class="bisector-line" x1="-240.0" y1="-378.2" x2="240.0" y2="378.2" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4,4" opacity="0.8"/>
+<text class="bisector-label" x="90" y="165" font-size="10" font-weight="900" fill="#f43f5e" letter-spacing="1" transform="rotate(57.6, 90, 165)" opacity="0.85">⚡ FRONTERA EQUIDISTANTE (dN = dA)</text>
+
+<!-- Nodos SVG -->
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28001" data-tipo="EXCLUSIVO_NORTE"><rect x="68.9" y="-97.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="93.9" y="-82.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28001</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28002" data-tipo="EXCLUSIVO_NORTE"><rect x="61.6" y="-181.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="86.6" y="-166.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28002</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28003" data-tipo="EXCLUSIVO_NORTE"><rect x="-5.2" y="-181.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="19.8" y="-166.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28003</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28004" data-tipo="EXCLUSIVO_NORTE"><rect x="7.7" y="-69.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="32.7" y="-54.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28004</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28005" data-tipo="COMPARTIDO"><rect x="-2.7" y="-13.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="22.3" y="2.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28005</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28006" data-tipo="EXCLUSIVO_NORTE"><rect x="46.2" y="-153.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="71.2" y="-138.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28006</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28007" data-tipo="EXCLUSIVO_NORTE"><rect x="64.2" y="-9.8" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="89.2" y="5.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28007</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28008" data-tipo="COMPARTIDO"><rect x="-43.1" y="-97.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-18.1" y="-82.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28008</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28009" data-tipo="EXCLUSIVO_NORTE"><rect x="64.1" y="-69.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="89.1" y="-54.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28009</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28010" data-tipo="EXCLUSIVO_NORTE"><rect x="12.9" y="-125.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="37.9" y="-110.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28010</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28011" data-tipo="COMPARTIDO"><rect x="-98.9" y="-50.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-73.9" y="-35.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28011</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28012" data-tipo="COMPARTIDO"><rect x="12.9" y="-97.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="37.9" y="-82.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28012</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28013" data-tipo="COMPARTIDO"><rect x="-11.0" y="-41.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="14.0" y="-26.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28013</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28014" data-tipo="EXCLUSIVO_NORTE"><rect x="45.5" y="-41.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="70.5" y="-26.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28014</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28015" data-tipo="EXCLUSIVO_NORTE"><rect x="-9.8" y="-153.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="15.2" y="-138.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28015</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28016" data-tipo="EXCLUSIVO_NORTE"><rect x="59.3" y="-237.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="84.3" y="-222.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28016</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28017" data-tipo="EXCLUSIVO_NORTE"><rect x="124.9" y="-80.4" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="149.9" y="-65.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28017</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28018" data-tipo="EXCLUSIVO_NORTE"><rect x="99.2" y="46.3" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="124.2" y="61.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28018</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28019" data-tipo="COMPARTIDO"><rect x="-22.2" y="14.8" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="2.8" y="30.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28019</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28021" data-tipo="COMPARTIDO"><rect x="50.2" y="156.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="75.2" y="171.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28021</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28022" data-tipo="EXCLUSIVO_NORTE"><rect x="245.5" y="-116.7" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="270.5" y="-101.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28022</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28024" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-172.5" y="6.2" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-147.5" y="21.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28024</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28025" data-tipo="COMPARTIDO"><rect x="-53.2" y="42.8" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-28.2" y="58.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28025</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28026" data-tipo="COMPARTIDO"><rect x="8.3" y="46.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="33.3" y="61.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28026</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28027" data-tipo="EXCLUSIVO_NORTE"><rect x="102.2" y="-153.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="127.2" y="-138.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28027</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28028" data-tipo="EXCLUSIVO_NORTE"><rect x="69.0" y="-125.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="94.0" y="-110.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28028</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28030" data-tipo="EXCLUSIVO_NORTE"><rect x="127.6" y="-28.3" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="152.6" y="-13.1" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28030</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28031" data-tipo="EXCLUSIVO_NORTE"><rect x="181.2" y="35.6" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="206.2" y="50.8" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28031</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28032" data-tipo="EXCLUSIVO_NORTE"><rect x="206.9" y="-47.9" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="231.9" y="-32.7" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28032</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28033" data-tipo="EXCLUSIVO_NORTE"><rect x="115.8" y="-209.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="140.8" y="-194.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28033</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28037" data-tipo="EXCLUSIVO_NORTE"><rect x="181.1" y="-75.9" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="206.1" y="-60.7" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28037</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28038" data-tipo="EXCLUSIVO_NORTE"><rect x="106.3" y="18.3" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="131.3" y="33.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28038</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28041" data-tipo="COMPARTIDO"><rect x="16.8" y="74.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="41.8" y="89.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28041</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28043" data-tipo="EXCLUSIVO_NORTE"><rect x="118.7" y="-181.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="143.7" y="-166.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28043</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28044" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-96.0" y="70.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-71.0" y="86.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28044</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28045" data-tipo="COMPARTIDO"><rect x="37.3" y="18.2" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="62.3" y="33.4" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28045</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28046" data-tipo="EXCLUSIVO_NORTE"><rect x="36.3" y="-209.2" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="61.3" y="-194.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28046</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-compartido" data-cp="28047" data-tipo="COMPARTIDO"><rect x="-78.7" y="2.1" width="50" height="22" rx="11" ry="11" fill="#059669" stroke="#34d399" stroke-width="1.8" class="node-rect"/><text x="-53.7" y="17.3" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28047</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28051" data-tipo="EXCLUSIVO_NORTE"><rect x="180.6" y="135.0" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="205.6" y="150.2" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28051</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-norte" data-cp="28053" data-tipo="EXCLUSIVO_NORTE"><rect x="79.8" y="74.3" width="50" height="22" rx="11" ry="11" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8" class="node-rect"/><text x="104.8" y="89.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28053</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28054" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-109.1" y="98.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-84.1" y="114.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28054</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28223" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-191.1" y="-57.0" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-166.1" y="-41.8" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28223</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28903" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-23.9" y="210.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="1.1" y="226.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28903</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28907" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-52.5" y="182.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-27.5" y="198.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28907</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28911" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-111.8" y="210.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-86.8" y="226.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28911</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28912" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-104.3" y="154.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-79.3" y="170.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28912</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28913" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-120.0" y="182.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-95.0" y="198.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28913</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28914" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-136.3" y="238.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-111.3" y="254.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28914</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28916" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-48.3" y="136.5" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-23.3" y="151.7" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28916</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28918" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-150.9" y="126.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-125.9" y="142.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28918</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28919" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-53.0" y="98.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-28.0" y="114.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28919</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28921" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-252.0" y="139.3" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-227.0" y="154.5" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28921</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28922" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-273.6" y="110.9" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-248.6" y="126.1" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28922</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28923" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-195.7" y="182.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-170.7" y="198.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28923</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28924" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-160.3" y="154.8" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-135.3" y="170.0" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28924</text></g>
+<g class="radar-node fusion-alcorcon-node tipo-exclusivo-alcorcon" data-cp="28925" data-tipo="EXCLUSIVO_ALCORCON"><rect x="-194.7" y="49.7" width="50" height="22" rx="11" ry="11" fill="#7c3aed" stroke="#c084fc" stroke-width="1.8" class="node-rect"/><text x="-169.7" y="64.9" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">28925</text></g>
+
+
+<!-- Cocina Alcorcón (Sudoeste) -->
+<g class="kitchen-marker-fusion-na marker-alcorcon" transform="translate(-181.8, 115.4)" style="cursor: pointer;">
+  <circle cx="0" cy="0" r="52" fill="none" stroke="transparent" pointer-events="all"/>
+  <circle cx="0" cy="0" r="36" class="beacon-ring" fill="none" stroke="#a855f7" stroke-width="2.5" stroke-dasharray="5 4" opacity="0.9"/>
+  <circle cx="0" cy="0" r="24" class="kitchen-core-circle core-alcorcon-na" pointer-events="none"/>
+  <text x="0" y="7" font-size="20" text-anchor="middle" pointer-events="none">🍳</text>
+  <rect x="-42" y="32" width="84" height="20" rx="10" ry="10" fill="#1e1b4b" stroke="#c084fc" stroke-width="2.2" class="kitchen-name-rect" pointer-events="none"/>
+  <text x="0" y="46" font-size="10.5" font-weight="900" fill="#f5d0fe" text-anchor="middle" letter-spacing="1" pointer-events="none">ALCORCÓN</text>
+</g>
+
+<!-- Cocina Norte (Noreste) -->
+<g class="kitchen-marker-fusion-na marker-norte" transform="translate(181.8, -115.4)" style="cursor: pointer;">
+  <circle cx="0" cy="0" r="52" fill="none" stroke="transparent" pointer-events="all"/>
+  <circle cx="0" cy="0" r="36" class="beacon-ring beacon-norte" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-dasharray="5 4" opacity="0.9"/>
+  <circle cx="0" cy="0" r="24" class="kitchen-core-circle core-norte" pointer-events="none"/>
+  <text x="0" y="7" font-size="20" text-anchor="middle" pointer-events="none">🍳</text>
+  <rect x="-33" y="32" width="66" height="20" rx="10" ry="10" fill="#0f172a" stroke="#60a5fa" stroke-width="2.2" class="kitchen-name-rect" pointer-events="none"/>
+  <text x="0" y="46" font-size="10.5" font-weight="900" fill="#bfdbfe" text-anchor="middle" letter-spacing="1" pointer-events="none">NORTE</text>
+</g>
+</svg>
+        </div>
+
+        <div class="table-card" id="table-fusion-alcorcon-card">
+          <div class="table-title">
+            <span>📋 Directorio de Reparto Fusión Bipolar Norte + Alcorcón</span>
+            <span class="count-tag" style="background:#7c3aed; color:#ffffff;">56 CPs Corredor Activo</span>
+          </div>
+
+          <div class="venn-filter-box">
+            <span style="font-size:12px; font-weight:800; color:var(--text-muted); margin-right:4px;">Filtrar Vista:</span>
+            <button class="btn-venn-filter-na active" data-sheet="fusion-alcorcon" data-filter="all" style="border-color:#c084fc; color:#e9d5ff;">🌐 Todas (56)</button>
+            <button class="btn-venn-filter-na" data-sheet="fusion-alcorcon" data-filter="COMPARTIDO" style="border-color:#34d399; color:#a7f3d0;">🟢 Compartidos (12)</button>
+            <button class="btn-venn-filter-na" data-sheet="fusion-alcorcon" data-filter="EXCLUSIVO_NORTE" style="border-color:#60a5fa; color:#93c5fd;">🔵 Solo Norte (26)</button>
+            <button class="btn-venn-filter-na" data-sheet="fusion-alcorcon" data-filter="EXCLUSIVO_ALCORCON" style="border-color:#c084fc; color:#d8b4fe;">🟣 Solo Alcorcón (18)</button>
+          </div>
+
+          <div class="table-scroll-container">
+            <table class="directory-table" id="table-fusion-alcorcon">
+              <thead>
+                <tr>
+                  <th style="width:36px;">#</th>
+                  <th style="width:115px;">Código Postal</th>
+                  <th style="width:130px;">Asignación / Tipo</th>
+                  <th style="width:95px;">Dist. a Norte</th>
+                  <th style="width:95px;">Dist. a Alcorcón</th>
+                  <th style="width:105px;">Diferencia (Margen)</th>
+                  <th style="width:160px;">Cocina Óptima (SLA)</th>
+                  <th style="width:180px;">Zona / Municipio</th>
+                  <th>Vías Principales de Cobertura</th>
+                </tr>
+              </thead>
+              <tbody>
+
+<tr data-cp="28041" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">1</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28041 <span class="pill-short">#41</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">10.63 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">10.23 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;0.40 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Usera / Villaverde</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de Andalucía, Calle de Eduardo Barreiros, Avenida de los Rosales
+  </td>
+</tr>
+<tr data-cp="28026" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">2</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28026 <span class="pill-short">#26</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">9.50 km</span></td>
+  <td><span style="color:var(--text-muted);">10.34 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;0.84 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Usera</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Marcelo Usera, Calle de Dolores Barranco (Chinatown Usera), Avenida de Córdoba
+  </td>
+</tr>
+<tr data-cp="28019" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">3</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28019 <span class="pill-short">#19</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">10.24 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">9.15 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;1.08 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Carabanchel</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle del General Ricardos (1-100), Camino Viejo de Leganés (1-60), Calle de Antonio Leyva
+  </td>
+</tr>
+<tr data-cp="28021" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">4</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28021 <span class="pill-short">#21</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">13.61 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">11.80 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;1.81 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Villaverde</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Paseo de Alberto Palacios, Calle Real de Pinto, Gran Vía de Villaverde
+  </td>
+</tr>
+<tr data-cp="28005" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">5</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28005 <span class="pill-short">#05</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">8.20 km</span></td>
+  <td><span style="color:var(--text-muted);">11.20 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;3.00 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Centro / Arganzuela</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Toledo (1-110), Calle de Bailén (sur), Calle de Segovia
+  </td>
+</tr>
+<tr data-cp="28011" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">6</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28011 <span class="pill-short">#11</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">11.99 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">8.49 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;3.50 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Latina</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Paseo de Extremadura (1-150), Calle de Sepúlveda, Avenida de Portugal
+  </td>
+</tr>
+<tr data-cp="28008" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">7</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28008 <span class="pill-short">#08</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">8.35 km</span></td>
+  <td><span style="color:var(--text-muted);">11.90 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;3.55 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Moncloa-Aravaca</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de la Princesa (1-50), Paseo del Pintor Rosales, Calle de Ferraz (1-60)
+  </td>
+</tr>
+<tr data-cp="28025" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">8</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28025 <span class="pill-short">#25</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">11.66 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">7.77 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;3.89 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Carabanchel</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle del General Ricardos (101-220), Calle de Eugenia de Montijo, Avenida de Carabanchel Alto
+  </td>
+</tr>
+<tr data-cp="28045" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">9</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28045 <span class="pill-short">#45</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">7.95 km</span></td>
+  <td><span style="color:var(--text-muted);">11.88 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;3.94 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Arganzuela</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Méndez Álvaro, Paseo de las Delicias, Calle del Ferrocarril
+  </td>
+</tr>
+<tr data-cp="28047" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">10</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28047 <span class="pill-short">#47</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">11.70 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">7.71 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;4.00 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Latina</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de los Yébenes, Calle de la Duquesa de Parcent, Calle de Concejal Francisco José Jiménez Martín
+  </td>
+</tr>
+<tr data-cp="28012" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">11</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28012 <span class="pill-short">#12</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">7.53 km</span></td>
+  <td><span style="color:var(--text-muted);">11.85 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;4.32 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Centro</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Plaza de Lavapiés, Calle de Argumosa, Calle de Atocha (impares 40-120)
+  </td>
+</tr>
+<tr data-cp="28013" data-tipo="COMPARTIDO">
+  <td style="color:var(--text-muted); font-weight:700;">12</td>
+  <td>
+    <span class="pill-cp" style="background:#059669;">
+      28013 <span class="pill-short">#13</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#34d399;">
+      🟢 Compartido
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">7.57 km</span></td>
+  <td><span style="color:var(--text-muted);">11.99 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;4.43 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Centro</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Gran Vía (1-45 impares y tramos centrales), Puerta del Sol (Kilómetro Cero), Plaza Mayor
+  </td>
+</tr>
+<tr data-cp="28924" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">13</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28924 <span class="pill-short">#924</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">19.05 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">0.44 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;18.61 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>AlcorcÃ³n</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">AlcorcÃ³n</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28921" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">14</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28921 <span class="pill-short">#921</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">20.26 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">0.88 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;19.38 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>AlcorcÃ³n</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">AlcorcÃ³n</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle Mayor (Alcorcón), Avenida de Leganés (Alcorcón), Plaza de España (Alcorcón)
+  </td>
+</tr>
+<tr data-cp="28923" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">15</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28923 <span class="pill-short">#923</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">19.57 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">0.95 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;18.62 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>AlcorcÃ³n</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">AlcorcÃ³n</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28925" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">16</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28925 <span class="pill-short">#925</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">18.17 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">1.77 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;16.39 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>AlcorcÃ³n</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">AlcorcÃ³n</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28918" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">17</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28918 <span class="pill-short">#918</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">17.57 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">2.41 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;15.15 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>LeganÃ©s</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">LeganÃ©s</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28922" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">18</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28922 <span class="pill-short">#922</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">22.17 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">3.03 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;19.14 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>AlcorcÃ³n</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">AlcorcÃ³n</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28913" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">19</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28913 <span class="pill-short">#913</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">17.52 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">4.35 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;13.17 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>LeganÃ©s</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">LeganÃ©s</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28024" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">20</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28024 <span class="pill-short">#24</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">15.96 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">4.69 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;11.27 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Pozuelo de AlarcÃ³n</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Latina</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de Las Águilas, Calle de Illescas, Calle de Maqueda
+  </td>
+</tr>
+<tr data-cp="28054" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">21</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28054 <span class="pill-short">#54</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">14.80 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">4.71 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;10.08 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Carabanchel</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de la Peseta, Calle de Salvador Allende, Calle de la Tortera
+  </td>
+</tr>
+<tr data-cp="28911" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">22</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28911 <span class="pill-short">#911</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">17.80 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">5.04 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;12.76 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>LeganÃ©s</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">LeganÃ©s</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de Fuenlabrada (Leganés), Paseo de Colón, Calle del Charco (Leganés)
+  </td>
+</tr>
+<tr data-cp="28912" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">23</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28912 <span class="pill-short">#912</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">17.30 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">5.29 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;12.02 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>LeganÃ©s</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">LeganÃ©s</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28044" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">24</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28044 <span class="pill-short">#44</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">13.75 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">5.65 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;8.09 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Carabanchel / Latina</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de la Aviación, Calle de Joaquín Turina, Base Aérea de Cuatro Vientos
+  </td>
+</tr>
+<tr data-cp="28914" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">25</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28914 <span class="pill-short">#914</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">20.08 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">5.71 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;14.37 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>LeganÃ©s</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">LeganÃ©s</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28919" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">26</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28919 <span class="pill-short">#919</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">13.65 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">6.93 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;6.72 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>LeganÃ©s</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">LeganÃ©s</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28916" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">27</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28916 <span class="pill-short">#916</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">15.38 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">7.16 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;8.22 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>LeganÃ©s</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">LeganÃ©s</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28223" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">28</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28223 <span class="pill-short">#223</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">15.94 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">7.31 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;8.63 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Pozuelo de AlarcÃ³n</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Pozuelo de AlarcÃ³n</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de Europa (Pozuelo), Calle de la Vía de las Dos Castillas, Paseo de la Finca
+  </td>
+</tr>
+<tr data-cp="28907" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">29</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28907 <span class="pill-short">#907</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">16.29 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">7.52 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;8.77 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Getafe</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Getafe</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28903" data-tipo="EXCLUSIVO_ALCORCON">
+  <td style="color:var(--text-muted); font-weight:700;">30</td>
+  <td>
+    <span class="pill-cp" style="background:#7c3aed;">
+      28903 <span class="pill-short">#903</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#c084fc;">
+      🟣 Solo Alcorcón
+    </span>
+  </td>
+  <td><span style="color:var(--text-muted);">16.00 km</span></td>
+  <td><span style="color:#facc15; font-weight:800;">8.90 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;7.10 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Alcorcón</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Norte</span>
+  </td>
+  <td>
+    <b>Getafe</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Getafe</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Zona urbana consolidada
+  </td>
+</tr>
+<tr data-cp="28027" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">31</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28027 <span class="pill-short">#27</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">1.00 km</span></td>
+  <td><span style="color:var(--text-muted);">18.41 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;17.41 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Ciudad Lineal</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Arturo Soria (1-110), Calle de la Condesa de Venadito, Calle de José Silva
+  </td>
+</tr>
+<tr data-cp="28037" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">32</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28037 <span class="pill-short">#37</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">1.46 km</span></td>
+  <td><span style="color:var(--text-muted);">18.72 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;17.26 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito San Blas-Canillejas</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de los Hermanos García Noblejas, Calle de Alcalá (400-499), Calle de Julián Camarillo (Hub Tecnológico)
+  </td>
+</tr>
+<tr data-cp="28017" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">33</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28017 <span class="pill-short">#17</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">2.34 km</span></td>
+  <td><span style="color:var(--text-muted);">17.27 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;14.94 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Ciudad Lineal</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Alcalá (250-360), Avenida de Daroca (1-50), Calle de Quintana
+  </td>
+</tr>
+<tr data-cp="28043" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">34</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28043 <span class="pill-short">#43</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">2.45 km</span></td>
+  <td><span style="color:var(--text-muted);">19.15 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;16.70 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Hortaleza / Ciudad Lineal</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Silvano, Calle de Mota del Cuervo, Avenida de Machupichu
+  </td>
+</tr>
+<tr data-cp="28033" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">35</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28033 <span class="pill-short">#33</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">3.61 km</span></td>
+  <td><span style="color:var(--text-muted);">19.64 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;16.03 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Hortaleza</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Arturo Soria (200-340), Avenida de San Luis, Calle de San Luis
+  </td>
+</tr>
+<tr data-cp="28032" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">36</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28032 <span class="pill-short">#32</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">3.86 km</span></td>
+  <td><span style="color:var(--text-muted);">19.97 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;16.11 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Vicálvaro</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de San Cipriano, Avenida de Daroca (final), Avenida de Canillejas a Vicálvaro (este)
+  </td>
+</tr>
+<tr data-cp="28028" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">37</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28028 <span class="pill-short">#28</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">3.87 km</span></td>
+  <td><span style="color:var(--text-muted);">15.61 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;11.74 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Salamanca</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Alcalá (191-249), Plaza de Toros de Las Ventas, Avenida de los Toreros
+  </td>
+</tr>
+<tr data-cp="28022" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">38</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28022 <span class="pill-short">#22</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">4.01 km</span></td>
+  <td><span style="color:var(--text-muted);">22.65 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;18.64 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito San Blas-Canillejas</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de Arcentales, Avenida de Niza, Calle de San Mariano
+  </td>
+</tr>
+<tr data-cp="28002" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">39</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28002 <span class="pill-short">#02</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">4.29 km</span></td>
+  <td><span style="color:var(--text-muted);">16.12 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;11.83 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Chamartín</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle del Príncipe de Vergara (100-210), Calle de López de Hoyos (50-160), Calle de Cartagena (60-130)
+  </td>
+</tr>
+<tr data-cp="28016" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">40</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28016 <span class="pill-short">#16</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">4.48 km</span></td>
+  <td><span style="color:var(--text-muted);">16.97 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;12.49 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Chamartín</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Paseo de la Habana (60-150), Calle de Costa Rica, Calle de Alberto Alcocer (1-30)
+  </td>
+</tr>
+<tr data-cp="28030" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">41</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28030 <span class="pill-short">#30</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">4.61 km</span></td>
+  <td><span style="color:var(--text-muted);">16.19 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;11.57 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Moratalaz</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Camino de los Vinateros, Calle de Fuente Carrantona, Calle de la Marroquina
+  </td>
+</tr>
+<tr data-cp="28006" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">42</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28006 <span class="pill-short">#06</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">4.81 km</span></td>
+  <td><span style="color:var(--text-muted);">14.90 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;10.10 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Salamanca</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Serrano (61-120), Calle de Velázquez (51-110), Calle de Diego de León
+  </td>
+</tr>
+<tr data-cp="28009" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">43</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28009 <span class="pill-short">#09</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">5.19 km</span></td>
+  <td><span style="color:var(--text-muted);">14.19 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;9.01 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Retiro / Salamanca</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Alcalá (101-190), Calle de O'Donnell (1-45), Calle de Narváez
+  </td>
+</tr>
+<tr data-cp="28001" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">44</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28001 <span class="pill-short">#01</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">5.42 km</span></td>
+  <td><span style="color:var(--text-muted);">14.03 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;8.62 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Salamanca / Retiro</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Serrano (1-60), Calle de Velázquez (1-50), Calle de Claudio Coello (1-70)
+  </td>
+</tr>
+<tr data-cp="28046" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">45</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28046 <span class="pill-short">#46</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">5.49 km</span></td>
+  <td><span style="color:var(--text-muted);">15.72 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;10.23 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Tetuán / Chamartín</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Paseo de la Castellana (280+ final), Cuatro Torres Business Area (Torre Cepsa, PwC
+  </td>
+</tr>
+<tr data-cp="28007" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">46</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28007 <span class="pill-short">#07</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">5.78 km</span></td>
+  <td><span style="color:var(--text-muted);">13.76 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;7.98 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Retiro / Arganzuela</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de la Ciudad de Barcelona (1-80), Calle del Doctor Esquerdo (1-70), Paseo de la Reina Cristina
+  </td>
+</tr>
+<tr data-cp="28038" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">47</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28038 <span class="pill-short">#38</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">6.19 km</span></td>
+  <td><span style="color:var(--text-muted);">14.83 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;8.64 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Puente de Vallecas</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de Entrevías, Calle de la Sierra de Guadarrama, Calle de la Sierra Carbonera
+  </td>
+</tr>
+<tr data-cp="28010" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">48</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28010 <span class="pill-short">#10</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">6.32 km</span></td>
+  <td><span style="color:var(--text-muted);">13.63 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;7.31 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Chamberí</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Almagro, Calle de Zurbano, Calle de Fortuny
+  </td>
+</tr>
+<tr data-cp="28014" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">49</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28014 <span class="pill-short">#14</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">6.59 km</span></td>
+  <td><span style="color:var(--text-muted);">12.79 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;6.19 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Centro / Retiro</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Paseo del Prado (Museo del Prado), Carrera de San Jerónimo (Congreso de los Diputados), Calle de las Huertas (Barrio de las Letras)
+  </td>
+</tr>
+<tr data-cp="28004" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">50</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28004 <span class="pill-short">#04</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">6.86 km</span></td>
+  <td><span style="color:var(--text-muted);">12.81 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;5.94 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Centro</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Fuencarral (1-100), Calle de Hortaleza, Calle del Barquillo
+  </td>
+</tr>
+<tr data-cp="28018" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">51</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28018 <span class="pill-short">#18</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">6.90 km</span></td>
+  <td><span style="color:var(--text-muted);">14.33 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;7.43 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Puente de Vallecas</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de la Albufera (1-120), Calle de Peña Gorbea (bulevar), Avenida del Monte Igueldo
+  </td>
+</tr>
+<tr data-cp="28003" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">52</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28003 <span class="pill-short">#03</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">7.04 km</span></td>
+  <td><span style="color:var(--text-muted);">13.80 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;6.75 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Chamberí</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de Ríos Rosas, Calle de Vallehermoso (altos), Calle de Bravo Murillo (1-80)
+  </td>
+</tr>
+<tr data-cp="28015" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">53</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28015 <span class="pill-short">#15</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">7.27 km</span></td>
+  <td><span style="color:var(--text-muted);">12.85 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;5.58 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Chamberí / Centro</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Calle de San Bernardo (71-130), Calle de Alberto Aguilera (1-40), Calle de la Princesa (pares)
+  </td>
+</tr>
+<tr data-cp="28031" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">54</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28031 <span class="pill-short">#31</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">7.39 km</span></td>
+  <td><span style="color:var(--text-muted);">17.72 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;10.34 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Villa de Vallecas</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de Santa Eugenia, Calle Real de Arganda, Calle de la Sierra de Guadalupe
+  </td>
+</tr>
+<tr data-cp="28053" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">55</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28053 <span class="pill-short">#53</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">7.69 km</span></td>
+  <td><span style="color:var(--text-muted);">13.37 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;5.68 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Puente de Vallecas / Villaverde</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de San Diego, Calle de Martínez de la Riva (final), Calle de Sierra del Valle
+  </td>
+</tr>
+<tr data-cp="28051" data-tipo="EXCLUSIVO_NORTE">
+  <td style="color:var(--text-muted); font-weight:700;">56</td>
+  <td>
+    <span class="pill-cp" style="background:#1d4ed8;">
+      28051 <span class="pill-short">#51</span>
+    </span>
+  </td>
+  <td>
+    <span style="font-size:11px; font-weight:800; color:#60a5fa;">
+      🔵 Solo Norte
+    </span>
+  </td>
+  <td><span style="color:#facc15; font-weight:800;">11.83 km</span></td>
+  <td><span style="color:var(--text-muted);">17.48 km</span></td>
+  <td><span style='font-size:11px; font-weight:700; color:#c084fc;'>&plusmn;5.65 km</span></td>
+  <td style="font-size:11.5px;">
+    <b style="color:#ffffff;">Cocina Norte</b><br>
+    <span style="font-size:10px; color:var(--text-muted);">Refuerzo: Cocina Alcorcón</span>
+  </td>
+  <td>
+    <b>Madrid</b><br>
+    <span style="font-size:11px; color:var(--text-muted);">Distrito Villa de Vallecas</span>
+  </td>
+  <td style="font-size:11px; color:#cbd5e1; max-width:280px; line-height:1.35;">
+    Avenida de la Gran Vía del Sureste, Calle de Antonio Gades, Avenida del Mayorazgo
+  </td>
+</tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div id="radar-tooltip" class="tooltip-popup"></div>
@@ -4694,6 +6465,7 @@
   <script>
     window.CP_METADATA = {"28001": {"cp": "28001", "shortCp": "01", "dist": "5.42 km", "cardinal": "OSO", "zona": "Distrito Salamanca / Retiro", "mun": "Madrid", "streets": "Calle de Serrano (1-60), Calle de Velázquez (1-50), Calle de Claudio Coello (1-70)"}, "28002": {"cp": "28002", "shortCp": "02", "dist": "4.29 km", "cardinal": "O (Oeste)", "zona": "Distrito Chamartín", "mun": "Madrid", "streets": "Calle del Príncipe de Vergara (100-210), Calle de López de Hoyos (50-160), Calle de Cartagena (60-130)"}, "28003": {"cp": "28003", "shortCp": "03", "dist": "7.05 km", "cardinal": "O (Oeste)", "zona": "Distrito Chamberí", "mun": "Madrid", "streets": "Calle de Ríos Rosas, Calle de Vallehermoso (altos), Calle de Bravo Murillo (1-80)"}, "28004": {"cp": "28004", "shortCp": "04", "dist": "6.87 km", "cardinal": "OSO", "zona": "Distrito Centro", "mun": "Madrid", "streets": "Calle de Fuencarral (1-100), Calle de Hortaleza, Calle del Barquillo"}, "28005": {"cp": "28005", "shortCp": "05", "dist": "8.2 km", "cardinal": "OSO", "zona": "Distrito Centro / Arganzuela", "mun": "Madrid", "streets": "Calle de Toledo (1-110), Calle de Bailén (sur), Calle de Segovia"}, "28006": {"cp": "28006", "shortCp": "06", "dist": "4.81 km", "cardinal": "OSO", "zona": "Distrito Salamanca", "mun": "Madrid", "streets": "Calle de Serrano (61-120), Calle de Velázquez (51-110), Calle de Diego de León"}, "28007": {"cp": "28007", "shortCp": "07", "dist": "5.77 km", "cardinal": "SO (Suroeste)", "zona": "Distrito Retiro / Arganzuela", "mun": "Madrid", "streets": "Avenida de la Ciudad de Barcelona (1-80), Calle del Doctor Esquerdo (1-70), Paseo de la Reina Cristina"}, "28008": {"cp": "28008", "shortCp": "08", "dist": "8.36 km", "cardinal": "OSO", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "streets": "Calle de la Princesa (1-50), Paseo del Pintor Rosales, Calle de Ferraz (1-60)"}, "28009": {"cp": "28009", "shortCp": "09", "dist": "5.18 km", "cardinal": "OSO", "zona": "Distrito Retiro / Salamanca", "mun": "Madrid", "streets": "Calle de Alcalá (101-190), Calle de O'Donnell (1-45), Calle de Narváez"}, "28010": {"cp": "28010", "shortCp": "10", "dist": "6.32 km", "cardinal": "OSO", "zona": "Distrito Chamberí", "mun": "Madrid", "streets": "Calle de Almagro, Calle de Zurbano, Calle de Fortuny"}, "28012": {"cp": "28012", "shortCp": "12", "dist": "7.53 km", "cardinal": "OSO", "zona": "Distrito Centro", "mun": "Madrid", "streets": "Plaza de Lavapiés, Calle de Argumosa, Calle de Atocha (impares 40-120)"}, "28013": {"cp": "28013", "shortCp": "13", "dist": "7.57 km", "cardinal": "OSO", "zona": "Distrito Centro", "mun": "Madrid", "streets": "Gran Vía (1-45 impares y tramos centrales), Puerta del Sol (Kilómetro Cero), Plaza Mayor"}, "28014": {"cp": "28014", "shortCp": "14", "dist": "6.59 km", "cardinal": "OSO", "zona": "Distrito Centro / Retiro", "mun": "Madrid", "streets": "Paseo del Prado (Museo del Prado), Carrera de San Jerónimo (Congreso de los Diputados), Calle de las Huertas (Barrio de las Letras)"}, "28015": {"cp": "28015", "shortCp": "15", "dist": "7.27 km", "cardinal": "OSO", "zona": "Distrito Chamberí / Centro", "mun": "Madrid", "streets": "Calle de San Bernardo (71-130), Calle de Alberto Aguilera (1-40), Calle de la Princesa (pares)"}, "28016": {"cp": "28016", "shortCp": "16", "dist": "4.48 km", "cardinal": "ONO", "zona": "Distrito Chamartín", "mun": "Madrid", "streets": "Paseo de la Habana (60-150), Calle de Costa Rica, Calle de Alberto Alcocer (1-30)"}, "28017": {"cp": "28017", "shortCp": "17", "dist": "2.33 km", "cardinal": "SSO", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "streets": "Calle de Alcalá (250-360), Avenida de Daroca (1-50), Calle de Quintana"}, "28018": {"cp": "28018", "shortCp": "18", "dist": "6.87 km", "cardinal": "SSO", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "streets": "Avenida de la Albufera (1-120), Calle de Peña Gorbea (bulevar), Avenida del Monte Igueldo"}, "28022": {"cp": "28022", "shortCp": "22", "dist": "4.01 km", "cardinal": "E (Este)", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "streets": "Avenida de Arcentales, Avenida de Niza, Calle de San Mariano"}, "28027": {"cp": "28027", "shortCp": "27", "dist": "1.0 km", "cardinal": "OSO", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "streets": "Calle de Arturo Soria (1-110), Calle de la Condesa de Venadito, Calle de José Silva"}, "28028": {"cp": "28028", "shortCp": "28", "dist": "3.87 km", "cardinal": "OSO", "zona": "Distrito Salamanca", "mun": "Madrid", "streets": "Calle de Alcalá (191-249), Plaza de Toros de Las Ventas, Avenida de los Toreros"}, "28030": {"cp": "28030", "shortCp": "30", "dist": "4.59 km", "cardinal": "SSO", "zona": "Distrito Moratalaz", "mun": "Madrid", "streets": "Camino de los Vinateros, Calle de Fuente Carrantona, Calle de la Marroquina"}, "28031": {"cp": "28031", "shortCp": "31", "dist": "7.35 km", "cardinal": "S (Sur)", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "streets": "Avenida de Santa Eugenia, Calle Real de Arganda, Calle de la Sierra de Guadalupe"}, "28032": {"cp": "28032", "shortCp": "32", "dist": "3.85 km", "cardinal": "SE (Sureste)", "zona": "Distrito Vicálvaro", "mun": "Madrid", "streets": "Calle de San Cipriano, Avenida de Daroca (final), Avenida de Canillejas a Vicálvaro (este)"}, "28033": {"cp": "28033", "shortCp": "33", "dist": "3.59 km", "cardinal": "NNO", "zona": "Distrito Hortaleza", "mun": "Madrid", "streets": "Calle de Arturo Soria (200-340), Avenida de San Luis, Calle de San Luis"}, "28037": {"cp": "28037", "shortCp": "37", "dist": "1.45 km", "cardinal": "S (Sur)", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "streets": "Calle de los Hermanos García Noblejas, Calle de Alcalá (400-499), Calle de Julián Camarillo (Hub Tecnológico)"}, "28038": {"cp": "28038", "shortCp": "38", "dist": "6.16 km", "cardinal": "SSO", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "streets": "Avenida de Entrevías, Calle de la Sierra de Guadarrama, Calle de la Sierra Carbonera"}, "28042": {"cp": "28042", "shortCp": "42", "dist": "7.13 km", "cardinal": "NE (Noreste)", "zona": "Distrito Barajas", "mun": "Madrid", "streets": "Avenida de Logroño, Calle de la Playa de Riazor, Paseo de la Alameda de Osuna"}, "28043": {"cp": "28043", "shortCp": "43", "dist": "2.44 km", "cardinal": "NO (Noroeste)", "zona": "Distrito Hortaleza / Ciudad Lineal", "mun": "Madrid", "streets": "Calle de Silvano, Calle de Mota del Cuervo, Avenida de Machupichu"}, "28045": {"cp": "28045", "shortCp": "45", "dist": "7.92 km", "cardinal": "SO (Suroeste)", "zona": "Distrito Arganzuela", "mun": "Madrid", "streets": "Calle de Méndez Álvaro, Paseo de las Delicias, Calle del Ferrocarril"}, "28046": {"cp": "28046", "shortCp": "46", "dist": "5.5 km", "cardinal": "O (Oeste)", "zona": "Distrito Tetuán / Chamartín", "mun": "Madrid", "streets": "Paseo de la Castellana (280+ final), Cuatro Torres Business Area (Torre Cepsa, PwC"}, "28051": {"cp": "28051", "shortCp": "51", "dist": "11.77 km", "cardinal": "S (Sur)", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "streets": "Avenida de la Gran Vía del Sureste, Calle de Antonio Gades, Avenida del Mayorazgo"}, "28052": {"cp": "28052", "shortCp": "52", "dist": "8.62 km", "cardinal": "SE (Sureste)", "zona": "Distrito Vicálvaro", "mun": "Madrid", "streets": "Avenida de los Blasones, Avenida de Miguel Delibes, Avenida de Fernando Fernán Gómez"}, "28053": {"cp": "28053", "shortCp": "53", "dist": "7.65 km", "cardinal": "SSO", "zona": "Distrito Puente de Vallecas / Villaverde", "mun": "Madrid", "streets": "Avenida de San Diego, Calle de Martínez de la Riva (final), Calle de Sierra del Valle"}, "28055": {"cp": "28055", "shortCp": "55", "dist": "6.79 km", "cardinal": "N (Norte)", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Calle del Valle de Pinares Llanos, Calle del Mirador de la Reina (norte), Calle de Senda del Infante"}, "28821": {"cp": "28821", "shortCp": "821", "dist": "6.06 km", "cardinal": "E (Este)", "zona": "Coslada", "mun": "Coslada", "streets": "Avenida de la Constitución (Coslada), Calle de Méjico, Avenida de España (Coslada)"}, "28822": {"cp": "28822", "shortCp": "822", "dist": "7.3 km", "cardinal": "ESE", "zona": "Coslada", "mun": "Coslada", "streets": "Avenida del Puerto de Gijón, Calle Mar Cantábrico, Avenida de José Gárate"}, "28823": {"cp": "28823", "shortCp": "823", "dist": "7.83 km", "cardinal": "E (Este)", "zona": "Coslada", "mun": "Coslada", "streets": "Avenida de San Pablo, Avenida de Fuentemar, Calle del Mar Egeo"}, "28830": {"cp": "28830", "shortCp": "830", "dist": "10.91 km", "cardinal": "E (Este)", "zona": "San Fernando de Henares", "mun": "San Fernando de Henares", "streets": "Plaza de España (San Fernando), Avenida de Zarauz, Calle de la Presa"}, "28860": {"cp": "28860", "shortCp": "860", "dist": "11.24 km", "cardinal": "NE (Noreste)", "zona": "Paracuellos de Jarama", "mun": "Paracuellos de Jarama", "streets": "Avenida de Circunvalación, Paseo del Radar, Calle Real, Avenida de Valdediego, Avenida de los Deportes"}, "28861": {"cp": "28861", "shortCp": "861", "dist": "8.88 km", "cardinal": "NE (Noreste)", "zona": "Los Berrocales de Jarama", "mun": "Paracuellos de Jarama", "streets": "Avenida del Puente de los Viveros, Paseo de las Arroyas, Calle Galiana, Paseo del Pago de la Perdiz"}, "28020": {"cp": "28020", "shortCp": "20", "dist": "3.09 km", "cardinal": "S (Sur)", "zona": "Distrito Tetuán", "mun": "Madrid", "streets": "Calle de Bravo Murillo (151-240), Avenida de General Perón, Calle de Orense"}, "28029": {"cp": "28029", "shortCp": "29", "dist": "1.47 km", "cardinal": "S (Sur)", "zona": "Distrito Tetuán / Fuencarral", "mun": "Madrid", "streets": "Paseo de la Castellana (200-270), Plaza de Castilla (Torres KIO), Calle de Sinesio Delgado"}, "28034": {"cp": "28034", "shortCp": "34", "dist": "0.7 km", "cardinal": "N (Norte)", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Avenida del Ventisquero de la Condesa, Carretera de Colmenar Viejo, Calle del Monasterio de Silos"}, "28035": {"cp": "28035", "shortCp": "35", "dist": "2.48 km", "cardinal": "OSO", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Avenida de la Ilustración, Avenida de Betanzos, Calle de Fermín Caballero"}, "28036": {"cp": "28036", "shortCp": "36", "dist": "2.8 km", "cardinal": "SSE", "zona": "Distrito Chamartín", "mun": "Madrid", "streets": "Paseo de la Habana (altos), Calle de Alberto Alcocer (este), Calle del Padre Damián"}, "28039": {"cp": "28039", "shortCp": "39", "dist": "2.86 km", "cardinal": "SSO", "zona": "Distrito Tetuán", "mun": "Madrid", "streets": "Calle de Bravo Murillo (241-320), Calle de Francos Rodríguez, Calle del Marqués de Viana"}, "28040": {"cp": "28040", "shortCp": "40", "dist": "4.65 km", "cardinal": "SSO", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "streets": "Avenida Complutense, Avenida de la Victoria, Plaza de la Moncloa (Faro e Intercambiador)"}, "28048": {"cp": "28048", "shortCp": "48", "dist": "14.36 km", "cardinal": "NO (Noroeste)", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Carretera de El Pardo, Pista de Cristo de El Pardo, Palacio Real de El Pardo"}, "28049": {"cp": "28049", "shortCp": "49", "dist": "10.96 km", "cardinal": "NNE", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "streets": "Calle de Castiello de Jaca, Avenida del Camino de Santiago (Las Tablas), Avenida de Santo Domingo de la Calzada"}, "28050": {"cp": "28050", "shortCp": "50", "dist": "4.19 km", "cardinal": "NE (Noreste)", "zona": "Distrito Hortaleza", "mun": "Madrid", "streets": "Avenida de Francisco Pi y Margall (Sanchinarro), Calle de Ana de Austria, Avenida de las Fuerzas Armadas (Valdebebas)"}, "28100": {"cp": "28100", "shortCp": "100", "dist": "8.76 km", "cardinal": "NNE", "zona": "Alcobendas", "mun": "Alcobendas", "streets": "Paseo de la Chopera (Alcobendas), Avenida de España (Alcobendas), Calle Marquesa Viuda de Aldama"}, "28108": {"cp": "28108", "shortCp": "108", "dist": "6.83 km", "cardinal": "NE (Noreste)", "zona": "Alcobendas", "mun": "Alcobendas", "streets": "Avenida de Bruselas (Alcobendas), Paseo de Alcobendas, Camino Ancho (La Moraleja)"}, "28109": {"cp": "28109", "shortCp": "109", "dist": "6.8 km", "cardinal": "ENE", "zona": "Alcobendas", "mun": "Alcobendas", "streets": "Zona urbana consolidada"}, "28701": {"cp": "28701", "shortCp": "701", "dist": "8.94 km", "cardinal": "NE (Noreste)", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "streets": "Avenida de España (San Sebastián de los Reyes), Calle Real (Sanse), Paseo de Europa"}, "28702": {"cp": "28702", "shortCp": "702", "dist": "10.91 km", "cardinal": "NNE", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "streets": "Zona urbana consolidada"}, "28703": {"cp": "28703", "shortCp": "703", "dist": "10.83 km", "cardinal": "ENE", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "streets": "Zona urbana consolidada"}, "28670": {"cp": "28670", "shortCp": "670", "dist": "9.54 km", "cardinal": "O (Oeste)", "zona": "Villaviciosa de OdÃ³n", "mun": "Villaviciosa de OdÃ³n", "streets": "Zona urbana consolidada"}, "28922": {"cp": "28922", "shortCp": "922", "dist": "3.03 km", "cardinal": "O (Oeste)", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Zona urbana consolidada"}, "28223": {"cp": "28223", "shortCp": "223", "dist": "7.27 km", "cardinal": "N (Norte)", "zona": "Pozuelo de AlarcÃ³n", "mun": "Pozuelo de AlarcÃ³n", "streets": "Avenida de Europa (Pozuelo), Calle de la Vía de las Dos Castillas, Paseo de la Finca"}, "28011": {"cp": "28011", "shortCp": "11", "dist": "8.46 km", "cardinal": "NE (Noreste)", "zona": "Distrito Latina", "mun": "Madrid", "streets": "Paseo de Extremadura (1-150), Calle de Sepúlveda, Avenida de Portugal"}, "28019": {"cp": "28019", "shortCp": "19", "dist": "9.15 km", "cardinal": "ENE", "zona": "Distrito Carabanchel", "mun": "Madrid", "streets": "Calle del General Ricardos (1-100), Camino Viejo de Leganés (1-60), Calle de Antonio Leyva"}, "28047": {"cp": "28047", "shortCp": "47", "dist": "7.7 km", "cardinal": "NE (Noreste)", "zona": "Distrito Latina", "mun": "Madrid", "streets": "Calle de los Yébenes, Calle de la Duquesa de Parcent, Calle de Concejal Francisco José Jiménez Martín"}, "28024": {"cp": "28024", "shortCp": "24", "dist": "4.66 km", "cardinal": "NNE", "zona": "Distrito Latina", "mun": "Pozuelo de AlarcÃ³n", "streets": "Avenida de Las Águilas, Calle de Illescas, Calle de Maqueda"}, "28025": {"cp": "28025", "shortCp": "25", "dist": "7.77 km", "cardinal": "ENE", "zona": "Distrito Carabanchel", "mun": "Madrid", "streets": "Calle del General Ricardos (101-220), Calle de Eugenia de Montijo, Avenida de Carabanchel Alto"}, "28026": {"cp": "28026", "shortCp": "26", "dist": "10.35 km", "cardinal": "ENE", "zona": "Distrito Usera", "mun": "Madrid", "streets": "Calle de Marcelo Usera, Calle de Dolores Barranco (Chinatown Usera), Avenida de Córdoba"}, "28041": {"cp": "28041", "shortCp": "41", "dist": "10.24 km", "cardinal": "E (Este)", "zona": "Distrito Usera / Villaverde", "mun": "Madrid", "streets": "Avenida de Andalucía, Calle de Eduardo Barreiros, Avenida de los Rosales"}, "28044": {"cp": "28044", "shortCp": "44", "dist": "5.65 km", "cardinal": "ENE", "zona": "Distrito Carabanchel / Latina", "mun": "Madrid", "streets": "Avenida de la Aviación, Calle de Joaquín Turina, Base Aérea de Cuatro Vientos"}, "28054": {"cp": "28054", "shortCp": "54", "dist": "4.72 km", "cardinal": "ENE", "zona": "Distrito Carabanchel", "mun": "Madrid", "streets": "Avenida de la Peseta, Calle de Salvador Allende, Calle de la Tortera"}, "28925": {"cp": "28925", "shortCp": "925", "dist": "1.76 km", "cardinal": "NNE", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Zona urbana consolidada"}, "28923": {"cp": "28923", "shortCp": "923", "dist": "0.95 km", "cardinal": "SSE", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Zona urbana consolidada"}, "28921": {"cp": "28921", "shortCp": "921", "dist": "0.88 km", "cardinal": "SO (Suroeste)", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Calle Mayor (Alcorcón), Avenida de Leganés (Alcorcón), Plaza de España (Alcorcón)"}, "28924": {"cp": "28924", "shortCp": "924", "dist": "0.44 km", "cardinal": "E (Este)", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "streets": "Zona urbana consolidada"}, "28918": {"cp": "28918", "shortCp": "918", "dist": "2.41 km", "cardinal": "E (Este)", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28919": {"cp": "28919", "shortCp": "919", "dist": "6.94 km", "cardinal": "E (Este)", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28021": {"cp": "28021", "shortCp": "21", "dist": "11.81 km", "cardinal": "ESE", "zona": "Distrito Villaverde", "mun": "Madrid", "streets": "Paseo de Alberto Palacios, Calle Real de Pinto, Gran Vía de Villaverde"}, "28916": {"cp": "28916", "shortCp": "916", "dist": "7.16 km", "cardinal": "ESE", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28912": {"cp": "28912", "shortCp": "912", "dist": "5.28 km", "cardinal": "ESE", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28913": {"cp": "28913", "shortCp": "913", "dist": "4.35 km", "cardinal": "ESE", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28911": {"cp": "28911", "shortCp": "911", "dist": "5.03 km", "cardinal": "ESE", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Avenida de Fuenlabrada (Leganés), Paseo de Colón, Calle del Charco (Leganés)"}, "28907": {"cp": "28907", "shortCp": "907", "dist": "7.52 km", "cardinal": "ESE", "zona": "Getafe", "mun": "Getafe", "streets": "Zona urbana consolidada"}, "28903": {"cp": "28903", "shortCp": "903", "dist": "8.9 km", "cardinal": "ESE", "zona": "Getafe", "mun": "Getafe", "streets": "Zona urbana consolidada"}, "28914": {"cp": "28914", "shortCp": "914", "dist": "5.68 km", "cardinal": "SE (Sureste)", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "streets": "Zona urbana consolidada"}, "28932": {"cp": "28932", "shortCp": "932", "dist": "4.16 km", "cardinal": "OSO", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28933": {"cp": "28933", "shortCp": "933", "dist": "4.68 km", "cardinal": "OSO", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28931": {"cp": "28931", "shortCp": "931", "dist": "4.76 km", "cardinal": "SO (Suroeste)", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Avenida de Portugal (Móstoles), Calle de Simón Hernández, Plaza del Pradillo (Móstoles)"}, "28937": {"cp": "28937", "shortCp": "937", "dist": "4.57 km", "cardinal": "SO (Suroeste)", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28936": {"cp": "28936", "shortCp": "936", "dist": "4.17 km", "cardinal": "SO (Suroeste)", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28934": {"cp": "28934", "shortCp": "934", "dist": "5.61 km", "cardinal": "SO (Suroeste)", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28938": {"cp": "28938", "shortCp": "938", "dist": "7.22 km", "cardinal": "SSO", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28935": {"cp": "28935", "shortCp": "935", "dist": "10.06 km", "cardinal": "OSO", "zona": "MÃ³stoles", "mun": "MÃ³stoles", "streets": "Zona urbana consolidada"}, "28942": {"cp": "28942", "shortCp": "942", "dist": "6.14 km", "cardinal": "S (Sur)", "zona": "Fuenlabrada", "mun": "Fuenlabrada", "streets": "Zona urbana consolidada"}};
     window.FUSION_METADATA = {"28001": {"cp": "28001", "shortCp": "01", "zona": "Distrito Salamanca / Retiro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "5.42 km", "df": "6.91 km", "diff": "1.49 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Serrano (1-60), Calle de Velázquez (1-50), Calle de Claudio Coello (1-70)"}, "28002": {"cp": "28002", "shortCp": "02", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "4.29 km", "df": "4.71 km", "diff": "0.42 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle del Príncipe de Vergara (100-210), Calle de López de Hoyos (50-160), Calle de Cartagena (60-130)"}, "28003": {"cp": "28003", "shortCp": "03", "zona": "Distrito Chamberí", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.05 km", "df": "4.8 km", "diff": "2.25 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Ríos Rosas, Calle de Vallehermoso (altos), Calle de Bravo Murillo (1-80)"}, "28004": {"cp": "28004", "shortCp": "04", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.87 km", "df": "6.74 km", "diff": "0.12 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Fuencarral (1-100), Calle de Hortaleza, Calle del Barquillo"}, "28005": {"cp": "28005", "shortCp": "05", "zona": "Distrito Centro / Arganzuela", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "8.2 km", "df": "8.53 km", "diff": "0.34 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Toledo (1-110), Calle de Bailén (sur), Calle de Segovia"}, "28006": {"cp": "28006", "shortCp": "06", "zona": "Distrito Salamanca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "4.81 km", "df": "5.9 km", "diff": "1.09 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Serrano (61-120), Calle de Velázquez (51-110), Calle de Diego de León"}, "28007": {"cp": "28007", "shortCp": "07", "zona": "Distrito Retiro / Arganzuela", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "5.77 km", "df": "8.79 km", "diff": "3.02 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Ciudad de Barcelona (1-80), Calle del Doctor Esquerdo (1-70), Paseo de la Reina Cristina"}, "28008": {"cp": "28008", "shortCp": "08", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "8.36 km", "df": "6.56 km", "diff": "1.8 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de la Princesa (1-50), Paseo del Pintor Rosales, Calle de Ferraz (1-60)"}, "28009": {"cp": "28009", "shortCp": "09", "zona": "Distrito Retiro / Salamanca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "5.18 km", "df": "7.55 km", "diff": "2.37 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Alcalá (101-190), Calle de O'Donnell (1-45), Calle de Narváez"}, "28010": {"cp": "28010", "shortCp": "10", "zona": "Distrito Chamberí", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.32 km", "df": "5.85 km", "diff": "0.48 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Almagro, Calle de Zurbano, Calle de Fortuny"}, "28012": {"cp": "28012", "shortCp": "12", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.53 km", "df": "8.32 km", "diff": "0.79 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Plaza de Lavapiés, Calle de Argumosa, Calle de Atocha (impares 40-120)"}, "28013": {"cp": "28013", "shortCp": "13", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.57 km", "df": "7.45 km", "diff": "0.12 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Gran Vía (1-45 impares y tramos centrales), Puerta del Sol (Kilómetro Cero), Plaza Mayor"}, "28014": {"cp": "28014", "shortCp": "14", "zona": "Distrito Centro / Retiro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.59 km", "df": "8.09 km", "diff": "1.5 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Paseo del Prado (Museo del Prado), Carrera de San Jerónimo (Congreso de los Diputados), Calle de las Huertas (Barrio de las Letras)"}, "28015": {"cp": "28015", "shortCp": "15", "zona": "Distrito Chamberí / Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.27 km", "df": "6.04 km", "diff": "1.23 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de San Bernardo (71-130), Calle de Alberto Aguilera (1-40), Calle de la Princesa (pares)"}, "28016": {"cp": "28016", "shortCp": "16", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "4.48 km", "df": "3.7 km", "diff": "0.78 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Habana (60-150), Calle de Costa Rica, Calle de Alberto Alcocer (1-30)"}, "28017": {"cp": "28017", "shortCp": "17", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "2.33 km", "df": "8.19 km", "diff": "5.87 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Alcalá (250-360), Avenida de Daroca (1-50), Calle de Quintana"}, "28018": {"cp": "28018", "shortCp": "18", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.87 km", "df": "11.51 km", "diff": "4.64 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Albufera (1-120), Calle de Peña Gorbea (bulevar), Avenida del Monte Igueldo"}, "28020": {"cp": "28020", "shortCp": "20", "zona": "Distrito Tetuán", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.21 km", "df": "3.09 km", "diff": "3.11 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Bravo Murillo (151-240), Avenida de General Perón, Calle de Orense"}, "28022": {"cp": "28022", "shortCp": "22", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.01 km", "df": "11.44 km", "diff": "7.42 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Arcentales, Avenida de Niza, Calle de San Mariano"}, "28027": {"cp": "28027", "shortCp": "27", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "1.0 km", "df": "7.21 km", "diff": "6.2 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Arturo Soria (1-110), Calle de la Condesa de Venadito, Calle de José Silva"}, "28028": {"cp": "28028", "shortCp": "28", "zona": "Distrito Salamanca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "3.87 km", "df": "6.5 km", "diff": "2.64 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Alcalá (191-249), Plaza de Toros de Las Ventas, Avenida de los Toreros"}, "28029": {"cp": "28029", "shortCp": "29", "zona": "Distrito Tetuán / Fuencarral", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "7.06 km", "df": "1.47 km", "diff": "5.59 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Castellana (200-270), Plaza de Castilla (Torres KIO), Calle de Sinesio Delgado"}, "28030": {"cp": "28030", "shortCp": "30", "zona": "Distrito Moratalaz", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.59 km", "df": "10.23 km", "diff": "5.65 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Camino de los Vinateros, Calle de Fuente Carrantona, Calle de la Marroquina"}, "28031": {"cp": "28031", "shortCp": "31", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.35 km", "df": "13.93 km", "diff": "6.58 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Santa Eugenia, Calle Real de Arganda, Calle de la Sierra de Guadalupe"}, "28032": {"cp": "28032", "shortCp": "32", "zona": "Distrito Vicálvaro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "3.85 km", "df": "11.49 km", "diff": "7.64 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de San Cipriano, Avenida de Daroca (final), Avenida de Canillejas a Vicálvaro (este)"}, "28033": {"cp": "28033", "shortCp": "33", "zona": "Distrito Hortaleza", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "3.59 km", "df": "4.59 km", "diff": "0.99 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Arturo Soria (200-340), Avenida de San Luis, Calle de San Luis"}, "28034": {"cp": "28034", "shortCp": "34", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "8.25 km", "df": "0.7 km", "diff": "7.55 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida del Ventisquero de la Condesa, Carretera de Colmenar Viejo, Calle del Monasterio de Silos"}, "28035": {"cp": "28035", "shortCp": "35", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "9.38 km", "df": "2.48 km", "diff": "6.91 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de la Ilustración, Avenida de Betanzos, Calle de Fermín Caballero"}, "28036": {"cp": "28036", "shortCp": "36", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "5.3 km", "df": "2.8 km", "diff": "2.5 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Habana (altos), Calle de Alberto Alcocer (este), Calle del Padre Damián"}, "28037": {"cp": "28037", "shortCp": "37", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "1.45 km", "df": "8.76 km", "diff": "7.31 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de los Hermanos García Noblejas, Calle de Alcalá (400-499), Calle de Julián Camarillo (Hub Tecnológico)"}, "28038": {"cp": "28038", "shortCp": "38", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.16 km", "df": "11.02 km", "diff": "4.86 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Entrevías, Calle de la Sierra de Guadarrama, Calle de la Sierra Carbonera"}, "28039": {"cp": "28039", "shortCp": "39", "zona": "Distrito Tetuán", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "7.18 km", "df": "2.86 km", "diff": "4.32 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Bravo Murillo (241-320), Calle de Francos Rodríguez, Calle del Marqués de Viana"}, "28040": {"cp": "28040", "shortCp": "40", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "8.41 km", "df": "4.65 km", "diff": "3.76 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida Complutense, Avenida de la Victoria, Plaza de la Moncloa (Faro e Intercambiador)"}, "28042": {"cp": "28042", "shortCp": "42", "zona": "Distrito Barajas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.13 km", "df": "12.24 km", "diff": "5.11 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Logroño, Calle de la Playa de Riazor, Paseo de la Alameda de Osuna"}, "28043": {"cp": "28043", "shortCp": "43", "zona": "Distrito Hortaleza / Ciudad Lineal", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "2.44 km", "df": "5.42 km", "diff": "2.98 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Silvano, Calle de Mota del Cuervo, Avenida de Machupichu"}, "28045": {"cp": "28045", "shortCp": "45", "zona": "Distrito Arganzuela", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.92 km", "df": "10.39 km", "diff": "2.47 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Calle de Méndez Álvaro, Paseo de las Delicias, Calle del Ferrocarril"}, "28046": {"cp": "28046", "shortCp": "46", "zona": "Distrito Tetuán / Chamartín", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "5.5 km", "df": "3.75 km", "diff": "1.75 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Castellana (280+ final), Cuatro Torres Business Area (Torre Cepsa, PwC"}, "28048": {"cp": "28048", "shortCp": "48", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "22.11 km", "df": "14.36 km", "diff": "7.75 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Carretera de El Pardo, Pista de Cristo de El Pardo, Palacio Real de El Pardo"}, "28049": {"cp": "28049", "shortCp": "49", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "15.43 km", "df": "10.96 km", "diff": "4.48 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle de Castiello de Jaca, Avenida del Camino de Santiago (Las Tablas), Avenida de Santo Domingo de la Calzada"}, "28050": {"cp": "28050", "shortCp": "50", "zona": "Distrito Hortaleza", "mun": "Madrid", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "8.04 km", "df": "4.19 km", "diff": "3.85 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de Francisco Pi y Margall (Sanchinarro), Calle de Ana de Austria, Avenida de las Fuerzas Armadas (Valdebebas)"}, "28051": {"cp": "28051", "shortCp": "51", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "11.77 km", "df": "17.85 km", "diff": "6.08 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Gran Vía del Sureste, Calle de Antonio Gades, Avenida del Mayorazgo"}, "28052": {"cp": "28052", "shortCp": "52", "zona": "Distrito Vicálvaro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "8.62 km", "df": "16.39 km", "diff": "7.77 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de los Blasones, Avenida de Miguel Delibes, Avenida de Fernando Fernán Gómez"}, "28053": {"cp": "28053", "shortCp": "53", "zona": "Distrito Puente de Vallecas / Villaverde", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.65 km", "df": "11.71 km", "diff": "4.06 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de San Diego, Calle de Martínez de la Riva (final), Calle de Sierra del Valle"}, "28055": {"cp": "28055", "shortCp": "55", "zona": "Distrito Fuencarral-El Pardo", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "6.79 km", "df": "6.61 km", "diff": "0.18 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calle del Valle de Pinares Llanos, Calle del Mirador de la Reina (norte), Calle de Senda del Infante"}, "28100": {"cp": "28100", "shortCp": "100", "zona": "Alcobendas", "mun": "Alcobendas", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "12.7 km", "df": "8.76 km", "diff": "3.94 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Paseo de la Chopera (Alcobendas), Avenida de España (Alcobendas), Calle Marquesa Viuda de Aldama"}, "28108": {"cp": "28108", "shortCp": "108", "zona": "Alcobendas", "mun": "Alcobendas", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "9.36 km", "df": "6.83 km", "diff": "2.53 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de Bruselas (Alcobendas), Paseo de Alcobendas, Camino Ancho (La Moraleja)"}, "28109": {"cp": "28109", "shortCp": "109", "zona": "Alcobendas", "mun": "Alcobendas", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.46 km", "df": "6.8 km", "diff": "0.66 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calles consolidadas"}, "28701": {"cp": "28701", "shortCp": "701", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "11.9 km", "df": "8.94 km", "diff": "2.96 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Avenida de España (San Sebastián de los Reyes), Calle Real (Sanse), Paseo de Europa"}, "28702": {"cp": "28702", "shortCp": "702", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "tipo": "EXCLUSIVO_FUENCARRAL", "tipo_badge": "🟡 Exclusivo Cocina Fuencarral", "dn": "13.94 km", "df": "10.91 km", "diff": "3.03 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calles consolidadas"}, "28703": {"cp": "28703", "shortCp": "703", "zona": "San SebastiÃ¡n de los Reyes", "mun": "San SebastiÃ¡n de los Reyes", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "10.87 km", "df": "10.83 km", "diff": "0.04 km", "closer": "Cocina Fuencarral", "backup": "Cocina Norte", "streets": "Calles consolidadas"}, "28821": {"cp": "28821", "shortCp": "821", "zona": "Coslada", "mun": "Coslada", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.06 km", "df": "13.45 km", "diff": "7.39 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de la Constitución (Coslada), Calle de Méjico, Avenida de España (Coslada)"}, "28822": {"cp": "28822", "shortCp": "822", "zona": "Coslada", "mun": "Coslada", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.3 km", "df": "15.02 km", "diff": "7.72 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida del Puerto de Gijón, Calle Mar Cantábrico, Avenida de José Gárate"}, "28823": {"cp": "28823", "shortCp": "823", "zona": "Coslada", "mun": "Coslada", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.83 km", "df": "15.19 km", "diff": "7.36 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de San Pablo, Avenida de Fuentemar, Calle del Mar Egeo"}, "28830": {"cp": "28830", "shortCp": "830", "zona": "San Fernando de Henares", "mun": "San Fernando de Henares", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "10.91 km", "df": "17.97 km", "diff": "7.06 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Plaza de España (San Fernando), Avenida de Zarauz, Calle de la Presa"}, "28860": {"cp": "28860", "shortCp": "860", "zona": "Paracuellos de Jarama", "mun": "Paracuellos de Jarama", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "11.24 km", "df": "14.66 km", "diff": "3.42 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida de Circunvalación, Paseo del Radar, Calle Real, Avenida de Valdediego, Avenida de los Deportes"}, "28861": {"cp": "28861", "shortCp": "861", "zona": "Los Berrocales de Jarama", "mun": "Paracuellos de Jarama", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "8.88 km", "df": "14.09 km", "diff": "5.21 km", "closer": "Cocina Norte", "backup": "Cocina Fuencarral", "streets": "Avenida del Puente de los Viveros, Paseo de las Arroyas, Calle Galiana, Paseo del Pago de la Perdiz"}};
+    window.FUSION_ALCORCON_METADATA = {"28041": {"cp": "28041", "shortCp": "41", "zona": "Distrito Usera / Villaverde", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "10.63 km", "da": "10.23 km", "diff": "0.40 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Avenida de Andalucía, Calle de Eduardo Barreiros, Avenida de los Rosales"}, "28026": {"cp": "28026", "shortCp": "26", "zona": "Distrito Usera", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "9.50 km", "da": "10.34 km", "diff": "0.84 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Marcelo Usera, Calle de Dolores Barranco (Chinatown Usera), Avenida de Córdoba"}, "28019": {"cp": "28019", "shortCp": "19", "zona": "Distrito Carabanchel", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "10.24 km", "da": "9.15 km", "diff": "1.08 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Calle del General Ricardos (1-100), Camino Viejo de Leganés (1-60), Calle de Antonio Leyva"}, "28021": {"cp": "28021", "shortCp": "21", "zona": "Distrito Villaverde", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "13.61 km", "da": "11.80 km", "diff": "1.81 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Paseo de Alberto Palacios, Calle Real de Pinto, Gran Vía de Villaverde"}, "28005": {"cp": "28005", "shortCp": "05", "zona": "Distrito Centro / Arganzuela", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "8.20 km", "da": "11.20 km", "diff": "3.00 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Toledo (1-110), Calle de Bailén (sur), Calle de Segovia"}, "28011": {"cp": "28011", "shortCp": "11", "zona": "Distrito Latina", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "11.99 km", "da": "8.49 km", "diff": "3.50 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Paseo de Extremadura (1-150), Calle de Sepúlveda, Avenida de Portugal"}, "28008": {"cp": "28008", "shortCp": "08", "zona": "Distrito Moncloa-Aravaca", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "8.35 km", "da": "11.90 km", "diff": "3.55 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de la Princesa (1-50), Paseo del Pintor Rosales, Calle de Ferraz (1-60)"}, "28025": {"cp": "28025", "shortCp": "25", "zona": "Distrito Carabanchel", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "11.66 km", "da": "7.77 km", "diff": "3.89 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Calle del General Ricardos (101-220), Calle de Eugenia de Montijo, Avenida de Carabanchel Alto"}, "28045": {"cp": "28045", "shortCp": "45", "zona": "Distrito Arganzuela", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.95 km", "da": "11.88 km", "diff": "3.94 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Méndez Álvaro, Paseo de las Delicias, Calle del Ferrocarril"}, "28047": {"cp": "28047", "shortCp": "47", "zona": "Distrito Latina", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "11.70 km", "da": "7.71 km", "diff": "4.00 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Calle de los Yébenes, Calle de la Duquesa de Parcent, Calle de Concejal Francisco José Jiménez Martín"}, "28012": {"cp": "28012", "shortCp": "12", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.53 km", "da": "11.85 km", "diff": "4.32 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Plaza de Lavapiés, Calle de Argumosa, Calle de Atocha (impares 40-120)"}, "28013": {"cp": "28013", "shortCp": "13", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "COMPARTIDO", "tipo_badge": "🟢 Compartido (Zona Intersección)", "dn": "7.57 km", "da": "11.99 km", "diff": "4.43 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Gran Vía (1-45 impares y tramos centrales), Puerta del Sol (Kilómetro Cero), Plaza Mayor"}, "28924": {"cp": "28924", "shortCp": "924", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "19.05 km", "da": "0.44 km", "diff": "18.61 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28921": {"cp": "28921", "shortCp": "921", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "20.26 km", "da": "0.88 km", "diff": "19.38 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Calle Mayor (Alcorcón), Avenida de Leganés (Alcorcón), Plaza de España (Alcorcón)"}, "28923": {"cp": "28923", "shortCp": "923", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "19.57 km", "da": "0.95 km", "diff": "18.62 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28925": {"cp": "28925", "shortCp": "925", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "18.17 km", "da": "1.77 km", "diff": "16.39 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28918": {"cp": "28918", "shortCp": "918", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "17.57 km", "da": "2.41 km", "diff": "15.15 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28922": {"cp": "28922", "shortCp": "922", "zona": "AlcorcÃ³n", "mun": "AlcorcÃ³n", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "22.17 km", "da": "3.03 km", "diff": "19.14 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28913": {"cp": "28913", "shortCp": "913", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "17.52 km", "da": "4.35 km", "diff": "13.17 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28024": {"cp": "28024", "shortCp": "24", "zona": "Distrito Latina", "mun": "Pozuelo de AlarcÃ³n", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "15.96 km", "da": "4.69 km", "diff": "11.27 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Avenida de Las Águilas, Calle de Illescas, Calle de Maqueda"}, "28054": {"cp": "28054", "shortCp": "54", "zona": "Distrito Carabanchel", "mun": "Madrid", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "14.80 km", "da": "4.71 km", "diff": "10.08 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Avenida de la Peseta, Calle de Salvador Allende, Calle de la Tortera"}, "28911": {"cp": "28911", "shortCp": "911", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "17.80 km", "da": "5.04 km", "diff": "12.76 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Avenida de Fuenlabrada (Leganés), Paseo de Colón, Calle del Charco (Leganés)"}, "28912": {"cp": "28912", "shortCp": "912", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "17.30 km", "da": "5.29 km", "diff": "12.02 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28044": {"cp": "28044", "shortCp": "44", "zona": "Distrito Carabanchel / Latina", "mun": "Madrid", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "13.75 km", "da": "5.65 km", "diff": "8.09 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Avenida de la Aviación, Calle de Joaquín Turina, Base Aérea de Cuatro Vientos"}, "28914": {"cp": "28914", "shortCp": "914", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "20.08 km", "da": "5.71 km", "diff": "14.37 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28919": {"cp": "28919", "shortCp": "919", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "13.65 km", "da": "6.93 km", "diff": "6.72 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28916": {"cp": "28916", "shortCp": "916", "zona": "LeganÃ©s", "mun": "LeganÃ©s", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "15.38 km", "da": "7.16 km", "diff": "8.22 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28223": {"cp": "28223", "shortCp": "223", "zona": "Pozuelo de AlarcÃ³n", "mun": "Pozuelo de AlarcÃ³n", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "15.94 km", "da": "7.31 km", "diff": "8.63 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Avenida de Europa (Pozuelo), Calle de la Vía de las Dos Castillas, Paseo de la Finca"}, "28907": {"cp": "28907", "shortCp": "907", "zona": "Getafe", "mun": "Getafe", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "16.29 km", "da": "7.52 km", "diff": "8.77 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28903": {"cp": "28903", "shortCp": "903", "zona": "Getafe", "mun": "Getafe", "tipo": "EXCLUSIVO_ALCORCON", "tipo_badge": "🟣 Exclusivo Cocina Alcorcón", "dn": "16.00 km", "da": "8.90 km", "diff": "7.10 km", "closer": "Cocina Alcorcón", "backup": "Cocina Norte", "streets": "Zona urbana consolidada"}, "28027": {"cp": "28027", "shortCp": "27", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "1.00 km", "da": "18.41 km", "diff": "17.41 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Arturo Soria (1-110), Calle de la Condesa de Venadito, Calle de José Silva"}, "28037": {"cp": "28037", "shortCp": "37", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "1.46 km", "da": "18.72 km", "diff": "17.26 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de los Hermanos García Noblejas, Calle de Alcalá (400-499), Calle de Julián Camarillo (Hub Tecnológico)"}, "28017": {"cp": "28017", "shortCp": "17", "zona": "Distrito Ciudad Lineal", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "2.34 km", "da": "17.27 km", "diff": "14.94 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Alcalá (250-360), Avenida de Daroca (1-50), Calle de Quintana"}, "28043": {"cp": "28043", "shortCp": "43", "zona": "Distrito Hortaleza / Ciudad Lineal", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "2.45 km", "da": "19.15 km", "diff": "16.70 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Silvano, Calle de Mota del Cuervo, Avenida de Machupichu"}, "28033": {"cp": "28033", "shortCp": "33", "zona": "Distrito Hortaleza", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "3.61 km", "da": "19.64 km", "diff": "16.03 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Arturo Soria (200-340), Avenida de San Luis, Calle de San Luis"}, "28032": {"cp": "28032", "shortCp": "32", "zona": "Distrito Vicálvaro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "3.86 km", "da": "19.97 km", "diff": "16.11 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de San Cipriano, Avenida de Daroca (final), Avenida de Canillejas a Vicálvaro (este)"}, "28028": {"cp": "28028", "shortCp": "28", "zona": "Distrito Salamanca", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "3.87 km", "da": "15.61 km", "diff": "11.74 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Alcalá (191-249), Plaza de Toros de Las Ventas, Avenida de los Toreros"}, "28022": {"cp": "28022", "shortCp": "22", "zona": "Distrito San Blas-Canillejas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.01 km", "da": "22.65 km", "diff": "18.64 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Avenida de Arcentales, Avenida de Niza, Calle de San Mariano"}, "28002": {"cp": "28002", "shortCp": "02", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.29 km", "da": "16.12 km", "diff": "11.83 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle del Príncipe de Vergara (100-210), Calle de López de Hoyos (50-160), Calle de Cartagena (60-130)"}, "28016": {"cp": "28016", "shortCp": "16", "zona": "Distrito Chamartín", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.48 km", "da": "16.97 km", "diff": "12.49 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Paseo de la Habana (60-150), Calle de Costa Rica, Calle de Alberto Alcocer (1-30)"}, "28030": {"cp": "28030", "shortCp": "30", "zona": "Distrito Moratalaz", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.61 km", "da": "16.19 km", "diff": "11.57 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Camino de los Vinateros, Calle de Fuente Carrantona, Calle de la Marroquina"}, "28006": {"cp": "28006", "shortCp": "06", "zona": "Distrito Salamanca", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "4.81 km", "da": "14.90 km", "diff": "10.10 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Serrano (61-120), Calle de Velázquez (51-110), Calle de Diego de León"}, "28009": {"cp": "28009", "shortCp": "09", "zona": "Distrito Retiro / Salamanca", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "5.19 km", "da": "14.19 km", "diff": "9.01 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Alcalá (101-190), Calle de O'Donnell (1-45), Calle de Narváez"}, "28001": {"cp": "28001", "shortCp": "01", "zona": "Distrito Salamanca / Retiro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "5.42 km", "da": "14.03 km", "diff": "8.62 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Serrano (1-60), Calle de Velázquez (1-50), Calle de Claudio Coello (1-70)"}, "28046": {"cp": "28046", "shortCp": "46", "zona": "Distrito Tetuán / Chamartín", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "5.49 km", "da": "15.72 km", "diff": "10.23 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Paseo de la Castellana (280+ final), Cuatro Torres Business Area (Torre Cepsa, PwC"}, "28007": {"cp": "28007", "shortCp": "07", "zona": "Distrito Retiro / Arganzuela", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "5.78 km", "da": "13.76 km", "diff": "7.98 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Avenida de la Ciudad de Barcelona (1-80), Calle del Doctor Esquerdo (1-70), Paseo de la Reina Cristina"}, "28038": {"cp": "28038", "shortCp": "38", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.19 km", "da": "14.83 km", "diff": "8.64 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Avenida de Entrevías, Calle de la Sierra de Guadarrama, Calle de la Sierra Carbonera"}, "28010": {"cp": "28010", "shortCp": "10", "zona": "Distrito Chamberí", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.32 km", "da": "13.63 km", "diff": "7.31 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Almagro, Calle de Zurbano, Calle de Fortuny"}, "28014": {"cp": "28014", "shortCp": "14", "zona": "Distrito Centro / Retiro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.59 km", "da": "12.79 km", "diff": "6.19 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Paseo del Prado (Museo del Prado), Carrera de San Jerónimo (Congreso de los Diputados), Calle de las Huertas (Barrio de las Letras)"}, "28004": {"cp": "28004", "shortCp": "04", "zona": "Distrito Centro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.86 km", "da": "12.81 km", "diff": "5.94 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Fuencarral (1-100), Calle de Hortaleza, Calle del Barquillo"}, "28018": {"cp": "28018", "shortCp": "18", "zona": "Distrito Puente de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "6.90 km", "da": "14.33 km", "diff": "7.43 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Avenida de la Albufera (1-120), Calle de Peña Gorbea (bulevar), Avenida del Monte Igueldo"}, "28003": {"cp": "28003", "shortCp": "03", "zona": "Distrito Chamberí", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.04 km", "da": "13.80 km", "diff": "6.75 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de Ríos Rosas, Calle de Vallehermoso (altos), Calle de Bravo Murillo (1-80)"}, "28015": {"cp": "28015", "shortCp": "15", "zona": "Distrito Chamberí / Centro", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.27 km", "da": "12.85 km", "diff": "5.58 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Calle de San Bernardo (71-130), Calle de Alberto Aguilera (1-40), Calle de la Princesa (pares)"}, "28031": {"cp": "28031", "shortCp": "31", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.39 km", "da": "17.72 km", "diff": "10.34 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Avenida de Santa Eugenia, Calle Real de Arganda, Calle de la Sierra de Guadalupe"}, "28053": {"cp": "28053", "shortCp": "53", "zona": "Distrito Puente de Vallecas / Villaverde", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "7.69 km", "da": "13.37 km", "diff": "5.68 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Avenida de San Diego, Calle de Martínez de la Riva (final), Calle de Sierra del Valle"}, "28051": {"cp": "28051", "shortCp": "51", "zona": "Distrito Villa de Vallecas", "mun": "Madrid", "tipo": "EXCLUSIVO_NORTE", "tipo_badge": "🔵 Exclusivo Cocina Norte", "dn": "11.83 km", "da": "17.48 km", "diff": "5.65 km", "closer": "Cocina Norte", "backup": "Cocina Alcorcón", "streets": "Avenida de la Gran Vía del Sureste, Calle de Antonio Gades, Avenida del Mayorazgo"}};
 
     const tabs = document.querySelectorAll('.btn-tab');
     const sheets = document.querySelectorAll('.kitchen-sheet');
@@ -4876,6 +6648,128 @@
       });
     });
 
+    
+    // Venn Filter for Fusión Norte + Alcorcón
+    const vennButtonsNA = document.querySelectorAll('.btn-venn-filter-na');
+    const fusionAlcorconRows = document.querySelectorAll('#table-fusion-alcorcon tbody tr');
+    const fusionAlcorconSvgNodes = document.querySelectorAll('.fusion-alcorcon-node');
+
+    vennButtonsNA.forEach(btn => {
+      btn.addEventListener('click', () => {
+        vennButtonsNA.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+
+        fusionAlcorconRows.forEach(row => {
+          const match = (filter === 'all' || row.dataset.tipo === filter);
+          row.style.display = match ? '' : 'none';
+        });
+
+        fusionAlcorconSvgNodes.forEach(node => {
+          const match = (filter === 'all' || node.dataset.tipo === filter);
+          node.style.opacity = match ? '1' : '0.12';
+          node.style.pointerEvents = match ? 'all' : 'none';
+        });
+      });
+    });
+
+    // Tooltip for sheet-fusion-alcorcon radar nodes
+    document.querySelectorAll('#sheet-fusion-alcorcon .radar-node').forEach(node => {
+      node.addEventListener('mousemove', (e) => {
+        const cp = node.dataset.cp;
+        const info = window.FUSION_ALCORCON_METADATA ? window.FUSION_ALCORCON_METADATA[cp] : null;
+        if (!info) return;
+
+        tooltip.innerHTML = `
+          <div style="font-weight:800; font-size:13px; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+            <span>CP ${info.cp} (${info.mun})</span>
+            <span style="font-size:10px; background:rgba(255,255,255,0.15); padding:1px 6px; border-radius:6px;">#${info.shortCp}</span>
+          </div>
+          <div style="font-size:11.5px; font-weight:700; margin-bottom:6px;">
+            ${info.tipo_badge}
+          </div>
+          <div style="font-size:11px; margin-bottom:2px;"><b>Dist. a Norte:</b> ${info.dn}</div>
+          <div style="font-size:11px; margin-bottom:2px;"><b>Dist. a Alcorcón:</b> ${info.da}</div>
+          <div style="font-size:11px; margin-bottom:4px;"><b>Diferencia:</b> &plusmn;${info.diff}</div>
+          <div style="font-size:11px; color:#a7f3d0; margin-bottom:4px;"><b>Óptima:</b> ${info.closer}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">${info.zona}</div>
+          <div style="font-size:10px; color:#cbd5e1; border-top:1px solid rgba(255,255,255,0.1); padding-top:4px;">
+            ${info.streets}
+          </div>
+        `;
+        tooltip.style.display = 'block';
+        tooltip.style.left = (e.pageX + 15) + 'px';
+        tooltip.style.top = (e.pageY + 15) + 'px';
+      });
+
+      node.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+      });
+
+      node.addEventListener('click', () => {
+        const cp = node.dataset.cp;
+        const row = document.querySelector('#table-fusion-alcorcon tr[data-cp="' + cp + '"]');
+        if (row) {
+          row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          row.style.background = 'rgba(124, 58, 237, 0.45)';
+          setTimeout(() => { row.style.background = ''; }, 2200);
+        }
+      });
+    });
+
+    // Tooltip for kitchen-marker-fusion-na
+    document.querySelectorAll('.kitchen-marker-fusion-na').forEach(marker => {
+      marker.addEventListener('mousemove', (e) => {
+        const isAlc = marker.classList.contains('marker-alcorcon');
+        tooltip.innerHTML = isAlc ? `
+          <div style="font-weight:800; font-size:13px; margin-bottom:4px; color:#e9d5ff;">🍳 Cocina Alcorcón (Centro Bipolar Sudoeste)</div>
+          <div style="font-size:11px; margin-bottom:2px;"><b>Ubicación:</b> Pl. Príncipes de España, Alcorcón</div>
+          <div style="font-size:11px; margin-bottom:2px;"><b>Eje Operativo:</b> Sudoeste / A-5 / M-40</div>
+          <div style="font-size:10.5px; color:#d8b4fe;">Distancia inter-cocinas: 19.38 km</div>
+        ` : `
+          <div style="font-weight:800; font-size:13px; margin-bottom:4px; color:#93c5fd;">🍳 Cocina Norte (Centro Bipolar Noreste)</div>
+          <div style="font-size:11px; margin-bottom:2px;"><b>Ubicación:</b> Av. de 25 de Septiembre, 8</div>
+          <div style="font-size:11px; margin-bottom:2px;"><b>Eje Operativo:</b> Noreste / A-2 / M-30 / M-40</div>
+          <div style="font-size:10.5px; color:#bfdbfe;">Distancia inter-cocinas: 19.38 km</div>
+        `;
+        tooltip.style.display = 'block';
+        tooltip.style.left = (e.pageX + 15) + 'px';
+        tooltip.style.top = (e.pageY + 15) + 'px';
+      });
+      marker.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+      });
+    });
+
+    // Row click in table-fusion-alcorcon highlights SVG node
+    fusionAlcorconRows.forEach(row => {
+      row.addEventListener('click', () => {
+        const cp = row.dataset.cp;
+        const node = document.querySelector('#sheet-fusion-alcorcon .radar-node[data-cp="' + cp + '"]');
+        if (node) {
+          const rect = node.querySelector('.node-rect');
+          if (rect) {
+            const originalStroke = rect.getAttribute('stroke');
+            const originalWidth = rect.getAttribute('stroke-width');
+            rect.setAttribute('stroke', '#ffffff');
+            rect.setAttribute('stroke-width', '4');
+            rect.style.filter = 'drop-shadow(0 0 10px #ffffff)';
+            setTimeout(() => {
+              rect.setAttribute('stroke', originalStroke);
+              rect.setAttribute('stroke-width', originalWidth);
+              rect.style.filter = '';
+            }, 2500);
+          }
+        }
+      });
+    });
+
+    if (window.location.hash === '#fusion-alcorcon') {
+      const btn = document.querySelector('.btn-tab[data-target="fusion-alcorcon"]');
+      if (btn) btn.click();
+    }
+
     if (window.location.hash === '#fusion') {
       document.querySelector('.btn-tab[data-target="fusion"]').click();
     } else {
@@ -4889,13 +6783,14 @@
       norte: 0,
       fuencarral: 0,
       alcorcon: 0,
-      fusion: 0
+      fusion: 0,
+      'fusion-alcorcon': 0
     };
 
     const SHEET_DATA = {};
 
     function initSheetData() {
-      ['norte', 'fuencarral', 'alcorcon', 'fusion'].forEach(sid => {
+      ['norte', 'fuencarral', 'alcorcon', 'fusion', 'fusion-alcorcon'].forEach(sid => {
         const sheet = document.getElementById('sheet-' + sid);
         if (!sheet) return;
         const svg = sheet.querySelector('.radar-svg');
@@ -5004,6 +6899,13 @@
         const r_knx = data.base_knx * cos - data.base_kny * sin;
         const r_kny = data.base_knx * sin + data.base_kny * cos;
         kitchens.push({ x: r_kfx, y: r_kfy, r: 54.0 });
+        kitchens.push({ x: r_knx, y: r_kny, r: 54.0 });
+      } else if (sid === 'fusion-alcorcon') {
+        const r_kax = data.base_kax * cos - data.base_kay * sin;
+        const r_kay = data.base_kax * sin + data.base_kay * cos;
+        const r_knx = data.base_knx * cos - data.base_kny * sin;
+        const r_kny = data.base_knx * sin + data.base_kny * cos;
+        kitchens.push({ x: r_kax, y: r_kay, r: 54.0 });
         kitchens.push({ x: r_knx, y: r_kny, r: 54.0 });
       } else {
         kitchens.push({ x: 0, y: 0, r: 54.0 });
@@ -5116,7 +7018,7 @@
 
     // Attach Wheel & Controls Event Listeners
     function setupRotationControls() {
-      ['norte', 'fuencarral', 'alcorcon', 'fusion'].forEach(sid => {
+      ['norte', 'fuencarral', 'alcorcon', 'fusion', 'fusion-alcorcon'].forEach(sid => {
         const slider = document.getElementById('slider-' + sid);
         if (slider) {
           slider.addEventListener('input', (e) => {
@@ -5195,6 +7097,7 @@
     setSheetRotation('fuencarral', 0);
     setSheetRotation('alcorcon', 0);
     setSheetRotation('fusion', 0);
+    setSheetRotation('fusion-alcorcon', 0);
 
   </script>
 </body>
